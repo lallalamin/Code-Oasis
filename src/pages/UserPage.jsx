@@ -7,8 +7,9 @@ const UserPage = () => {
     <>
         <UserHeader></UserHeader>
         <UserPost likes={1200} comments={481} postImg="/post1.png" postTitle="Let's talk about threads."></UserPost>
-        <UserPost likes={1680} comments={345} postImg="/post2.png" postTitle="Let's talk about threads."></UserPost>
-        <UserPost likes={734} comments={45} postImg="/post3.png" postTitle="Let's talk about threads."></UserPost>
+        <UserPost likes={1680} comments={345} postImg="/post2.png" postTitle="Nice tutorial."></UserPost>
+        <UserPost likes={734} comments={45} postImg="/post3.png" postTitle="I love this guy."></UserPost>
+        <UserPost likes={734} comments={45} postTitle="This is my first thread"></UserPost>
     </>
   )
 }
