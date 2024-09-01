@@ -1,14 +1,20 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+//import { StrictMode } from 'react'
+//import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import { ChakraProvider } from '@chakra-ui/provider'
-import { color } from 'framer-motion'
+import { ChakraProvider } from '@chakra-ui/react'
+import { extendTheme } from '@chakra-ui/theme-utils'
+import { mode } from '@chakra-ui/theme-tools'
+import { ColorModeScript } from '@chakra-ui/react'
+import { BrowserRouter } from 'react-router-dom'
+
 
 const styles ={
   global:(props) => ({
     body:{
-      color: module('gray.800', 'whiteAlpha.900')(props),
+      color:mode('gray.800', 'whiteAlpha.900')(props),
       bg:mode('gray.100', '#101010')(props),
     }
   })
@@ -28,10 +34,13 @@ const colors ={
 
 const theme = extendTheme({ config, styles, colors });
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <ChakraProvider theme={theme}>
-      <App />
-    </ChakraProvider>
-  </StrictMode>,
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <ChakraProvider theme={theme}>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <App />
+      </ChakraProvider>
+    </BrowserRouter>
+  </React.StrictMode>,
 )
