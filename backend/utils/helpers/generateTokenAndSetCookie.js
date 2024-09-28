@@ -5,7 +5,13 @@ const generateTokenAndsetCookie = (userId, res) => {
         expiresIn: '15d',
     });  //create jwt token, userId is the payload
 
-    res.cookie("");
+    res.cookie("jwt", token, {
+        httpOnly: true,     // This cookie cannot be accessed by the browser to make it more secure
+        maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
+        sameSite: "strict", // CRSF
+    });
+
+    return token;
 }
 
 export default generateTokenAndsetCookie;
