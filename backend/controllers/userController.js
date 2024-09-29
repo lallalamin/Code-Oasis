@@ -1,6 +1,7 @@
 import User from '../models/userModel.js';
 import bcrypt from "bcryptjs"
 import generateTokenAndsetCookie from '../utils/helpers/generateTokenAndSetCookie.js';
+import mongoose from 'mongoose';
 
 // Signup user
 // This will create a user and their JWT and cookies which last for 15d. If the user exist then it will give message that they exist
@@ -25,7 +26,7 @@ const signupUser = async(req, res) => {
         await newUser.save();
 
         if(newUser){
-            generateTokenAndsetCookie(newUser._id, res);
+            generateTokenAndSetCookie(newUser._id, res);
 
             res.status(201).json({
                 _id: newUser._id,
@@ -52,7 +53,7 @@ const loginUser = async(req, res) => {
 
         if(!user || !isPasswordCorrect) return res.status(400).json({message: "Invalid username or password"});
 
-        generateTokenAndsetCookie(username._id, res);
+        generateTokenAndsetCookie(user._id, res);
 
         res.status(200).json({
             _id: user._id,
@@ -74,8 +75,43 @@ const logoutUser = (req, res) =>{
         
     } catch (error) {
         res.status(500).json({message: error.message});
-        console.log("Error in loginUser: ", error.message);
+        console.log("Error in logoutUser: ", error.message);
     }
 };
 
-export { signupUser, loginUser, logoutUser }
+const followUnfollowUser = async(req, res) => {
+    try {
+        const { id } = req.params;
+        const userToModify = await User.findById(id);
+        const currentUser = await User.findById(req.user._id);
+
+        if(id === req.user._id.toString()) return res.status(400).json({message: "You cannot follow/unfollow yourself"});
+
+        if(!userToModify || !currentUser) return res.status(400).json({message: "User not found"});
+
+        const isFollowing = currentUser.following.includes(id);
+
+        if(isFollowing){
+            // Unfollow User
+            // Modify current user following, modify followers of userToModify
+            await User.findByIdAndUpdate(req.user._id, { $pull: {following: id}});  //req.user._id is the current user, by pull we are removing the user that current user want to unfollow
+            await User.findByIdAndUpdate(id, { $pull: {followers: req.user._id}});  // we are removing the followers from the user that our current user want to unfollow
+            res.status(200).json({message: "User unfollowed successfully"});
+        }
+        else{
+            // Follow User
+            await User.findByIdAndUpdate(req.user._id, { $push: {following: id}}); //the current user is following
+            await User.findByIdAndUpdate(id, { $push: {followers: req.user._id}});
+            res.status(200).json({message: "User followed successfully"});
+        }
+    } catch (error) {
+        res.status(500).json({message: error.message});
+        console.log("Error in followUnfollowUser: ", error.message);
+    }
+};
+
+const updateUser = async(req, res) =>{
+
+}
+
+export { signupUser, loginUser, logoutUser, followUnfollowUser, updateUser }
