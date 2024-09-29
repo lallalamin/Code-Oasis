@@ -4,16 +4,16 @@ import connectDB from './db/connectDB.js';
 import cookieParser from 'cookie-parser';
 import userRoutes from './routes/userRoutes.js';
 
-dotenv.config();
+dotenv.config(); // to be able to read the content in the .env file
 
-connectDB();
+connectDB(); 
 const app = express();
 
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json()); // to parse JSON data in the req.body
 app.use(express.urlencoded({ extended: true })); //to parse form data in the req.body, it is set to tru because it will allow it to parse nested data without problem 
-app.use(cookieParser());
+app.use(cookieParser()); // to read and access the cookie
 
 //Routes
 app.use("/api/users", userRoutes);
