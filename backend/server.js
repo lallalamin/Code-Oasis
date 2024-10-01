@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import connectDB from './db/connectDB.js';
 import cookieParser from 'cookie-parser';
 import userRoutes from './routes/userRoutes.js';
+import postRoutes from './routes/postRoutes.js';
 
 dotenv.config(); // to be able to read the content in the .env file
 
@@ -17,5 +18,6 @@ app.use(cookieParser()); // to read and access the cookie
 
 //Routes
 app.use("/api/users", userRoutes);
+app.use("/api/posts", postRoutes);
 
 app.listen(PORT, () => console.log(`Server started at http://localhost:${PORT} heyy`));
