@@ -131,4 +131,23 @@ const replyPost = async(req, res) =>{
     }
 };
 
-export { createPost, getPost, deletePost, likeUnlikePost, replyPost };
+const getFeedPosts = async(req, res) => {
+    try {
+        const userId = req.user._id;
+        const user = await User.findById(userId);
+        if(!user){
+            return res.status(404).json({message: "User not found"});
+        }
+
+        const following = user.following;
+        const feedPosts = await Post.find({postedBy:{$in:following}}).sort({createdAt: -1}); // this mean find post in the following list and sort it by descending order so that we can get the latest post
+        
+        res.status(200).json({feedPosts});
+        
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+        console.log("Error in getFeedPosts: ", error.message);
+    }
+}
+
+export { createPost, getPost, deletePost, likeUnlikePost, replyPost, getFeedPosts };
