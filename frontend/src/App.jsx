@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom"
 import UserPage from "./pages/UserPage"
 import PostPage from "./pages/PostPage"
 import HomePage from "./pages/HomePage"
+import AuthPage from "./pages/AuthPage"
 import Header from "./components/Header"
 
 function App() {
@@ -14,6 +15,8 @@ function App() {
         <Header></Header>
         <Routes>
           <Route path='/' element={<HomePage />}></Route>
+          <Route path='/auth' element={<AuthPage />}></Route>
+
           <Route path='/:username' element={<UserPage/>} /> 
           <Route path='/:username/post/:pid' element={<PostPage/>} /> 
         </Routes>
