@@ -1,18 +1,18 @@
 import User from '../models/userModel.js';
 import bcrypt from "bcryptjs"
-import generateTokenAndsetCookie from '../utils/helpers/generateTokenAndSetCookie.js';
+import generateTokenAndSetCookie from '../utils/helpers/generateTokenAndSetCookie.js';
 import mongoose from 'mongoose';
 
 const getUserProfile = async(req, res) =>{
     const { username } = req.params;
     try {
         const user = await User.findOne({username}).select("-password").select("-updatedAt");
-        if(!user) return res.status(400).json({message: "User not found"});
+        if(!user) return res.status(400).json({error: "User not found"});
 
         res.status(200).json(user);
         
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ error: error.message });
         console.log("Error in getUserProfile: ", error.message);
     }
 }
@@ -25,7 +25,7 @@ const signupUser = async(req, res) => {
         const { name, email, username, password} = req.body;
         const user = await User.findOne({$or:[{email}, {username}]}); // this will find out if the email or the username is already exist
         if(user){
-            return res.status(400).json({message:"User already exists."});
+            return res.status(400).json({error:"User already exists."});
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -51,11 +51,11 @@ const signupUser = async(req, res) => {
             });
         }
         else{
-            res.status(400).json({ message: "Invalid user data."});
+            res.status(400).json({ error: "Invalid user data."});
         }
     }
     catch (err){
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ error: err.message });
         console.log("Error in signupUser: ", err.message);
     }
 };
@@ -66,9 +66,9 @@ const loginUser = async(req, res) => {
         const user = await User.findOne({ username }); //when the user is not found, you cannot reach to password of undefined
         const isPasswordCorrect = await bcrypt.compare(password, user?.password || ""); // we put "" because we don't want to compare existing password with a null
 
-        if(!user || !isPasswordCorrect) return res.status(400).json({message: "Invalid username or password"});
+        if(!user || !isPasswordCorrect) return res.status(400).json({error: "Invalid username or password"});
 
-        generateTokenAndsetCookie(user._id, res);
+        generateTokenAndSetCookie(user._id, res);
 
         res.status(200).json({
             _id: user._id,
@@ -78,7 +78,7 @@ const loginUser = async(req, res) => {
         });
         
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({error: error.message});
         console.log("Error in loginUser: ", error.message);
     }  
 };
@@ -86,10 +86,10 @@ const loginUser = async(req, res) => {
 const logoutUser = (req, res) =>{
     try {
         res.cookie("jwt", "", {maxAge: 1});
-        res.status(200).json({message: "User logged out successfully"});
+        res.status(200).json({error: "User logged out successfully"});
         
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({error: error.message});
         console.log("Error in logoutUser: ", error.message);
     }
 };
@@ -100,9 +100,9 @@ const followUnfollowUser = async(req, res) => {
         const userToModify = await User.findById(id);
         const currentUser = await User.findById(req.user._id);
 
-        if(id === req.user._id.toString()) return res.status(400).json({message: "You cannot follow/unfollow yourself"});
+        if(id === req.user._id.toString()) return res.status(400).json({error: "You cannot follow/unfollow yourself"});
 
-        if(!userToModify || !currentUser) return res.status(400).json({message: "User not found"});
+        if(!userToModify || !currentUser) return res.status(400).json({error: "User not found"});
 
         const isFollowing = currentUser.following.includes(id);
 
@@ -111,16 +111,16 @@ const followUnfollowUser = async(req, res) => {
             // Modify current user following, modify followers of userToModify
             await User.findByIdAndUpdate(req.user._id, { $pull: {following: id}});  //req.user._id is the current user, by pull we are removing the user that current user want to unfollow
             await User.findByIdAndUpdate(id, { $pull: {followers: req.user._id}});  // we are removing the followers from the user that our current user want to unfollow
-            res.status(200).json({message: "User unfollowed successfully"});
+            res.status(200).json({error: "User unfollowed successfully"});
         }
         else{
             // Follow User
             await User.findByIdAndUpdate(req.user._id, { $push: {following: id}}); //the current user is following
             await User.findByIdAndUpdate(id, { $push: {followers: req.user._id}});
-            res.status(200).json({message: "User followed successfully"});
+            res.status(200).json({error: "User followed successfully"});
         }
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({error: error.message});
         console.log("Error in followUnfollowUser: ", error.message);
     }
 };
