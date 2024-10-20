@@ -56,7 +56,7 @@ export default function SignUpCard() {
       setUser(data);
       
     } catch (error) {
-      console.log(error);
+      showToast("Error", error, "error");
     }
   }
 
