@@ -2,6 +2,7 @@ import User from '../models/userModel.js';
 import bcrypt from "bcryptjs"
 import generateTokenAndSetCookie from '../utils/helpers/generateTokenAndSetCookie.js';
 import mongoose from 'mongoose';
+import { v2 as cloudinary } from 'cloudinary';
 
 const getUserProfile = async(req, res) =>{
     const { username } = req.params;
@@ -130,7 +131,8 @@ const followUnfollowUser = async(req, res) => {
 };
 
 const updateUser = async(req, res) =>{
-    const { name, email, username, password, profilePic, bio} = req.body;
+    const { name, email, username, password, bio} = req.body;
+    let { profilePic } = req.body;
     const userId = req.user._id;
     try {
         let user = await User.findById(userId);
@@ -144,14 +146,26 @@ const updateUser = async(req, res) =>{
             user.password = hashedPassword;
         }
 
+        if(profilePic){
+            if(user.profilePic){
+                await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split(".")[0]); // if the user already have a profile pic, we will remove the old one from cloudinary
+            }
+            const uploadedResponse = await cloudinary.uploader.upload(profilePic); //upload the profile pic to cloudinary
+            profilePic = uploadedResponse.secure_url;
+        }
+
         user.name = name || user.name;
         user.email = email || user.email;
         user.username = username || user.username;
         user.profilePic = profilePic || user.profilePic;
         user.bio = bio || user.bio;
+
         user = await user.save();
 
-        res.status(200).json({message: "Profile updated successfully", user});
+        // remove password from response
+        user.password = null;
+
+        res.status(200).json({user});
         
     } catch (error) {
         res.status(500).json({message: error.message});
