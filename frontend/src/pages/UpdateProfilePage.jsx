@@ -51,11 +51,14 @@ export default function UpdateProfilePage() {
             showToast("Error", data.error, "error");
             return;
         }
+
+        const updatedUser = data.user ? data.user : data;
         
         showToast("Success", "Profile successfully updated", "success");
-        setUser(data);
+        setUser(updatedUser);
 
-        localStorage.setItem("user-threads", JSON.stringify(data));
+        localStorage.setItem('user-threads', JSON.stringify(updatedUser));
+
       } catch (error) {
         showToast("Error", error, "error");
       }
