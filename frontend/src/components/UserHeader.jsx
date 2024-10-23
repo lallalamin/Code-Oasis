@@ -1,4 +1,4 @@
-import { VStack, Box, Flex, Avatar, Text, Link, MenuButton, Menu, Portal, MenuList, MenuItem, useToast } from '@chakra-ui/react'
+import { VStack, Box, Flex, Avatar, Text, Link, MenuButton, Menu, Portal, MenuList, MenuItem, useToast, Button } from '@chakra-ui/react'
 import React from 'react'
 import { BsInstagram } from 'react-icons/bs'
 import { CgMoreO } from 'react-icons/cg'
@@ -6,12 +6,15 @@ import { useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
 import { Link as routerLink } from 'react-router-dom' // this link is doing routing through client side, it doesn't reload the page. it we don't have this it will reload the page
 import { useState } from 'react'
+import useShowToast from '../hooks/useShowToast'
 
 const UserHeader = ({user}) => {
     const toast = useToast();
     const currentUser = useRecoilValue(userAtom); // this is the user that logged in
     const [following, setFollowing] = useState(user.followers.includes(currentUser._id));
-    console.log(following);
+    const [updating, setUpdating] = useState(false);
+
+    const showToast = useShowToast();
 
     const copyURL = () => {
         const currentUrl = window.location.href;
@@ -25,6 +28,50 @@ const UserHeader = ({user}) => {
             });
         });
     };
+
+    const handleFollowUnfollow = async () => {
+        if(!currentUser){
+            showToast("Error", "Please login to follow/unfollow users", "error");
+            return;
+        }
+        if(updating) return;
+        setUpdating(true);
+        try {
+            const res = await fetch(`/api/users/follow/${user._id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            const data = await res.json();
+            
+            if(data.error) {
+                showToast("Error", data.error, "error");
+                return;
+            }
+
+            if(following) {
+                showToast("Success", `Unfollowed ${user.name}`, "success");
+                //user.followers.pop(); // simulate removing the user from the followers array
+                user.followers = user.followers.filter(followerId => followerId !== currentUser._id); // create a new array without the current user's ID
+            } else {
+                showToast("Success", `Followed ${user.name}`, "success");
+                //user.followers.push(currentUser._id);
+                user.followers = [...user.followers, currentUser._id];
+            }
+            
+            setFollowing(!following);
+
+            console.log(data);
+        }
+            
+        catch (error) {
+            showToast("Error", data.error, "error");
+        }
+        finally{
+            setUpdating(false);
+        }
+    }
 
   return (
     <>
@@ -72,8 +119,8 @@ const UserHeader = ({user}) => {
                 </Link>
             )}
             {currentUser._id !== user._id && (
-                <Link as={routerLink} to='/update'>
-                    <Button onClick={handleFollowUnfollow}>{following ? "Unfollow" : "Follow"}</Button>
+                <Link>
+                    <Button onClick={handleFollowUnfollow} isLoading={updating}>{following ? "Unfollow" : "Follow"}</Button>
                 </Link>
             )}
 
