@@ -2,9 +2,17 @@ import { VStack, Box, Flex, Avatar, Text, Link, MenuButton, Menu, Portal, MenuLi
 import React from 'react'
 import { BsInstagram } from 'react-icons/bs'
 import { CgMoreO } from 'react-icons/cg'
+import { useRecoilValue } from 'recoil'
+import userAtom from '../atoms/userAtom'
+import { Link as routerLink } from 'react-router-dom' // this link is doing routing through client side, it doesn't reload the page. it we don't have this it will reload the page
+import { useState } from 'react'
 
-const UserHeader = () => {
+const UserHeader = ({user}) => {
     const toast = useToast();
+    const currentUser = useRecoilValue(userAtom); // this is the user that logged in
+    const [following, setFollowing] = useState(user.followers.includes(currentUser._id));
+    console.log(following);
+
     const copyURL = () => {
         const currentUrl = window.location.href;
         navigator.clipboard.writeText(currentUrl).then(() =>{
@@ -24,30 +32,54 @@ const UserHeader = () => {
             <Flex justifyContent={"space-between"} w={"full"}>
                 <Box>
                     <Text fontSize={"2xl"} fontWeight={"bold"}>
-                        Mark Zuckerberg
+                        {user.name}
                     </Text>
                     <Flex gap={2} alignItems={"center"}>
-                        <Text fontSize={"sm"}>markzuckerberg</Text>
+                        <Text fontSize={"sm"}>{user.username}</Text>
                         <Text fontSize={"xs"} bg={"gray.dark"} color={"gray.light"} p={1} borderRadius={"full"}>
                             threads.net
                         </Text>
                     </Flex>
                 </Box>
                 <Box>
-                    <Avatar 
-                        name='Mark Zuckerberg'
-                        src='/zuck-avatar.png'
+                    {user.profilePic && (
+                        <Avatar 
+                        name={user.name}
+                        src={user.profilePic}
                         size={{
                             base: "md",
                             md: "xl",
                         }}
                     />
+                    )}
+                    {!user.profilePic && (
+                        <Avatar 
+                        name={user.name}
+                        src="https://bit.ly/broken-link"
+                        size={{
+                            base: "md",
+                            md: "xl",
+                        }}
+                    />
+                    )}
                 </Box>
             </Flex>
-            <Text>Co-Founder, executive chairman and CEO of META Platforms.</Text>
+            <Text>{user.bio}</Text>
+
+            {currentUser._id === user._id && (
+                <Link as={routerLink} to='/update'>
+                    <Button>Update Profile</Button>
+                </Link>
+            )}
+            {currentUser._id !== user._id && (
+                <Link as={routerLink} to='/update'>
+                    <Button onClick={handleFollowUnfollow}>{following ? "Unfollow" : "Follow"}</Button>
+                </Link>
+            )}
+
             <Flex w={"full"} justifyContent={"space-between"}>
                 <Flex gap={2} alignItems={"center"}>
-                    <Text color={"gray.light"}>3.2k followers</Text>
+                    <Text color={"gray.light"}>{user.followers.length} followers</Text>
                     <Box w={1} h={1} bg={"gray.light"} borderRadius={"full"}></Box>
                     <Link color={"gray.light"}>instagram.com</Link>
                 </Flex>
