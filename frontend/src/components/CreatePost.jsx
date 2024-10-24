@@ -1,9 +1,13 @@
 import React from 'react'
 import { Button, useColorModeValue, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, FormControl, Textarea } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
+import 
 
 const CreatePost = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [postText, setPostText] = useState("")
+    const { handleImageChange, imgurl } = usePreviewImg();
+    const imageRef = useRef(null);
 
     const handleTextChnage = (e) => {
         
@@ -22,7 +26,11 @@ const CreatePost = () => {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-                <Textarea placeholder="Post content goes here ..." onChange={{handleTextChnage}}/>
+                <Textarea placeholder="Post content goes here ..." onChange={{handleTextChnage}} value={postText}/>
+                <Text fontSize={"sxs"} fontWeight={"bold"} textAlign={"right"} m={"1"} color={"gray.800"}>
+                  500/500
+                </Text>
+                <Input type='file' hidden ref={imageRef} onChange={handleImageChange}/>
             </FormControl>
           </ModalBody>
 
