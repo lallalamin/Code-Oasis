@@ -4,6 +4,8 @@ import { AddIcon } from '@chakra-ui/icons'
 import { BsFillImageFill } from 'react-icons/bs'
 import { useState, useRef } from 'react'
 import usePreviewImg from '../hooks/usePreviewImg'
+import { useRecoilValue } from 'recoil'
+import userAtom from '../atoms/userAtom'
 
 const MAX_CHAR = 500;
 
@@ -13,6 +15,7 @@ const CreatePost = () => {
     const { handleImageChange, imgUrl, setImgurl } = usePreviewImg();
     const imageRef = useRef(null);
     const [remainingChar, setRemainingChar] = useState(MAX_CHAR);
+    const user = useRecoilValue(userAtom);
 
     const handleTextChange = (e) => {
         const inputText = e.target.value;
@@ -28,7 +31,19 @@ const CreatePost = () => {
     };
 
     const handleCreatePost = async() => {
+      const res = await fetch("/api/posts/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({postedBy: user._id, text: postText, img: imgUrl}),
+      })
 
+      const data = await res.json();
+      if(data.error){
+        console.log(data.error);
+        return;
+      }
     };
     
   return (
@@ -45,8 +60,8 @@ const CreatePost = () => {
           <ModalBody pb={6}>
             <FormControl>
                 <Textarea placeholder="Post content goes here ..." onChange={{handleTextChange}} value={postText}/>
-                <Text fontSize={"sxs"} fontWeight={"bold"} textAlign={"right"} m={"1"} color={"gray.800"}>
-                  500/500
+                <Text fontSize={"sxs"} fontWeight={"bold"} textAlign={"right"} m={"1"} color={"gray.600"}>
+                  {remainingChar}/{MAX_CHAR}
                 </Text>
                 <Input type='file' hidden ref={imageRef} onChange={handleImageChange}/>
                 <BsFillImageFill style={{marginLeft:"5px", cursor:"pointer"}} size={16} onClick={() => imageRef.current.click()}/>
