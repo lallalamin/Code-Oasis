@@ -6,6 +6,7 @@ import { useState, useRef } from 'react'
 import usePreviewImg from '../hooks/usePreviewImg'
 import { useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
+import useShowToast from '../hooks/useShowToast'
 
 const MAX_CHAR = 500;
 
@@ -16,6 +17,7 @@ const CreatePost = () => {
     const imageRef = useRef(null);
     const [remainingChar, setRemainingChar] = useState(MAX_CHAR);
     const user = useRecoilValue(userAtom);
+    const showToast = useShowToast();
 
     const handleTextChange = (e) => {
         const inputText = e.target.value;
@@ -41,9 +43,12 @@ const CreatePost = () => {
 
       const data = await res.json();
       if(data.error){
-        console.log(data.error);
+        showToast("Error", data.error, "error");
         return;
       }
+
+      showToast("Success", "Post created successfully", "success");
+      onClose();
     };
     
   return (
@@ -59,8 +64,8 @@ const CreatePost = () => {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-                <Textarea placeholder="Post content goes here ..." onChange={{handleTextChange}} value={postText}/>
-                <Text fontSize={"sxs"} fontWeight={"bold"} textAlign={"right"} m={"1"} color={"gray.600"}>
+                <Textarea placeholder="Post content goes here ..." onChange={handleTextChange} value={postText}/>
+                <Text fontSize={"sxs"} fontWeight={"bold"} textAlign={"right"} m={"1"} color={"gray.500"}>
                   {remainingChar}/{MAX_CHAR}
                 </Text>
                 <Input type='file' hidden ref={imageRef} onChange={handleImageChange}/>
