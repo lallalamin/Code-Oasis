@@ -83,7 +83,6 @@ const CreatePost = () => {
             <Button colorScheme='blue' mr={3} onClick={handleCreatePost}>
               Post
             </Button>
-            <Button variant='ghost'>Secondary Action</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
