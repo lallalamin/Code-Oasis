@@ -34,7 +34,7 @@ const createPost = async (req, res) => {
         const newPost = new Post({ postedBy, text, img});
 
         await newPost.save();
-        res.status(201).json({ error: "Post created successfully", newPost });
+        res.status(201).json({ message: "Post created successfully", newPost });
 
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -49,7 +49,7 @@ const getPost = async(req, res) => {
             return res.status(404).json({ error: "Post not found" });
         }
 
-        res.status(200).json({ error: "Post Found", post });
+        res.status(200).json({ message: "Post Found", post });
         
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -69,7 +69,7 @@ const deletePost = async(req, res) => {
         }
 
         await Post.findByIdAndDelete(req.params.id);
-        res.status(200).json({ error: "Post deleted successfully", post });
+        res.status(200).json({ message: "Post deleted successfully", post });
         
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -99,7 +99,7 @@ const likeUnlikePost = async(req,res) => {
             //like post
             post.likes.push(userId);
             await post.save();
-            res.status(200).json({error: "Post liked successfully"});
+            res.status(200).json({message: "Post liked successfully"});
         }
         
     } catch (error) {
@@ -131,7 +131,7 @@ const replyPost = async(req, res) =>{
         post.replies.push(reply);
         await post.save();
 
-        res.status(200).json({error: "Reply added successfully", post});
+        res.status(200).json({message: "Reply added successfully", post});
         
     } catch (error) {
         res.status(500).json({ error: error.message });

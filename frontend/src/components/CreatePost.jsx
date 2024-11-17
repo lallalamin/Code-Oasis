@@ -13,7 +13,7 @@ const MAX_CHAR = 500;
 const CreatePost = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [postText, setPostText] = useState("")
-    const { handleImageChange, imgUrl, setImgurl } = usePreviewImg();
+    const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg();
     const imageRef = useRef(null);
     const [remainingChar, setRemainingChar] = useState(MAX_CHAR);
     const user = useRecoilValue(userAtom);
