@@ -1,11 +1,12 @@
 import { Avatar, Box, Flex, Image, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { BsThreeDots } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import Actions from './Actions'
 import useShowToast from '../hooks/useShowToast'
 import { set } from 'mongoose'
 import { useNavigate } from 'react-router-dom'
+
+import formatDistanceToNow from 'date-fns'
 
 
 const Post = ({post, postedBy}) => {
@@ -65,8 +66,9 @@ const Post = ({post, postedBy}) => {
                         <Image src='/verified.png' w={4} h={4} ml={1}/>
                     </Flex>
                     <Flex gap={4} alignItems={"center"}>
-                        <Text fontStyle={"sm"} color={"gray.light"}>1d</Text>
-                        <BsThreeDots/>
+                        <Text fontSize={"xs"} width={36} color={"gray.light"} textAlign={"right"}>
+                            {formatDistanceToNow(new Date(post.createdAt))} ago
+                        </Text>
                     </Flex>
                 </Flex>
                 <Text fontSize={"sm"}>
