@@ -1,15 +1,44 @@
 
 import React, { useState } from "react";
 import {  Box, Flex, Text } from '@chakra-ui/react'
+import { useRecoilValue } from 'recoil'
+import userAtom from '../atoms/userAtom'
+import useShowToast from "../hooks/useShowToast";
 
-const Actions = ({ post }) => {
-	const [liked, setLiked] = useState(false);
+const Actions = ({ post:post_ }) => {
+	const user = useRecoilValue(userAtom);
+	const [liked, setLiked] = useState(post_.likes.includes(user?._id));
+	const showToast = useShowToast();
+	const [post, setPost] = useState(post_);
 
 	const handleLikeAndUnlike = async() => {
+		if(!user) return showToast("Error", "Please login to like/unlike posts", "error");
 		try {
+			const res = await fetch("/api/posts/like/" + post._id, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ userId: user._id }),
+			});
 			
+			const data = await res.json();
+			if (data.error) {
+				return showToast("Error", data.error, "error");
+			}
+			console.log(data);
+
+			if(!liked){
+				// add the id of the current user to the post.likes array
+				setPost({...post, likes: [...post.likes, user._id]});
+			}
+			else{
+				setPost({...post, likes: post.likes.filter((id) => id !== user._id)});
+			}
+
+			setLiked(!liked);
 		} catch (error) {
-			
+			showToast("Error", error.message, "error");
 		}
 	}
 	return (

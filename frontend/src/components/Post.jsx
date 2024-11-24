@@ -3,23 +3,21 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Actions from './Actions'
 import useShowToast from '../hooks/useShowToast'
-import { set } from 'mongoose'
 import { useNavigate } from 'react-router-dom'
 
-import formatDistanceToNow from 'date-fns'
+import {formatDistanceToNow} from 'date-fns'
 
 
 const Post = ({post, postedBy}) => {
     const showToast = useShowToast();
     const [user, setUser] = useState(null);
-    const navigare = useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getUser = async() => {
             try {
                 const res = await fetch("/api/users/profile/" + postedBy);
                 const data = await res.json();
-                console.log(data);
 
                 if(data.error) {
                     showToast("Error", data.error, "error");
@@ -46,7 +44,7 @@ const Post = ({post, postedBy}) => {
             <Flex flexDirection={"column"} alignItems={"center"}>
                 <Avatar size="md" name={user.name} src={user?.profilePic} onClick={(e) => {
                     e.preventDefault();
-                    navigare(`/${user.username}`);
+                    navigate(`/${user.username}`);
                 }}></Avatar>
                 {/* <Box w="1px" h={"full"} bg={"gray.light"} my={2}></Box>
                 <Box position={"relative"} w={"full"}>
@@ -60,7 +58,7 @@ const Post = ({post, postedBy}) => {
                     <Flex w={"full"} alignItems={"center"}>
                         <Text fontSize={"sm"} fontWeight={"bold"} onClick={(e) => {
                         e.preventDefault();
-                        navigare(`/${user.username}`);
+                        navigate(`/${user.username}`);
                     }}>{user?.username}</Text>
                         <Image src='/verified.png' w={4} h={4} ml={1}/>
                     </Flex>
