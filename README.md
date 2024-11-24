@@ -1,5 +1,5 @@
 # CodeOasis
-✨ Developed a community-driven platform aimed at helping computer science students connect, share events, stay updated with daily tech news, and improve productivity through peer mentorship and gamified tasks with leaderboard. <br/>
+✨ Developed a community-driven platform aimed at helping computer science students connect, share events, stay updated with daily tech news, and improve productivity through peer mentorship, networking and gamified tasks with leaderboard. <br/>
 ✨ Integrated features that allow junior and senior students to mentor underclassmen, fostering academic growth and collaboration within the community. <br/>
 ✨ Built a gamified to-do list where users earn points and will be display on a leaderbroad. <br/>
 ✨ Utilized React for UI design with Chakra UI components, Node.js, Express, and MongoDB for the backend API setup, and incorporated features such as CRUD operations, authentication, file uploads, image integration, and real-time chat with seen/unseen status and notification sounds. <br/>
