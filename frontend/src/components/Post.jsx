@@ -65,10 +65,10 @@ const Post = ({post, postedBy}) => {
 
   return (
     <>
-    <Link to={`/${user.username}/post/4{post._id}`}>
+    <Link to={`/${user.username}/post/${post._id}`}>
         <Flex gap={3} mb={4} py={5}>
             <Flex flexDirection={"column"} alignItems={"center"}>
-                <Avatar size="md" name={user.name} src={user?.profilePic} onClick={(e) => {
+                <Avatar size="md" name={user.name}  src={user?.profilePic} onClick={(e) => {
                     e.preventDefault();
                     navigate(`/${user.username}`);
                 }}></Avatar>
