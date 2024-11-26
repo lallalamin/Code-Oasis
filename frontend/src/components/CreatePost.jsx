@@ -4,9 +4,10 @@ import { AddIcon } from '@chakra-ui/icons'
 import { BsFillImageFill } from 'react-icons/bs'
 import { useState, useRef } from 'react'
 import usePreviewImg from '../hooks/usePreviewImg'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
 import useShowToast from '../hooks/useShowToast'
+import postsAtom from '../atoms/postsAtom'
 
 const MAX_CHAR = 500;
 
@@ -19,6 +20,7 @@ const CreatePost = () => {
     const user = useRecoilValue(userAtom);
     const showToast = useShowToast();
     const [loading, setLoading] = useState(false);
+    const [posts, setPosts] = useRecoilState(postsAtom);
 
     const handleTextChange = (e) => {
         const inputText = e.target.value;
@@ -51,6 +53,7 @@ const CreatePost = () => {
         }
   
         showToast("Success", "Post created successfully", "success");
+        setPosts([data, ...posts]);
         onClose();
         setPostText("");
         setImgUrl("");
@@ -64,7 +67,7 @@ const CreatePost = () => {
   return (
     <>
         <Button position={"fixed"} bottom={10} right={10} leftIcon={<AddIcon/>} bg={useColorModeValue("gray.300", "gray.dark")} onClick={onOpen}>
-            Post
+            Create Post
         </Button>
 
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -91,7 +94,7 @@ const CreatePost = () => {
 
           <ModalFooter>
             <Button colorScheme='blue' mr={3} onClick={handleCreatePost} isLoading={loading}>
-              Post
+              Create Post
             </Button>
           </ModalFooter>
         </ModalContent>

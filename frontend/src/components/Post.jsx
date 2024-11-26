@@ -7,8 +7,9 @@ import { useNavigate } from 'react-router-dom'
 import { DeleteIcon } from '@chakra-ui/icons'
 
 import {formatDistanceToNow} from 'date-fns'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
+import postsAtom from '../atoms/postsAtom'
 
 
 const Post = ({post, postedBy}) => {
@@ -16,6 +17,7 @@ const Post = ({post, postedBy}) => {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
     const currentUser = useRecoilValue(userAtom);
+    const [posts, setPosts] = useRecoilState(postsAtom);
 
     useEffect(() => {
         const getUser = async() => {
@@ -54,6 +56,8 @@ const Post = ({post, postedBy}) => {
             }
 
             showToast("Success", "Post deleted successfully", "success");
+            setPosts(posts.filter((p) => p._id !== post._id));
+
         } catch (error) {
             showToast("Error", error.message, "error");
         }
