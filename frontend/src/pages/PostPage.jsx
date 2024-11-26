@@ -6,6 +6,12 @@ import Comment from '../components/Comment'
 import useShowToast from '../hooks/useShowToast'
 import useGetUserProfile from '../hooks/useGetUserProfile'
 import { useParams } from 'react-router-dom'
+import { formatDistanceToNow } from 'date-fns'
+import { useRecoilValue } from 'recoil'
+import userAtom from '../atoms/userAtom'
+import { DeleteIcon } from '@chakra-ui/icons'
+import { useNavigate } from 'react-router-dom'
+
 
 const PostPage = () => {
     
@@ -13,6 +19,8 @@ const PostPage = () => {
   const [post, setPost] = useState(null);
   const showToast = useShowToast();
   const {pid} = useParams();
+  const currentUser = useRecoilValue(userAtom);
+  const navigate = useNavigate();
 
   useEffect(() => {
       const getPost = async() => {
@@ -36,6 +44,28 @@ const PostPage = () => {
       getPost();
   },[showToast, pid]);
 
+  const handleDeletePost = async() => {
+    try {
+        if(!window.confirm("Are you sure you want to delete this post?")) return;
+
+        const res = await fetch("/api/posts/" + post._id, {
+            method: "DELETE",
+        });
+
+        const data = await res.json();
+
+        if(data.error) {
+            showToast("Error", data.error, "error");
+            return;
+        }
+
+        showToast("Success", "Post deleted successfully", "success");
+        navigate(`/${user.username}`);
+    } catch (error) {
+        showToast("Error", error.message, "error");
+    }
+}
+
   if(!user && loading){
     return (
       <Flex justifyContent={"center"}>
@@ -57,8 +87,10 @@ const PostPage = () => {
                 </Flex>
             </Flex>
             <Flex gap={4} alignItems={"center"}>
-                <Text fontStyle={"sm"} color={"gray.light"}>1d</Text>
-                <BsThreeDots/>
+                <Text fontSize={"xs"} width={36} color={"gray.light"} textAlign={"right"}>
+                    {formatDistanceToNow(new Date(post.createdAt))} ago
+                </Text>
+                {currentUser?._id === user._id && <DeleteIcon size={20} onClick={handleDeletePost} cursor={"pointer"} />}
             </Flex>
         </Flex>
         
@@ -73,17 +105,14 @@ const PostPage = () => {
         <Flex gap={3} my={3}>
             <Actions post={post}></Actions>
         </Flex>
-        <Flex gap={2} alignItems={"center"}>
-            <Text color={"gray.light"} fontSize={"sm"}>
-                {post.likes.length} likes
-            </Text>
-            <Box w={0.5} h={0.5} bg={"gray.light"} borderRadius={"full"}></Box>
-            <Text color={"gray.light"} fontSize={"sm"}> 
-                {post.replies.length} comments
-            </Text>
-        </Flex>
+
         <Divider my={4}/>
-        {/* <Comment comment="Looks really good!" createdAt="1d" likes={100} username="johndoe" userAvatar="https://bit.ly/dan-abramov"></Comment> */}
+        {post.replies.map(reply => (
+             <Comment key={reply._id} reply={reply} 
+                lastReply={reply._id === post.replies[post.replies.length - 1]._id}
+             ></Comment>
+        ))}
+       
 
     </>
   )
