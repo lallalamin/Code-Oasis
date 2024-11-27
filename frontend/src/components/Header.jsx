@@ -9,6 +9,7 @@ import { FiLogOut } from "react-icons/fi"
 import useLogout from '../hooks/useLogout'
 import authScreenAtom from '../atoms/authAtom'
 import { useSetRecoilState } from 'recoil'
+import { BsFillChatQuoteFill } from 'react-icons/bs'
 
 const Header = () => {
     const {colorMode, toggleColorMode} = useColorMode()
@@ -42,6 +43,9 @@ const Header = () => {
               <Flex gap={4} alignItems={"center"}>
                 <Link as={RouterLink} to={`/${user.username}`} >
                   <RxAvatar size={24}></RxAvatar>
+                </Link>
+                <Link as={RouterLink} to={`/chat`} >
+                  <BsFillChatQuoteFill size={20}></BsFillChatQuoteFill>
                 </Link>
                 <Button size={"xs"} onClick={logout}>
                     Logout 
