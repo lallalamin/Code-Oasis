@@ -31,4 +31,4 @@ const useLogout = () => {
     return logout;
 }
 
-export default logout
+export default useLogout
