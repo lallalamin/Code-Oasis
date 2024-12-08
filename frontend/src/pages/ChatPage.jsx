@@ -4,6 +4,7 @@ import { SearchIcon } from '@chakra-ui/icons'
 import { useColorModeValue } from '@chakra-ui/react'
 import Conversation from '../components/Conversation'
 import { GiConversation } from 'react-icons/gi'
+import MessageContainer from '../components/MessageContainer'
 
 const ChatPage = () => {
   return (
@@ -43,7 +44,7 @@ const ChatPage = () => {
                 <GiConversation size={100}></GiConversation>
                 <Text fontSize={20}>Select a conversation to start messaging</Text>
             </Flex>
-            {/* <Flex flex={70}>MessageContainer</Flex> */}
+            <MessageContainer/>
         </Flex>
     </Box>
   )
