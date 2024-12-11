@@ -7,7 +7,7 @@ Users can post updates, reply to posts, and update their profiles, creating a dy
 * [ ] **Event Calendar:** <br/>
 A shared calendar where users can find and share upcoming conferences, workshops, hackathons, and other events. This ensures students never miss opportunities to improve their skills or secure internships. <br/>
 * [ ] **Mentorship Program:** <br/>
-A structured mentorship program connecting users with peers or industry professionals who are 1-2 steps ahead in their careers. This feature helps students gain hands-on experience and relatable advice without the uncertainty of finding mentors on platforms like LinkedIn. <br/>
+A structured mentorship program connecting users with peers or industry professionals who are 1-2 steps ahead in their careers. This feature helps students gain hands-on experience and relatable advice without the uncertainty of finding mentors. <br/>
 * [ ] **Tech News Hub:** <br/>
 A centralized news page that keeps students up-to-date with the latest developments in the tech industry. This eliminates the clutter and inconsistency of email newsletters, ensuring students can easily stay informed. <br/>
 * [ ] **Scholarship and Resources Finder:** <br/>
