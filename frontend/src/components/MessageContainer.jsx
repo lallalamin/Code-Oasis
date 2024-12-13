@@ -1,10 +1,14 @@
 import React from 'react'
+import { Flex } from '@chakra-ui/react'
 
 const MessageContainer = () => {
   return (
-    <div>MessageContainer
+    <Flex flex={70} bg={useColorModeValue("gray.200", "gray.dark")} borderRadius={"md"} flexDirection={"column"}> 
         {/* <Flex flex={70}>MessageContainer</Flex> */}
-    </div>
+        <Flex w={"full"} h={12} alignItems={"center"} gap={2}>
+          
+        </Flex>
+    </Flex>
     
   )
 }
