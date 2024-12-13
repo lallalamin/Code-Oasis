@@ -7,7 +7,7 @@ Users can post updates, reply to posts, and update their profiles, creating a dy
 * [ ] **Event Calendar:** <br/>
 A shared calendar where users can find and share upcoming conferences, workshops, hackathons, and other events. This ensures students never miss opportunities to improve their skills or secure internships. <br/>
 * [ ] **Mentorship Program:** <br/>
-A structured mentorship program connecting users with peers or industry professionals who are 1-2 steps ahead in their careers. This feature helps students gain hands-on experience and relatable advice without the uncertainty of finding mentors on platforms like LinkedIn. <br/>
+A structured mentorship program connecting users with peers or industry professionals who are 1-2 steps ahead in their careers. This feature helps students gain hands-on experience and relatable advice without the uncertainty of finding mentors. <br/>
 * [ ] **Tech News Hub:** <br/>
 A centralized news page that keeps students up-to-date with the latest developments in the tech industry. This eliminates the clutter and inconsistency of email newsletters, ensuring students can easily stay informed. <br/>
 * [ ] **Scholarship and Resources Finder:** <br/>
@@ -25,6 +25,20 @@ An interactive to-do list system where users earn points for completing tasks an
 - **Node.js**: JavaScript runtime for server-side development.
 - **Express.js**: Web framework for building the backend API.
 - **MongoDB**: NoSQL database for data storage and management.
+
+  <br/>
+  <br/>
+## 🛠 Underconstruction ...
+<div align="center" style=" align-items: center;">
+  <span style="display:inline-block; width: 20px; align-items: center;"><strong>🚧 Coming Soon! ⏳👀</strong></span> <!-- Spacer -->
+</div>
+
+<div align="center" style="display: flex; flex-direction: column; align-items: center;">
+  <div style="display: flex; justify-content: center; gap: 20px;">
+    <img src="https://res.cloudinary.com/due3vs8mz/image/upload/v1733891386/IMG_0229_ixidf7.jpg" alt="CodeOasis Mascot - Coming Soon" width="300"/>
+    <img src="https://res.cloudinary.com/due3vs8mz/image/upload/v1733891386/IMG_0229_1_hn6zn9.jpg" alt="CodeOasis Mascot 2" width="300"/>
+  </div>
+</div>
 
 ### Figma UI Mock: </br>
 https://www.figma.com/design/8SigV7C7x5k8MgUyS1pN3c/CodeOasis?node-id=0-1&node-type=canvas&t=jGf6fqrRf9VcHiP7-0
