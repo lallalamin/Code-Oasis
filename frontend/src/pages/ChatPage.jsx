@@ -40,10 +40,10 @@ const ChatPage = () => {
                 <Conversation/>
                 <Conversation/>
             </Flex>
-            <Flex flex={70} borderRadius={"md"} p={2} flexDir={"column"} alignItems={"center"} justifyContent={"center"} height={"400px"}>
+            {/* <Flex flex={70} borderRadius={"md"} p={2} flexDir={"column"} alignItems={"center"} justifyContent={"center"} height={"400px"}>
                 <GiConversation size={100}></GiConversation>
                 <Text fontSize={20}>Select a conversation to start messaging</Text>
-            </Flex>
+            </Flex> */}
             <MessageContainer/>
         </Flex>
     </Box>
