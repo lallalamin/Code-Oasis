@@ -28,7 +28,7 @@ An interactive to-do list system where users earn points for completing tasks an
 
   <br/>
   <br/>
-## 🛠 Underconstruction ...
+## 🛠 Underconstruction
 <div align="center" style=" align-items: center;">
   <span style="display:inline-block; width: 20px; align-items: center;"><strong>🚧 Coming Soon! ⏳👀</strong></span> <!-- Spacer -->
 </div>
