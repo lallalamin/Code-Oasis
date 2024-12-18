@@ -6,25 +6,36 @@ import { useState } from "react";
 import Post from "../components/Post";
 import { useRecoilState } from "recoil";
 import postsAtom from "../atoms/postsAtom";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
     const [posts, setPosts] = useRecoilState(postsAtom);
     const [loading, setLoading] = useState(true);
     const showToast = useShowToast();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getFeedPosts = async() => {
             setLoading(true);
             setPosts([]);
+            console.log("getFeedPosts", posts);
             try {
                 const res = await fetch("/api/posts/feed");
                 const data = await res.json();
+                if (data?.message === "Unauthorized") {
+                    navigate("/login"); // Redirect on unauthorized
+                    return;
+                }
                 if(data.error) {
                     showToast("Error", data.error, "error");
                     return;
                 }
-                setPosts(data);
+                console.log(data);
+                setPosts(Array.isArray(data) ? data : []);
             } catch (error) {
+                if(error.response?.status === 401) {
+                    navigate("/login");
+                }
                 showToast("Error", error.message, "error");
             } finally {
                 setLoading(false);
