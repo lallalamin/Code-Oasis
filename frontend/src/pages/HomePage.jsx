@@ -22,12 +22,14 @@ const HomePage = () => {
             try {
                 const res = await fetch("/api/posts/feed");
                 const data = await res.json();
+                console.log(data);
                 if (data?.message === "Unauthorized") {
                     navigate("/login"); // Redirect on unauthorized
                     return;
                 }
                 if(data.error) {
-                    showToast("Error", data.error, "error");
+                    //showToast("Error", data.error, "error");
+                    navigate("/login");
                     return;
                 }
                 console.log(data);
