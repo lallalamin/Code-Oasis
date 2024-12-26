@@ -43,18 +43,23 @@ async function sendMessage(req, res) {
         res.status(500).json({ error: error.message });
     }
 }
-
 async function getMessages(req, res) {
-    const { conversationId } = req.params;
+    const { otherUserId } = req.params;
     const userId = req.user._id;
     try {
-        const conversation = await Conversation.findById({
-            participants: { $all: [userId, conversationId] },
+        console.log(otherUserId);
+        const conversation = await Conversation.findOne({
+            participants: { $all: [userId, otherUserId] },
         });
+        console.log(conversation);
+
+        if (!conversation) {
+            return res.status(404).json({ error: "Conversation not found" });
+        }
 
         const messages = await Message.find({
             conversationId: conversation._id,
-        });
+        }).sort({ createdAt: 1 });
 
         res.status(200).json(messages);
     } catch (error) {
