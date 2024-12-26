@@ -1,0 +1,65 @@
+import { text } from "express";
+import Conversation from "../models/conversationModel.js";
+import Message from "../models/messageModel.js";
+
+async function sendMessage(req, res) {
+    try {
+        const { recipientId, message } = req.body;
+        const senderId = req.user._id;
+
+        let conversation = await Conversation.findOne({
+            participants: { $all: [recipientId, senderId] },
+        });
+
+        if (!conversation) {
+            conversation = new Conversation({
+                participants: [recipientId, senderId],
+                lastMessage: {
+                    text: message,
+                    sender: senderId,
+                },
+            });
+            await conversation.save();
+        }
+
+        const newMessage = new Message({
+            conversationId: conversation._id,
+            sender: senderId,
+            text: message,
+        });
+
+        await Promise.all([
+            newMessage.save(),
+            conversation.updateOne({
+                lastMessage: {
+                    text: message,
+                    sender: senderId,
+                }
+            }),
+        ]);
+
+        res.status(201).json(newMessage);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+async function getMessages(req, res) {
+    const { conversationId } = req.params;
+    const userId = req.user._id;
+    try {
+        const conversation = await Conversation.findById({
+            participants: { $all: [userId, conversationId] },
+        });
+
+        const messages = await Message.find({
+            conversationId: conversation._id,
+        });
+
+        res.status(200).json(messages);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export { sendMessage, getMessages };
