@@ -3,7 +3,7 @@ A dynamic platform designed to empower computer science students by fostering co
 
 ## 🌟 Key Feature <br/>
 * [x] **Social Media Features:** <br/>
-Users can post updates, reply to posts, and update their profiles, creating a dynamic, interactive experience similar to social media platforms. This fosters engagement and builds a stronger community.
+Users can post updates, reply to posts, and update their profiles, creating a dynamic, interactive experience similar to social media platforms. This fosters engagement and builds a stronger community. <br/>
 * [ ] **Event Calendar:** <br/>
 A shared calendar where users can find and share upcoming conferences, workshops, hackathons, and other events. This ensures students never miss opportunities to improve their skills or secure internships. <br/>
 * [ ] **Mentorship Program:** <br/>
