@@ -5,8 +5,21 @@ import { useColorModeValue } from '@chakra-ui/react'
 import Conversation from '../components/Conversation'
 import { GiConversation } from 'react-icons/gi'
 import MessageContainer from '../components/MessageContainer'
+import { use } from 'react'
+import { useEffect } from 'react'
+import { useShowToast } from '../hooks/useShowToast'
 
 const ChatPage = () => {
+    const showToast = useShowToast();
+    useEffect(() => {
+        const getConversations = async() => {
+            try {
+                
+            } catch (error) {
+                
+            }
+        }
+    })
   return (
     <Box position={"absolute"} left={"50%"} w={{lg:"750px", md:"80%", base:"100%"}} transform={"translateX(-50%)"}  p={4}>
         <Flex gap={4} flexDirection={{base:"column", md:"row"}} maxW={{sm:"400px", md:"full"}} mx={"auto"}>
