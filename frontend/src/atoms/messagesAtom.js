@@ -4,3 +4,5 @@ export const conversationsAtom = atom({
     key: 'conversationsAtom',
     default: [],
 });
+
+export default conversationsAtom

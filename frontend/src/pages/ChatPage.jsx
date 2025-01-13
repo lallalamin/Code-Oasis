@@ -8,10 +8,14 @@ import MessageContainer from '../components/MessageContainer'
 import { use } from 'react'
 import { useEffect, useState } from 'react'
 import useShowToast from '../hooks/useShowToast'
+import { useRecoilState } from 'recoil'
+import conversationsAtom from '../atoms/messagesAtom'
 
 const ChatPage = () => {
     const showToast = useShowToast();
     const [loadingConversations, setLoadingConversations] = useState(true);
+    const [conversations, setConversations] = useRecoilState(conversationsAtom);
+
     useEffect(() => {
         const getConversations = async() => {
             try {
@@ -22,6 +26,8 @@ const ChatPage = () => {
                     return;
                 }
                 console.log(data);
+                setConversations(data);
+                console.log(conversations);
             } catch (error) {
                 showToast("Error", error.message, "error");
             } finally {
@@ -29,7 +35,7 @@ const ChatPage = () => {
             }
         };
         getConversations();
-    }, [showToast]);
+    }, [showToast, setConversations]);
 
   return (
     <Box position={"absolute"} left={"50%"} w={{lg:"750px", md:"80%", base:"100%"}} transform={"translateX(-50%)"}  p={4}>
@@ -59,7 +65,11 @@ const ChatPage = () => {
                         </Flex>
                     ))
                 )}
-                {!loadingConversations && <Conversation/>}
+                {!loadingConversations && (
+                    conversations.map((conversation) => (
+                        <Conversation key={conversation._id} conversation={conversation} />
+                    ))
+                )}
             </Flex>
             {/* <Flex flex={70} borderRadius={"md"} p={2} flexDir={"column"} alignItems={"center"} justifyContent={"center"} height={"400px"}>
                 <GiConversation size={100}></GiConversation>
