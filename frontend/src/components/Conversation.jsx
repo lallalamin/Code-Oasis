@@ -1,16 +1,31 @@
 import { Avatar, AvatarBadge, Flex, Stack, useColorModeValue, WrapItem, Text, Image } from '@chakra-ui/react'
 import React from 'react'
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import userAtom from '../atoms/userAtom';
 import { BsCheck2All } from 'react-icons/bs'
+import { selectedConversationAtom } from '../atoms/messagesAtom';
+import { use } from 'react';
+import { useColorMode } from '@chakra-ui/react'
 
 const Conversation = ({conversation}) => {
     const user = conversation.participants[0];
     const currentUser = useRecoilValue(userAtom);
     const lastMessage = conversation.lastMessage;
+    const [selecteddConversation, setSelectedConversation] = useRecoilState(selectedConversationAtom);
+    const colorMode = useColorMode();
+
+    console.log("selecteddConversation", selecteddConversation);
 
   return (
-    <Flex gap={4} alignItems={"center"} p={"1"} _hover={{cursor: "pointer", bg: useColorModeValue("gray.600", "gray.dark"), color: "white"}} borderRadius={"md"}>
+    <Flex gap={4} alignItems={"center"} p={"1"} _hover={{cursor: "pointer", bg: useColorModeValue("gray.600", "gray.dark"), color: "white"}} borderRadius={"md"} 
+    onClick={() => setSelectedConversation({ 
+        _id: conversation._id,
+        userId: user._id,
+        userProfilePic: user.profilePic,
+        userName: user.username,
+        })} 
+        bg={selecteddConversation?._id === conversation._id ? (colorMode == "light" ? "gray.400" : "gray.dark") : ""}
+        >
         <WrapItem>
             <Avatar size={{base:"xs", sm:"sm", md:"md"}} src={user.profilePic}>
                 <AvatarBadge boxSize='1em' bg='green.500' />
