@@ -2,14 +2,16 @@ import { Input, InputGroup, InputRightElement } from '@chakra-ui/react'
 import React from 'react'
 import { IoSendSharp } from 'react-icons/io5'
 import useShowToast from '../hooks/useShowToast'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { useState } from 'react'
 import { selectedConversationAtom } from '../atoms/messagesAtom'
+import { conversationsAtom } from '../atoms/messagesAtom'
 
 const MessageInput = ({setMessages}) => {
     const [messageText, setMessageText] = useState("");
     const showToast = useShowToast();
     const selectedConversation = useRecoilValue(selectedConversationAtom);
+    const setConversations = useSetRecoilState(conversationsAtom);
 
   const handleSendMessage = async(e) => {
     e.preventDefault()
@@ -33,15 +35,32 @@ const MessageInput = ({setMessages}) => {
         showToast("Error", data.error, "error");
         return;
       }
-      setMessageText("");
 
       setMessages((messages) => [...messages, data]);
+
+      setConversations( prevConvs => {
+        const updatedConversations = prevConvs.map(conversation => {
+          if(conversation._id === selectedConversation._id) {
+            return {
+              ...conversation,
+              lastMessage: {
+                text: messageText,
+                sender: data.sender,
+              }
+            }
+          }
+          return conversation;
+        })
+        return updatedConversations;
+      })
+      
+      setMessageText("");
 
     } catch (error) {
       showToast("Error", error.message, "error");
     }
     
-  }
+  };
 
   return (
     <form onSubmit={handleSendMessage}>
