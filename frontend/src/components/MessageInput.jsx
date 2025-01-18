@@ -3,16 +3,15 @@ import React from 'react'
 import { IoSendSharp } from 'react-icons/io5'
 import useShowToast from '../hooks/useShowToast'
 import { useRecoilValue } from 'recoil'
+import { useState } from 'react'
 import { selectedConversationAtom } from '../atoms/messagesAtom'
 
-const MessageInput = (setMessages) => {
-
-
-  const handleSendMessage = async(e) => {
-    cont [messageText, setMessageText] = useState("");
+const MessageInput = ({setMessages}) => {
+    const [messageText, setMessageText] = useState("");
     const showToast = useShowToast();
     const selectedConversation = useRecoilValue(selectedConversationAtom);
 
+  const handleSendMessage = async(e) => {
     e.preventDefault()
     if(!messageText)  return;
 
@@ -24,7 +23,7 @@ const MessageInput = (setMessages) => {
         },        
         body: JSON.stringify({
           message: messageText, 
-          recipientId: selectedConversation._id,
+          recipientId: selectedConversation.userId,
         }),
       })
 
@@ -34,10 +33,9 @@ const MessageInput = (setMessages) => {
         showToast("Error", data.error, "error");
         return;
       }
+      setMessageText("");
 
       setMessages((messages) => [...messages, data]);
-
-      setMessageText("");
 
     } catch (error) {
       showToast("Error", error.message, "error");
@@ -48,7 +46,7 @@ const MessageInput = (setMessages) => {
   return (
     <form onSubmit={handleSendMessage}>
         <InputGroup>
-            <Input w={"full"} placeholder='Type a message...'/>
+            <Input w={"full"} placeholder='Type a message...' onChange={(e) => setMessageText(e.target.value)} value={messageText} />
             <InputRightElement onClick={handleSendMessage} cursor={"pointer"}>
                 <IoSendSharp/>
             </InputRightElement>

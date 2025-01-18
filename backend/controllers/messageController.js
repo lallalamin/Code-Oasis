@@ -8,12 +8,12 @@ async function sendMessage(req, res) {
         const senderId = req.user._id;
 
         let conversation = await Conversation.findOne({
-            participants: { $all: [recipientId, senderId] },
+            participants: { $all: [senderId, recipientId] },
         });
 
         if (!conversation) {
             conversation = new Conversation({
-                participants: [recipientId, senderId],
+                participants: [senderId, recipientId],
                 lastMessage: {
                     text: message,
                     sender: senderId,
