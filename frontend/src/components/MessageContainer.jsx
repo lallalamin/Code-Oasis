@@ -10,7 +10,8 @@ import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { useSocket } from '../context/SocketContext'
 import { conversationsAtom } from '../atoms/messagesAtom'
-import { set } from 'mongoose'
+
+
 
 const MessageContainer = () => {
   const showToast = useShowToast();
@@ -48,6 +49,33 @@ const MessageContainer = () => {
   }, [socket, selectedConversation, setConversations]);
 
   useEffect(() => {
+    const lastMessageIsFromOtherUser = messages.length && messages[messages.length - 1].sender !== currentUser._id;
+    if(lastMessageIsFromOtherUser){
+      socket.emit('markMessagesAsSeen', {
+        conversationId: selectedConversation._id,
+        userId: selectedConversation.userId
+      })
+    }
+
+    socket.on('messagesSeen', ({conversationId}) => {
+      if(selectedConversation._id === conversationId) {
+        setMessages((prev) => {
+          const updateMessages = prev.map((message) => {
+            if(!message.seen){
+              return {
+                ...message,
+                seen: true
+              }
+            }
+            return message;
+          });
+          return updateMessages;
+        });
+      }
+    })
+  }, [socket, currentUser._id, messages, selectedConversation]);
+
+  useEffect(() => {
     const getMessages = async() => {
       setLoadingMessages(true);
       setMessages([]);
@@ -72,7 +100,7 @@ const MessageContainer = () => {
   }, [showToast, selectedConversation.userId, selectedConversation.mock]);
 
   useEffect(() => {
-    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   return (
@@ -102,7 +130,7 @@ const MessageContainer = () => {
           {!loadingMessages && (
             messages.map((message) => (
               <Flex key={message._id} direction={"column"} 
-                ref={message.length - 1 === messageEndRef.indexOf(message) ? messageEndRef : null}> 
+                ref={messages.length - 1 === messages.indexOf(message) ? messageEndRef : null}> 
                 <Message key={message._id} message={message} ownMessage={currentUser._id === message.sender}/>
               </Flex>
             ))
