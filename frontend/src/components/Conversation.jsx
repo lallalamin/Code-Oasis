@@ -6,7 +6,7 @@ import { BsCheck2All, BsFillImageFill } from 'react-icons/bs'
 import { selectedConversationAtom } from '../atoms/messagesAtom';
 import { useColorMode } from '@chakra-ui/react'
 
-const Conversation = ({conversation}) => {
+const Conversation = ({conversation, isOnline}) => {
     const user = conversation.participants[0];
     const currentUser = useRecoilValue(userAtom);
     const lastMessage = conversation.lastMessage;
@@ -28,7 +28,7 @@ const Conversation = ({conversation}) => {
         >
         <WrapItem>
             <Avatar size={{base:"xs", sm:"sm", md:"md"}} src={user.profilePic}>
-                <AvatarBadge boxSize='1em' bg='green.500' />
+                {isOnline ? <AvatarBadge boxSize='1em' bg='green.500' /> : ""}
             </Avatar>
         </WrapItem>
         <Stack direction={"column"} fontSize={"sm"}>
