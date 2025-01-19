@@ -3,17 +3,18 @@ import Message from './Message'
 import MessageInput from './MessageInput'
 import { useEffect, useRef } from 'react'
 import useShowToast from '../hooks/useShowToast'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import { selectedConversationAtom } from '../atoms/messagesAtom'
 import { userAtom } from '../atoms/userAtom'
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { useSocket } from '../context/SocketContext'
 import { conversationsAtom } from '../atoms/messagesAtom'
+import { set } from 'mongoose'
 
 const MessageContainer = () => {
   const showToast = useShowToast();
-  const [selectedConversation, setSelectedConversation] = useRecoilState(selectedConversationAtom);
+  const selectedConversation = useRecoilValue(selectedConversationAtom);
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [messages, setMessages] = useState([]);
   const currentUser = useRecoilValue(userAtom);
@@ -44,7 +45,7 @@ const MessageContainer = () => {
     })
 
     return () => socket.off("newMessage");
-  }, [socket]);
+  }, [socket, selectedConversation, setConversations]);
 
   useEffect(() => {
     const getMessages = async() => {
@@ -68,7 +69,7 @@ const MessageContainer = () => {
 
     getMessages();
 
-  }, [showToast, selectedConversation.userId]);
+  }, [showToast, selectedConversation.userId, selectedConversation.mock]);
 
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
