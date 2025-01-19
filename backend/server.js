@@ -6,11 +6,11 @@ import userRoutes from './routes/userRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
 import {v2 as cloudinary} from 'cloudinary';
+import { app, server } from './socket/socket.js';
 
 dotenv.config(); // to be able to read the content in the .env file
 
 connectDB(); 
-const app = express();
 
 const PORT = process.env.PORT || 5000;
 
@@ -20,6 +20,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+//Middlewares
 app.use(express.json({limit: "50mb"})); // to parse JSON data in the req.body
 app.use(express.urlencoded({ extended: true })); //to parse form data in the req.body, it is set to tru because it will allow it to parse nested data without problem 
 app.use(cookieParser()); // to read and access the cookie
@@ -30,4 +31,4 @@ app.use("/api/posts", postRoutes);
 app.use("/api/messages", messageRoutes);
 
 
-app.listen(PORT, () => console.log(`Server started at http://localhost:${PORT} heyy`));
+server.listen(PORT, () => console.log(`Server started at http://localhost:${PORT} heyy`));
