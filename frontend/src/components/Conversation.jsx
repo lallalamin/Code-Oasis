@@ -2,7 +2,7 @@ import { Avatar, AvatarBadge, Flex, Stack, useColorModeValue, WrapItem, Text, Im
 import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import userAtom from '../atoms/userAtom';
-import { BsCheck2All } from 'react-icons/bs'
+import { BsCheck2All, BsFillImageFill } from 'react-icons/bs'
 import { selectedConversationAtom } from '../atoms/messagesAtom';
 import { useColorMode } from '@chakra-ui/react'
 
@@ -22,6 +22,7 @@ const Conversation = ({conversation}) => {
         userId: user._id,
         userProfilePic: user.profilePic,
         userName: user.username,
+        mock: conversation.mock,
         })} 
         bg={selectedConversation?._id === conversation._id ? (colorMode == "light" ? "gray.400" : "gray.dark") : ""}
         >
@@ -36,7 +37,7 @@ const Conversation = ({conversation}) => {
             </Text>
             <Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1}>
                 {currentUser._id === lastMessage.sender ? <BsCheck2All size={16} /> : ""}
-                {lastMessage.text.length > 18 ? lastMessage.text.substring(0, 15) + "..." : lastMessage.text}
+                {lastMessage.text.length > 18 ? lastMessage.text.substring(0, 15) + "..." : lastMessage.text }
             </Text>
         </Stack>
     </Flex>

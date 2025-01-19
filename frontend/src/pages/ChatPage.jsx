@@ -59,10 +59,10 @@ const ChatPage = () => {
                 return;
             }
 
-            const messageAlreadyExists = conversations.find(conversation => conversation.participants[0]._id === searchedUser._id);
-            if(messageAlreadyExists){
+            const conversationAlreadyExists = conversations.find(conversation => conversation.participants[0]._id === searchedUser._id);
+            if(conversationAlreadyExists){
                 setSelectedConversation({
-                    _id: conversations.find(conversation => conversation.participants[0]._id === searchedUser._id)._id,
+                    _id: conversationAlreadyExists._id,
                     userId: searchedUser._id,
                     userName: searchedUser.username,
                     userProfilePic: searchedUser.profilePic,
@@ -70,6 +70,23 @@ const ChatPage = () => {
                 return;
             }
 
+            const mockConversation = {
+                mock: true,
+                lastMessage: {
+                    text: "",
+                    sender: "",
+                },
+                _id: Date.now(),
+                participants: [
+                    {
+                        _id: searchedUser._id,
+                        username: searchedUser.username,
+                        profilePic: searchedUser.profilePic,
+                    }
+                ]
+            }
+
+            setConversations((prevConvs) => [...prevConvs, mockConversation]);
 
         } catch (error) {
             showToast("Error", error.message, "error");
