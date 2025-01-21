@@ -2,6 +2,7 @@ import {Server} from 'socket.io';
 import http from 'http';
 import express from 'express';
 import Message from '../models/messageModel.js';
+import Conversation from '../models/conversationModel.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -28,6 +29,7 @@ io.on("connection", (socket) =>{
     socket.on('markMessagesAsSeen', async({conversationId, userId}) => {
         try {
             await Message.updateMany({conversationId: conversationId, seen: false}, {$set: {seen: true}});
+            await Conversation.updateOne({_id: conversationId}, {$set: {"lastMessage.seen": true}});
             io.to(userSocketMap[userId]).emit("messagesSeen", {conversationId});
         } catch (error) {
             console.log(error);
