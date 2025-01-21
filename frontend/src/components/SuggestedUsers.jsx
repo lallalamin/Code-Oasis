@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Flex, Text, Skeleton, SkeletonCircle, Box } from '@chakra-ui/react'
 import SuggestedUser from './SuggestedUser';
+import useShowToast from '../hooks/useShowToast';
 
 const SuggestedUsers = () => {
     const [loading, setLoading] = useState(false);
     const [suggestedUsers, setSuggestedUsers] = useState([]);
+    const showToast = useShowToast();
+
+    useEffect(() => {
+
+    }, [])
+
   return (
     <div>
         <Text mb={4} fontWeight={"bold"}>
