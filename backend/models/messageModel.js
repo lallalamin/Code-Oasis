@@ -8,6 +8,10 @@ const messageSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    img: {
+        type: String,
+        default: "",
+    }
 },{timestamps: true});
 
 const Message = mongoose.model("Message", messageSchema);
