@@ -4,13 +4,35 @@ import SuggestedUser from './SuggestedUser';
 import useShowToast from '../hooks/useShowToast';
 
 const SuggestedUsers = () => {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [suggestedUsers, setSuggestedUsers] = useState([]);
     const showToast = useShowToast();
 
     useEffect(() => {
+        const getSuggestedUsers = async() => {
+            setLoading(true);
+            try {
+                const res = await fetch("/api/users/suggested");
+                const data = await res.json();
 
-    }, [])
+                if(data.error) {
+                    showToast("Error", data.error, "error");
+                    return;
+                }
+                console.log("data", data);
+                console.log("suggestedUsers", suggestedUsers);
+
+                setSuggestedUsers(data.suggestedUsers);
+
+            } catch (error) {
+                showToast("Error", error.message, "error");
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        getSuggestedUsers();
+    }, [showToast]);
 
   return (
     <div>
@@ -18,7 +40,7 @@ const SuggestedUsers = () => {
             Suggested Users
         </Text>
         <Flex direction={"column"} gap={4}>
-            {!loading && [0, 1, 2, 3, 4].map(user => <SuggestedUser key={user._id} user={user} />)}
+            {!loading && suggestedUsers.map((user) => <SuggestedUser key={user._id} user={user} />)}
 
             {loading && [0, 1, 2, 3, 4].map((_, idx) => (
                 <Flex key={idx} gap={2} alignItems={"center"} p={"1"} borderRadius={"md"}>

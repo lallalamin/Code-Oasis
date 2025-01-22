@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { useState, useRef } from 'react'
 import { useRecoilState } from 'recoil'
+import { useNavigate } from 'react-router-dom'
 import userAtom from '../atoms/userAtom'
 import usePreviewImg from '../hooks/usePreviewImg'
 import useShowToast from '../hooks/useShowToast'
@@ -32,6 +33,7 @@ export default function UpdateProfilePage() {
   const fileRef = useRef(null);
   const [updating, setUpdating]  = useState(false);
   const showToast = useShowToast();
+  const navigate = useNavigate();
 
   const { handleImageChange, imgUrl } = usePreviewImg();
 
@@ -155,7 +157,8 @@ export default function UpdateProfilePage() {
                 w="full"
                 _hover={{
                 bg: 'red.500',
-                }}>
+                }}
+                onClick={() => navigate(-1)}>
                 Cancel
             </Button>
             <Button
