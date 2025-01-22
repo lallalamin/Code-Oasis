@@ -10,6 +10,7 @@ import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { useSocket } from '../context/SocketContext'
 import { conversationsAtom } from '../atoms/messagesAtom'
+import messageSound from '../assets/sounds/message.mp3'
 
 
 
@@ -28,6 +29,12 @@ const MessageContainer = () => {
       if(selectedConversation._id === message.conversationId) {
         setMessages((prevMessages) => [...prevMessages, message]);
       }
+
+      if(!document.hasFocus()) {
+        const sound = new Audio(messageSound);
+        sound.play();
+      }
+
       setConversations((prev) => {
         const updatedConversations = prev.map(conversation => {
           if(conversation._id === message.conversationId) {
