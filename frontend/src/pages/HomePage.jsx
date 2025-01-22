@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Spinner } from "@chakra-ui/react";
+import { Box, Button, Flex, Spinner, Text, Image } from "@chakra-ui/react";
 import { useEffect } from "react";
 import {Link} from "react-router-dom";
 import useShowToast from "../hooks/useShowToast";
@@ -50,7 +50,12 @@ const HomePage = () => {
     return(
         <Flex gap={10} alignItems={"flex-start"}>
             <Box flex={70} >
-            {!loading && posts.length === 0 && <h1>Follow some users to see the feed</h1>}
+            {!loading && posts.length === 0 && (
+                <Flex justify="center" flexDirection={"column"} alignItems={"center"}>
+                    <Text fontWeight={"bold"}>Follow some users to see the feed . . .</Text>
+                    <Image src="/characters/Ricky-NoFollowing.png" alt='post image' w={"300px"} />
+                </Flex>
+            )}
 
             {loading && (
                 <Flex justify="center">
