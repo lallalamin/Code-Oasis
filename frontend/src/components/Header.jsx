@@ -10,6 +10,7 @@ import useLogout from '../hooks/useLogout'
 import authScreenAtom from '../atoms/authAtom'
 import { useSetRecoilState } from 'recoil'
 import { BsFillChatQuoteFill } from 'react-icons/bs'
+import { MdOutlineSettings } from 'react-icons/md'
 
 const Header = () => {
     const {colorMode, toggleColorMode} = useColorMode()
@@ -46,6 +47,9 @@ const Header = () => {
                 </Link>
                 <Link as={RouterLink} to={`/chat`} >
                   <BsFillChatQuoteFill size={20}></BsFillChatQuoteFill>
+                </Link>
+                <Link as={RouterLink} to={`/settings`} >
+                  <MdOutlineSettings size={20}></MdOutlineSettings>
                 </Link>
                 <Button size={"xs"} onClick={logout}>
                     Logout 
