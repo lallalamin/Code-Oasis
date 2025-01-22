@@ -62,7 +62,7 @@ const HomePage = () => {
                 <Post key={post._id} post={post} postedBy={post.postedBy}></Post>
             ))}
             </Box>
-            <Box flex={30} >
+            <Box flex={30} display={{base: "none", md: "block"}}>
                 <SuggestedUsers/>
             </Box>
         </Flex>
