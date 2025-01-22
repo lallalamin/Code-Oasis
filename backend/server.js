@@ -8,10 +8,12 @@ import messageRoutes from './routes/messageRoutes.js';
 import {v2 as cloudinary} from 'cloudinary';
 import { app, server } from './socket/socket.js';
 import path from 'path';
+import job from './cron/cron.js';
 
 dotenv.config(); // to be able to read the content in the .env file
 
 connectDB(); 
+job.start();
 
 const PORT = process.env.PORT || 5000;
 const _dirname = path.resolve();
