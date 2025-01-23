@@ -11,6 +11,9 @@ import authScreenAtom from '../atoms/authAtom'
 import { useSetRecoilState } from 'recoil'
 import { BsFillChatQuoteFill } from 'react-icons/bs'
 import { MdOutlineSettings } from 'react-icons/md'
+import { NewspaperOutlineIcon } from 'chakra-ui-ionicons';
+import { HomeOutlineIcon } from 'chakra-ui-ionicons';
+import { ChatboxEllipsesOutlineIcon } from 'chakra-ui-ionicons';
 
 const Header = () => {
     const {colorMode, toggleColorMode} = useColorMode()
@@ -21,9 +24,17 @@ const Header = () => {
     <>
         <Flex justifyContent={"space-between"} mt={6} mb="12" alignItems={"center"}>
             {user && (
-              <Link as={RouterLink} to={'/'} >
-                <AiFillHome size={24}></AiFillHome>
-              </Link>
+              <Flex gap={4} alignItems={"center"}> 
+                <Link as={RouterLink} to={`/settings`} >
+                  <MdOutlineSettings size={22}></MdOutlineSettings>
+                </Link>
+                <Button size={"xs"} onClick={logout}>
+                    Logout 
+                    <Box ml={2}>
+                      <FiLogOut/> 
+                    </Box>
+                </Button>
+              </Flex>
             )}
 
             {!user && (
@@ -42,21 +53,19 @@ const Header = () => {
 
             {user && (
               <Flex gap={4} alignItems={"center"}>
+                <Link as={RouterLink} to={'/'} >
+                  <HomeOutlineIcon h={22} w={22}></HomeOutlineIcon>
+                </Link>
                 <Link as={RouterLink} to={`/${user.username}`} >
                   <RxAvatar size={24}></RxAvatar>
                 </Link>
                 <Link as={RouterLink} to={`/chat`} >
-                  <BsFillChatQuoteFill size={20}></BsFillChatQuoteFill>
+                  <ChatboxEllipsesOutlineIcon h={22} w={22}></ChatboxEllipsesOutlineIcon>
                 </Link>
-                <Link as={RouterLink} to={`/settings`} >
-                  <MdOutlineSettings size={20}></MdOutlineSettings>
+                <Link as={RouterLink} to={`/news`} >
+                  <NewspaperOutlineIcon h={20} w={20}></NewspaperOutlineIcon>
                 </Link>
-                <Button size={"xs"} onClick={logout}>
-                    Logout 
-                    <Box ml={2}>
-                      <FiLogOut/> 
-                    </Box>
-                </Button>
+                
               </Flex>
             )}
 
