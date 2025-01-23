@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, Flex, Input, Skeleton, SkeletonCircle, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Input, Skeleton, SkeletonCircle, Text, Image } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
 import { useColorModeValue } from '@chakra-ui/react'
 import Conversation from '../components/Conversation'
@@ -153,8 +153,8 @@ const ChatPage = () => {
             </Flex>
             {!selectedConversation._id && (
                 <Flex flex={70} borderRadius={"md"} p={2} flexDir={"column"} alignItems={"center"} justifyContent={"center"} height={"400px"}>
-                    <GiConversation size={100}></GiConversation>
-                    <Text fontSize={20}>Select a conversation to start messaging</Text>
+                    <Text fontSize={20} fontWeight={"bold"}>Select a conversation to start messaging</Text>
+                    <Image src="/characters/Ricky-NoChat.png" alt='post image' w={"300px"} />
                 </Flex>
             )}
 

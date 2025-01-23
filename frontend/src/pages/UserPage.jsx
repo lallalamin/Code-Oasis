@@ -3,7 +3,7 @@ import UserHeader from '../components/UserHeader'
 import UserPost from '../components/UserPost'
 import { useParams } from 'react-router-dom';
 import useShowToast from '../hooks/useShowToast';
-import { Flex, Spinner } from '@chakra-ui/react';
+import { Flex, Spinner, Image, Text } from '@chakra-ui/react';
 import Post from '../components/Post';
 import useGetUserProfile from '../hooks/useGetUserProfile';
 import { useRecoilState } from 'recoil';
@@ -58,7 +58,12 @@ const UserPage = () => {
   return (
     <>
         <UserHeader user={user}></UserHeader>
-        {!fetchingPosts && posts.length === 0 && <h1>User has no posts.</h1>}
+        {!fetchingPosts && posts.length === 0 && (
+          <Flex justify="center" flexDirection={"column"} alignItems={"center"} >
+            <Text fontWeight={"bold"} padding={4} marginTop={4} >User has no posts</Text>
+            <Image src="/characters/Momo-NoPost.png" alt='post image' w={"300px"} />
+        </Flex>
+        )}
         {fetchingPosts && (
           <Flex justifyContent={"center"} my={12}>
             <Spinner size='xl' />
