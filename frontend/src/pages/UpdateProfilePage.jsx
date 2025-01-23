@@ -11,6 +11,7 @@ import {
   useColorModeValue,
   Avatar,
   Center,
+  Textarea
 } from '@chakra-ui/react'
 import { useState, useRef } from 'react'
 import { useRecoilState } from 'recoil'
@@ -63,6 +64,8 @@ export default function UpdateProfilePage() {
         setUser(updatedUser);
 
         localStorage.setItem('user-threads', JSON.stringify(updatedUser));
+
+        navigate(`/${updatedUser.username}`);
 
       } catch (error) {
         showToast("Error", error, "error");
@@ -132,7 +135,7 @@ export default function UpdateProfilePage() {
             </FormControl>
             <FormControl>
             <FormLabel>Bio</FormLabel>
-            <Input
+            <Textarea
                 placeholder="Your bio"
                 value={inputs.bio}  
                 onChange={(e) => setInputs({...inputs, bio: e.target.value})}
