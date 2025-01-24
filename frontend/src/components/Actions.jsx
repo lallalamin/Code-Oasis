@@ -5,6 +5,8 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
 import useShowToast from "../hooks/useShowToast";
 import postsAtom from '../atoms/postsAtom'
+import { BookmarkOutlineIcon } from 'chakra-ui-ionicons';
+import { BookmarkIcon } from 'chakra-ui-ionicons';
 
 const Actions = ({ post }) => {
 	const user = useRecoilValue(userAtom);
@@ -134,8 +136,9 @@ const Actions = ({ post }) => {
 						strokeWidth='2'
 					></path>
 				</svg>
-				<RepostSVG/>
-				<ShareSVG/>
+				{/* <RepostSVG/>
+				<ShareSVG/> */}
+				<BookmarkOutlineIcon h={22} w={22}></BookmarkOutlineIcon>
 
 			</Flex>
 			<Flex gap={2} alignItems={"center"}>

@@ -13,7 +13,7 @@ import {
   Text,
   useColorModeValue,
   Link,
-  useToast,
+  FormErrorMessage
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
@@ -25,6 +25,7 @@ import userAtom from '../atoms/userAtom'
 export default function SignUpCard() {
   const [showPassword, setShowPassword] = useState(false);
   const setAuthScreen = useSetRecoilState(authScreenAtom);
+  const [inputsError, setInputsError] = useState({ name: '', username: '', email: '', password: '' });
   const [inputs, setInputs] = useState({
     name: '',
     username: '',
@@ -34,6 +35,21 @@ export default function SignUpCard() {
 
   const showToast = useShowToast();
   const setUser = useSetRecoilState(userAtom);
+
+  const validateName = () => {
+    if(inputs.name.match(/[^a-zA-Z]/)){
+      setInputsError((prev) => ({
+        ...prev,
+        name: 'Must not contain special characters',
+      }));
+    }else{
+      setInputsError((prev) => ({
+        ...prev,
+        name: '',
+      }));
+    }
+    console.log(inputsError);
+  }
 
   const handleSignup = async() =>{
     try {
@@ -68,10 +84,11 @@ export default function SignUpCard() {
       >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
-          <Heading fontSize={'4xl'} textAlign={'center'}>
+          <Heading fontSize={'3xl'} textAlign={'center'}>
             Sign up
           </Heading>
-          <Text fontSize={'lg'} color={'gray.600'}>
+          <Text fontSize={'md'} color={'gray.400'}>
+           
           </Text>
         </Stack>
         <Box
@@ -79,26 +96,29 @@ export default function SignUpCard() {
           bg={useColorModeValue('white', 'gray.dark')}
           boxShadow={'lg'}
           p={8}>
-          <Stack spacing={4}>
-            <HStack>
+          <Stack spacing={4} >
+            <HStack paddingBottom={4}>
               <Box>
-                <FormControl isRequired>
+                <FormControl isRequired isInvalid={inputsError.name !== ''}>
                   <FormLabel>Full Name</FormLabel>
-                  <Input type="text" onChange={(e) => setInputs({...inputs, name: e.target.value})} value={inputs.name} />
+                    <Input onBlur={validateName} placeholder='John Doe' type="text" onChange={(e) => setInputs({...inputs, name: e.target.value})} value={inputs.name} />
+                    <FormErrorMessage position={'absolute'} fontSize={'xs'} >{inputsError.name}</FormErrorMessage>
                 </FormControl>
               </Box>
               <Box>
                 <FormControl isRequired>
                   <FormLabel>Username</FormLabel>
-                  <Input type="text" onChange={(e) => setInputs({...inputs, username: e.target.value})} value={inputs.username}/>
+                  <Input placeholder='johndoe' type="text" onChange={(e) => setInputs({...inputs, username: e.target.value})} value={inputs.username}/>
+                  <FormErrorMessage position={'absolute'} fontSize={'xs'} >{inputsError.name}</FormErrorMessage>
                 </FormControl>
               </Box>
             </HStack>
-            <FormControl isRequired>
+            <FormControl isRequired paddingBottom={4}>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" onChange={(e) => setInputs({...inputs, email: e.target.value})} value={inputs.email}/>
+              <Input placeholder='johndoe@gmail.com' type="email" onChange={(e) => setInputs({...inputs, email: e.target.value})} value={inputs.email}/>
+              <FormErrorMessage position={'absolute'} fontSize={'xs'} >{inputsError.name}</FormErrorMessage>
             </FormControl>
-            <FormControl  isRequired>
+            <FormControl  isRequired paddingBottom={4}>
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input type={showPassword ? 'text' : 'password'} onChange={(e) => setInputs({...inputs, password: e.target.value})} value={inputs.password}/>
@@ -110,6 +130,7 @@ export default function SignUpCard() {
                   </Button>
                 </InputRightElement>
               </InputGroup>
+              <FormErrorMessage position={'absolute'} fontSize={'xs'} >{inputsError.name}</FormErrorMessage>
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
