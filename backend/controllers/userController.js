@@ -37,7 +37,7 @@ const signupUser = async(req, res) => {
         const { name, email, username, password} = req.body;
         const user = await User.findOne({$or:[{email}, {username}]}); // this will find out if the email or the username is already exist
         if(user){
-            return res.status(400).json({error:"User already exists."});
+            return res.status(400).json({error:"Username or email already exists."});
         }
 
         const salt = await bcrypt.genSalt(10);

@@ -48,7 +48,47 @@ export default function SignUpCard() {
         name: '',
       }));
     }
-    console.log(inputsError);
+  }
+  const validateUsername = () => {
+    if(inputs.username.match(/[^a-zA-Z0-9]/)){
+      setInputsError((prev) => ({
+        ...prev,
+        username: 'Must not contain special characters',
+      }));
+    }else{
+      setInputsError((prev) => ({
+        ...prev,
+        username: '',
+      }));
+    }
+  }
+  const validateEmail = () => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!inputs.email.match(emailRegex)) {
+      setInputsError((prev) => ({
+        ...prev,
+        email: 'Please enter a valid email address',
+      }));
+    } else {
+      setInputsError((prev) => ({
+        ...prev,
+        email: '',
+      }));
+    } 
+  }
+  const validatePassword = () => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    if (!inputs.password.match(passwordRegex)) {
+      setInputsError((prev) => ({
+        ...prev,
+        password: 'Password must be at least 8 characters long and contain at least one letter, one number and one special character',
+      }));
+    } else {
+      setInputsError((prev) => ({
+        ...prev,
+        password: '',
+      }));
+    } 
   }
 
   const handleSignup = async() =>{
@@ -106,22 +146,22 @@ export default function SignUpCard() {
                 </FormControl>
               </Box>
               <Box>
-                <FormControl isRequired>
+                <FormControl isRequired isInvalid={inputsError.username !== ''} >
                   <FormLabel>Username</FormLabel>
-                  <Input placeholder='johndoe' type="text" onChange={(e) => setInputs({...inputs, username: e.target.value})} value={inputs.username}/>
-                  <FormErrorMessage position={'absolute'} fontSize={'xs'} >{inputsError.name}</FormErrorMessage>
+                  <Input onBlur={validateUsername} placeholder='johndoe' type="text" onChange={(e) => setInputs({...inputs, username: e.target.value})} value={inputs.username}/>
+                  <FormErrorMessage position={'absolute'} fontSize={'xs'} >{inputsError.username}</FormErrorMessage>
                 </FormControl>
               </Box>
             </HStack>
-            <FormControl isRequired paddingBottom={4}>
+            <FormControl isRequired paddingBottom={4} isInvalid={inputsError.email !== ''}>
               <FormLabel>Email address</FormLabel>
-              <Input placeholder='johndoe@gmail.com' type="email" onChange={(e) => setInputs({...inputs, email: e.target.value})} value={inputs.email}/>
-              <FormErrorMessage position={'absolute'} fontSize={'xs'} >{inputsError.name}</FormErrorMessage>
+              <Input onBlur={validateEmail} placeholder='johndoe@gmail.com' type="email" onChange={(e) => setInputs({...inputs, email: e.target.value})} value={inputs.email}/>
+              <FormErrorMessage position={'absolute'} fontSize={'xs'} >{inputsError.email}</FormErrorMessage>
             </FormControl>
-            <FormControl  isRequired paddingBottom={4}>
+            <FormControl  isRequired paddingBottom={8} isInvalid={inputsError.password !== ''} >
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} onChange={(e) => setInputs({...inputs, password: e.target.value})} value={inputs.password}/>
+                <Input onBlur={validatePassword} type={showPassword ? 'text' : 'password'} onChange={(e) => setInputs({...inputs, password: e.target.value})} value={inputs.password}/>
                 <InputRightElement h={'full'}>
                   <Button
                     variant={'ghost'}
@@ -130,7 +170,7 @@ export default function SignUpCard() {
                   </Button>
                 </InputRightElement>
               </InputGroup>
-              <FormErrorMessage position={'absolute'} fontSize={'xs'} >{inputsError.name}</FormErrorMessage>
+              <FormErrorMessage position={'absolute'} fontSize={'xs'} >{inputsError.password}</FormErrorMessage>
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
