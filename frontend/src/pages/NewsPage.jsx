@@ -1,8 +1,13 @@
 import React from 'react'
+import { Flex, Text, Image } from '@chakra-ui/react'
 
 const NewsPage = () => {
   return (
-    <div>NewsPage</div>
+    <>
+      <Flex justifyContent="center">
+          <Text fontWeight={"bold"}>Recent News</Text>
+      </Flex>
+    </>
   )
 }
 

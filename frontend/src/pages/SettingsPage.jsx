@@ -39,7 +39,7 @@ const SettingsPage = () => {
                 <Text my={2}>You can unfreeze your account anytime by logging into your account.</Text>
                 <Button my={7} size={"sm"} colorScheme='red' onClick={freezeAccount}>Freeze Account</Button>
             </Box>
-            <Image src="/characters/Momo-Froze.png" alt='post image' w={"180px"} />
+            <Image src="/characters/Momo-Froze.png" alt='post image' w={{base: "120px", md: "200px"}} h={{base: "120px", md: "200px"}} />
         </Flex>
         
     </>
