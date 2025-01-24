@@ -11,7 +11,9 @@ import { ColorModeScript } from '@chakra-ui/react'
 import { BrowserRouter } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
 import { SocketContextProvider } from './context/SocketContext.jsx'
+import { initializeGoogleAnalytics } from './analytics';
 
+initializeGoogleAnalytics('G-NMHDPSGXY7');
 
 const styles ={
   global:(props) => ({
