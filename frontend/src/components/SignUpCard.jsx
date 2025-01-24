@@ -121,22 +121,36 @@ export default function SignUpCard() {
     <Flex
       align={'center'}
       justify={'center'}
+      position={'relative'}
       >
+        {/* <Box
+          position="absolute"
+          top="50%"
+          left="50%"
+          transform="translate(-50%, -50%)"
+          w="670px"
+          h="670px"
+          borderRadius="50%"
+          bgGradient="radial(orange.300,rgb(248, 236, 219))"
+          filter="blur(40px)"
+          zIndex={-1}
+          opacity={0.45}
+        /> */}
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-        <Stack align={'center'}>
-          <Heading fontSize={'3xl'} textAlign={'center'}>
-            Sign up
-          </Heading>
-          <Text fontSize={'md'} color={'gray.400'}>
-           
-          </Text>
-        </Stack>
         <Box
           rounded={'lg'}
           bg={useColorModeValue('white', 'gray.dark')}
           boxShadow={'lg'}
           p={8}>
           <Stack spacing={4} >
+            <Stack align={'center'} mb={4}>
+              <Heading fontSize={'3xl'} textAlign={'center'}>
+                Sign up
+              </Heading>
+              <Text fontSize={'md'} color={'gray.400'}>
+              
+              </Text>
+            </Stack>
             <HStack paddingBottom={4}>
               <Box>
                 <FormControl isRequired isInvalid={inputsError.name !== ''}>

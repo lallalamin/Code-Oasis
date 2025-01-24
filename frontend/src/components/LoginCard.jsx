@@ -63,15 +63,23 @@ import userAtom from '../atoms/userAtom';
       <Flex
         align={'center'}
         justify={'center'}
+        position={"relative"}
         >
+        {/* <Box
+          position="absolute"
+          top="50%"
+          left="50%"
+          transform="translate(-50%, -50%)"
+          w="500px"
+          h="500px"
+          borderRadius="50%"
+          bgGradient="radial(orange.300,rgb(248, 236, 219))"
+          filter="blur(40px)"
+          zIndex={-1}
+          opacity={0.8}
+        /> */}
         <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-          <Stack align={'center'}>
-            <Heading fontSize={'3xl'} textAlign={'center'}>
-              Login
-            </Heading>
-            <Text fontSize={'lg'} color={'gray.600'}>
-            </Text>
-          </Stack>
+          
           <Box
             rounded={'lg'}
             bg={useColorModeValue('white', 'gray.dark')}
@@ -82,6 +90,13 @@ import userAtom from '../atoms/userAtom';
                 sm: "400px"
             }}>
             <Stack spacing={4}>
+              <Stack align={'center'}>
+                <Heading fontSize={'3xl'} textAlign={'center'}>
+                  Login
+                </Heading>
+                <Text fontSize={'lg'} color={'gray.600'}>
+                </Text>
+              </Stack>
               <FormControl isRequired>
                 <FormLabel>Username</FormLabel>
                 <Input type="text" value={inputs.username} onChange={(e) => setInputs({...inputs, username: e.target.value})}/>
