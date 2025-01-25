@@ -8,6 +8,8 @@ import { useRecoilState } from "recoil";
 import postsAtom from "../atoms/postsAtom";
 import { useNavigate } from "react-router-dom";
 import SuggestedUsers from "../components/SuggestedUsers";
+import CustomCalendar from "../components/CustomCalendar";
+
 const HomePage = () => {
     const [posts, setPosts] = useRecoilState(postsAtom);
     const [loading, setLoading] = useState(true);
@@ -50,6 +52,10 @@ const HomePage = () => {
     return(
         <Flex gap={10} alignItems={"flex-start"}>
             <Box flex={70} >
+            <Text fontSize={"2xl"} fontWeight={"bold"}>Events Calendar</Text>
+            <CustomCalendar/>
+
+            <Text fontSize={"2xl"} fontWeight={"bold"} my={5}>Post</Text>
             {!loading && posts.length === 0 && (
                 <Flex justify="center" flexDirection={"column"} alignItems={"center"}>
                     <Text fontWeight={"bold"}>Follow some users to see the feed . . .</Text>
