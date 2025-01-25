@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Flex, Text, Skeleton, SkeletonCircle, Box, Divider } from '@chakra-ui/react'
+import { Flex, Text, Skeleton, SkeletonCircle, Box, Divider, Image } from '@chakra-ui/react'
 import SuggestedUser from './SuggestedUser';
 import useShowToast from '../hooks/useShowToast';
 
@@ -38,6 +38,12 @@ const LeaderBoard = () => {
     <div>
         <Text fontSize={"2xl"} fontWeight={"bold"} my={1}>LeaderBoard</Text>
         <Divider my={4}/>
+        <Flex gap={2} flexDirection={"column"}>
+            <Image src="/leaderboard/gold-cup.png" alt="Leaderboard" w={"50px"} mb={4} />
+            <Image src="/leaderboard/silver-cup.png" alt="Leaderboard" w={"50px"} mb={4} />
+            <Image src="/leaderboard/bronze-cup.png" alt="Leaderboard" w={"50px"} mb={4} />
+        </Flex>
+
 
         {/* <Flex direction={"column"} gap={4}>
             {!loading && suggestedUsers.map((user) => <SuggestedUser key={user._id} user={user} />)}
