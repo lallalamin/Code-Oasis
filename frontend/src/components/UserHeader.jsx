@@ -29,19 +29,15 @@ const UserHeader = ({user}) => {
   return (
     <>
         <VStack gap={4} alignItems={"start"}>
-            <Flex justifyContent={"space-between"} w={"full"}>
-                <Box>
-                    <Text fontSize={"2xl"} fontWeight={"bold"}>
-                        {user.name}
-                    </Text>
-                    <Flex gap={2} alignItems={"center"}>
-                        <Text fontSize={"sm"}>{user.username}</Text>
-                        <Text fontSize={"xs"} bg={"gray.dark"} color={"gray.light"} p={1} borderRadius={"full"}>
-                            threads.net
-                        </Text>
-                    </Flex>
-                </Box>
-                <Box>
+            <Box
+                h="150px"
+                bgImage="url('https://acropolisgrill.com/wp-content/uploads/2017/03/slide-homepage-specials-bogoburgerbeer-bg-300x120.png')"
+                bgSize="cover"
+                bgPosition="center"
+                borderRadius="lg"
+                w="full"
+                position="relative"
+            >
                     {user.profilePic && (
                         <Avatar 
                         name={user.name}
@@ -50,6 +46,11 @@ const UserHeader = ({user}) => {
                             base: "md",
                             md: "xl",
                         }}
+                        borderColor="gray.light"
+                        borderWidth={3}
+                        position="absolute"
+                        bottom="-30px"
+                        right="20px"
                     />
                     )}
                     {!user.profilePic && (
@@ -60,8 +61,23 @@ const UserHeader = ({user}) => {
                             base: "md",
                             md: "xl",
                         }}
+                        borderColor="white"
+                        borderWidth={3}
+                        position="absolute"
+                        bottom="-30px"
+                        right="20px"
                     />
                     )}
+            </Box>
+            <Flex justifyContent={"space-between"} w={"full"}>
+                <Box>
+                    <Text fontSize={"2xl"} fontWeight={"bold"}>
+                        {user.name}
+                    </Text>
+                    <Flex gap={2} alignItems={"center"}>
+                        <Text fontSize={"sm"}>{user.username}</Text>
+
+                    </Flex>
                 </Box>
             </Flex>
             <Text>{user.bio}</Text>
