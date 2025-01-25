@@ -52,26 +52,26 @@ const HomePage = () => {
     return(
         <Flex gap={10} alignItems={"flex-start"}>
             <Box flex={70} >
-            <Text fontSize={"2xl"} fontWeight={"bold"}>Events Calendar</Text>
-            <CustomCalendar/>
+                <Text fontSize={"2xl"} fontWeight={"bold"}>Events Calendar</Text>
+                <CustomCalendar/>
 
-            <Text fontSize={"2xl"} fontWeight={"bold"} my={5}>Post</Text>
-            {!loading && posts.length === 0 && (
-                <Flex justify="center" flexDirection={"column"} alignItems={"center"}>
-                    <Text fontWeight={"bold"}>Follow some users to see the feed . . .</Text>
-                    <Image src="/characters/Ricky-NoFollowing.png" alt='post image' w={"300px"} />
-                </Flex>
-            )}
+                <Text fontSize={"2xl"} fontWeight={"bold"} my={5}>Post</Text>
+                {!loading && posts.length === 0 && (
+                    <Flex justify="center" flexDirection={"column"} alignItems={"center"}>
+                        <Text fontWeight={"bold"}>Follow some users to see the feed . . .</Text>
+                        <Image src="/characters/Ricky-NoFollowing.png" alt='post image' w={"300px"} />
+                    </Flex>
+                )}
 
-            {loading && (
-                <Flex justify="center">
-                    <Spinner size="xl" />
-                </Flex>
-            )}
+                {loading && (
+                    <Flex justify="center">
+                        <Spinner size="xl" />
+                    </Flex>
+                )}
 
-            {posts.map((post) => (
-                <Post key={post._id} post={post} postedBy={post.postedBy}></Post>
-            ))}
+                {posts.map((post) => (
+                    <Post key={post._id} post={post} postedBy={post.postedBy}></Post>
+                ))}
             </Box>
             <Box flex={30} display={{base: "none", md: "block"}}>
                 <SuggestedUsers/>
