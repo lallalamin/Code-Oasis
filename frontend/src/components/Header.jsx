@@ -1,4 +1,4 @@
-import { Flex, useColorMode, Image, Link, Box, Button } from '@chakra-ui/react'
+import { Flex, useColorMode, Image, Link, Box, Button, Icon } from '@chakra-ui/react'
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
@@ -9,11 +9,12 @@ import { FiLogOut } from "react-icons/fi"
 import useLogout from '../hooks/useLogout'
 import authScreenAtom from '../atoms/authAtom'
 import { useSetRecoilState } from 'recoil'
-import { BsFillChatQuoteFill } from 'react-icons/bs'
 import { MdOutlineSettings } from 'react-icons/md'
 import { NewspaperOutlineIcon } from 'chakra-ui-ionicons';
 import { HomeOutlineIcon } from 'chakra-ui-ionicons';
 import { ChatboxEllipsesOutlineIcon } from 'chakra-ui-ionicons';
+import { Switch } from '@chakra-ui/react'
+import { FaMoon, FaSun } from "react-icons/fa"
 
 const Header = () => {
     const {colorMode, toggleColorMode} = useColorMode()
@@ -34,6 +35,16 @@ const Header = () => {
                       <FiLogOut/> 
                     </Box>
                 </Button>
+                
+                <Flex alignItems="center" gap={2}>
+                    <Icon as={colorMode === "dark" ? FaMoon : FaSun} boxSize={5} />
+                    <Switch
+                        isChecked={colorMode === "dark"}
+                        onChange={toggleColorMode}
+                        size="md"
+                        colorScheme="blue"
+                    />
+                </Flex>
               </Flex>
             )}
 
@@ -48,7 +59,6 @@ const Header = () => {
                 alt='logo'
                 w={20}
                 src={colorMode === "dark" ? "/light-logo/android-chrome-192x192.png" : "/dark-logo/android-chrome-192x192.png"}
-                onClick={toggleColorMode}
             />
 
             {user && (

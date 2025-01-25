@@ -11,7 +11,8 @@ import {
   useColorModeValue,
   Avatar,
   Center,
-  Textarea
+  Textarea,
+  Box
 } from '@chakra-ui/react'
 import { useState, useRef } from 'react'
 import { useRecoilState } from 'recoil'
@@ -92,7 +93,7 @@ export default function UpdateProfilePage() {
             <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
             User Profile Edit
             </Heading>
-            <FormControl id="userName">
+            <FormControl id="profilePic">
             <Stack direction={['column', 'row']} spacing={6}>
                 <Center>
                 <Avatar size="xl" boxShadow={"md"} src={imgUrl || user.profilePic} />
@@ -103,6 +104,26 @@ export default function UpdateProfilePage() {
                 </Center>
             </Stack>
             </FormControl>
+            
+            <FormControl id="banner">
+            <Stack direction={['column']} spacing={6}>
+                <Center>
+                <Box 
+                w="full" 
+                bgImage="url('https://acropolisgrill.com/wp-content/uploads/2017/03/slide-homepage-specials-bogoburgerbeer-bg-300x120.png')"
+                bgSize="cover"
+                bgPosition="center"
+                borderRadius="lg"
+                h="100px"
+                ></Box>
+                </Center>
+                <Center w="full">
+                <Button w="full" onClick={() => fileRef.current.click()}>Change Banner</Button>
+                <Input type='file' hidden ref={fileRef} onChange={handleImageChange} />
+                </Center>
+            </Stack>
+            </FormControl>
+            
             <FormControl>
             <FormLabel>Full name</FormLabel>
             <Input

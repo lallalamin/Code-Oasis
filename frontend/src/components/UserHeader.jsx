@@ -46,7 +46,6 @@ const UserHeader = ({user}) => {
                             base: "md",
                             md: "xl",
                         }}
-                        borderColor="gray.light"
                         borderWidth={3}
                         position="absolute"
                         bottom="-30px"
@@ -61,7 +60,6 @@ const UserHeader = ({user}) => {
                             base: "md",
                             md: "xl",
                         }}
-                        borderColor="white"
                         borderWidth={3}
                         position="absolute"
                         bottom="-30px"
