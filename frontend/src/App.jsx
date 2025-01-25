@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage"
 import AuthPage from "./pages/AuthPage"
 import SettingsPage from "./pages/SettingsPage"
 import NewsPage from "./pages/NewsPage"
+import EventPage from "./pages/EventPage"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import { useRecoilValue } from "recoil"
@@ -55,6 +56,7 @@ function App() {
             <Route path="/chat" element={user ? <ChatPage /> : <Navigate to="/auth" />} />
             <Route path="/settings" element={user ? <SettingsPage /> : <Navigate to="/auth" />} />
             <Route path="/news" element={user ? <NewsPage /> : <Navigate to="/auth" />} />
+            <Route path="/events" element={user ? <EventPage /> : <Navigate to="/auth" />} />
           </Routes>
         </Container>
 
