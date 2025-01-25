@@ -35,12 +35,6 @@ https://docs.google.com/spreadsheets/d/1fblgPueCKlAILmm5L1SgbkmyKsnrm8J1BrDfRqPN
   <span style="display:inline-block; width: 20px; align-items: center;"><strong>🚧 Coming Soon! ⏳👀</strong></span> <!-- Spacer -->
 </div>
 
-<div align="center" style="display: flex; flex-direction: column; align-items: center;">
-  <div style="display: flex; justify-content: center; gap: 20px;">
-    <img src="https://res.cloudinary.com/due3vs8mz/image/upload/v1733891386/IMG_0229_ixidf7.jpg" alt="CodeOasis Mascot - Coming Soon" width="300"/>
-    <img src="https://res.cloudinary.com/due3vs8mz/image/upload/v1733891386/IMG_0229_1_hn6zn9.jpg" alt="CodeOasis Mascot 2" width="300"/>
-  </div>
-</div>
 
 ### Figma UI Mock: </br>
 https://www.figma.com/design/8SigV7C7x5k8MgUyS1pN3c/CodeOasis?node-id=0-1&node-type=canvas&t=jGf6fqrRf9VcHiP7-0
