@@ -32,7 +32,7 @@ function App() {
       >
         <Container
           as="header"
-          maxW={pathname === "/" ? { base: "700px", md: "900px" } : "700px"}
+          maxW={pathname === "/" ? { base: "620px", md: "900px" } : "620px"}
           py={4}
         >
           <Header />
@@ -41,7 +41,7 @@ function App() {
         <Container
           as="main"
           flex="1"
-          maxW={pathname === "/" ? { base: "700px", md: "900px" } : "700px"}
+          maxW={pathname === "/" ? { base: "620px", md: "900px" } : "620px"}
           py={4}
         >
           <Routes>

@@ -12,13 +12,14 @@ import {
   Avatar,
   Center,
   Textarea,
-  Box
+  Image
 } from '@chakra-ui/react'
 import { useState, useRef } from 'react'
 import { useRecoilState } from 'recoil'
 import { useNavigate } from 'react-router-dom'
 import userAtom from '../atoms/userAtom'
 import usePreviewImg from '../hooks/usePreviewImg'
+import usePreviewBanner from '../hooks/usePreviewBanner'
 import useShowToast from '../hooks/useShowToast'
 
 
@@ -33,11 +34,13 @@ export default function UpdateProfilePage() {
   });
   
   const fileRef = useRef(null);
+  const bannerRef = useRef(null);
   const [updating, setUpdating]  = useState(false);
   const showToast = useShowToast();
   const navigate = useNavigate();
 
   const { handleImageChange, imgUrl } = usePreviewImg();
+  const { handleBannerChange, imgUrl: bannerUrl } = usePreviewBanner();
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -49,7 +52,7 @@ export default function UpdateProfilePage() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({...inputs, profilePic: imgUrl}),
+            body: JSON.stringify({...inputs, profilePic: imgUrl, bannerPic: bannerUrl}),
         })
 
         const data = await res.json(); // updates user object
@@ -73,6 +76,8 @@ export default function UpdateProfilePage() {
       }finally {
         setUpdating(false);
       }
+
+      console.log(bannerUrl);
   }
 
   return (
@@ -107,20 +112,20 @@ export default function UpdateProfilePage() {
             
             <FormControl id="banner">
             <Stack direction={['column']} spacing={6}>
-                <Center>
-                <Box 
-                w="full" 
-                bgImage="url('https://acropolisgrill.com/wp-content/uploads/2017/03/slide-homepage-specials-bogoburgerbeer-bg-300x120.png')"
-                bgSize="cover"
-                bgPosition="center"
-                borderRadius="lg"
-                h="100px"
-                ></Box>
-                </Center>
-                <Center w="full">
-                <Button w="full" onClick={() => fileRef.current.click()}>Change Banner</Button>
-                <Input type='file' hidden ref={fileRef} onChange={handleImageChange} />
-                </Center>
+              <Center>
+                <Image
+                  h="150px"
+                  w="full"
+                  src={bannerUrl || user.bannerPic || '/default-banner.png'} 
+                  alt="User banner"
+                  objectFit="cover" 
+                  borderRadius="lg"
+                  />
+              </Center>
+              <Center w="full">
+                <Button w="full" onClick={() => bannerRef.current.click()}>Change Banner</Button>
+                <Input type='file' hidden ref={bannerRef} onChange={handleBannerChange} />
+              </Center>
             </Stack>
             </FormControl>
             

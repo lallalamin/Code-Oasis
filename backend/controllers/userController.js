@@ -148,7 +148,7 @@ const followUnfollowUser = async(req, res) => {
 
 const updateUser = async(req, res) =>{
     const { name, email, username, password, bio} = req.body;
-    let { profilePic } = req.body;
+    let { profilePic, bannerPic } = req.body;
     const userId = req.user._id;
     
     try {
@@ -171,11 +171,21 @@ const updateUser = async(req, res) =>{
             profilePic = uploadedResponse.secure_url;
         }
 
+        if(bannerPic){
+            if(user.bannerPic){
+                await cloudinary.uploader.destroy(user.bannerPic.split("/").pop().split(".")[0]); // if the user already have a banner pic, we will remove the old one from cloudinary
+            }
+
+            const bannerUploadedResponse = await cloudinary.uploader.upload(bannerPic); //upload the banner pic to cloudinary
+            bannerPic = bannerUploadedResponse.secure_url;
+        }
+
         user.name = name || user.name;
         user.email = email || user.email;
         user.username = username || user.username;
         user.profilePic = profilePic || user.profilePic;
         user.bio = bio || user.bio;
+        user.bannerPic = bannerPic || user.bannerPic;
 
         user = await user.save();
 

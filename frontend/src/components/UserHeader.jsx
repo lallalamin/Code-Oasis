@@ -1,4 +1,4 @@
-import { VStack, Box, Flex, Avatar, Text, Link, MenuButton, Menu, Portal, MenuList, MenuItem, useToast, Button } from '@chakra-ui/react'
+import { VStack, Box, Flex, Avatar, Text, Link, MenuButton, Menu, Portal, MenuList, MenuItem, useToast, Button, Image } from '@chakra-ui/react'
 import React from 'react'
 import { BsInstagram } from 'react-icons/bs'
 import { CgMoreO } from 'react-icons/cg'
@@ -29,21 +29,22 @@ const UserHeader = ({user}) => {
   return (
     <>
         <VStack gap={4} alignItems={"start"}>
-            <Box
-                h="150px"
-                bgImage="url('https://acropolisgrill.com/wp-content/uploads/2017/03/slide-homepage-specials-bogoburgerbeer-bg-300x120.png')"
-                bgSize="cover"
-                bgPosition="center"
-                borderRadius="lg"
-                w="full"
-                position="relative"
-            >
+            
+            <Box position={"relative"} w={"full"} h={"150px"}>
+                    <Image
+                    h="150px"
+                    w="full"
+                    src={user.bannerPic || '/default-banner.png'} // Use user's banner or fallback to default
+                    alt="User banner"
+                    objectFit="cover" // This replaces `bgSize="cover"`
+                    borderRadius="lg"
+                    />
                     {user.profilePic && (
                         <Avatar 
                         name={user.name}
                         src={user.profilePic}
                         size={{
-                            base: "md",
+                            base: "lg",
                             md: "xl",
                         }}
                         borderWidth={3}
@@ -57,7 +58,7 @@ const UserHeader = ({user}) => {
                         name={user.name}
                         src="https://bit.ly/broken-link"
                         size={{
-                            base: "md",
+                            base: "lg",
                             md: "xl",
                         }}
                         borderWidth={3}
@@ -74,17 +75,33 @@ const UserHeader = ({user}) => {
                     </Text>
                     <Flex gap={2} alignItems={"center"}>
                         <Text fontSize={"sm"}>{user.username}</Text>
-
                     </Flex>
                 </Box>
+                <Flex justifyContent="center" gap={8} w="full" mt={4}>
+                    <Flex gap={1} alignItems={"center"} flexDirection={"column"}>
+                        <Text fontWeight={"bold"}>{user.followers.length} </Text>
+                        <Text color={"gray.light"}>followers</Text>
+                    </Flex>
+                    <Flex gap={1} alignItems={"center"} flexDirection={"column"}>
+                        <Text fontWeight={"bold"}>{user.following.length} </Text>
+                        <Text color={"gray.light"}>following</Text>
+                    </Flex>
+                    
+                </Flex>
+                <Flex justifyContent={"center"} alignItems={"end"}>
+                    <Button size={"sm"} w={"100px"} bg={"yellow.400"} color={"black"}> 100 xp</Button>
+                </Flex>
             </Flex>
-            <Text>{user.bio}</Text>
 
             {currentUser?._id === user._id && (
                 <Link as={routerLink} to='/update'>
                     <Button>Update Profile</Button>
                 </Link>
             )}
+
+            <Text>{user.bio}</Text>
+
+            
             {currentUser?._id !== user._id && (
                 <Link>
                     <Button onClick={handleFollowUnfollow} isLoading={updating}>{following ? "Unfollow" : "Follow"}</Button>
@@ -92,11 +109,6 @@ const UserHeader = ({user}) => {
             )}
 
             <Flex w={"full"} justifyContent={"space-between"}>
-                <Flex gap={2} alignItems={"center"}>
-                    <Text color={"gray.light"}>{user.followers.length} followers</Text>
-                    <Box w={1} h={1} bg={"gray.light"} borderRadius={"full"}></Box>
-                    <Link color={"gray.light"}>instagram.com</Link>
-                </Flex>
                 <Flex>
                     <Box className='icon-container'>
                         <BsInstagram size={24} cursor={"pointer"}/>
