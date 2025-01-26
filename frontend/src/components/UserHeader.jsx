@@ -1,4 +1,4 @@
-import { VStack, Box, Flex, Avatar, Text, Link, MenuButton, Menu, Portal, MenuList, MenuItem, useToast, Button, Image } from '@chakra-ui/react'
+import { VStack, Box, Flex, Avatar, Text, Link, MenuButton, Menu, Portal, MenuList, MenuItem, useToast, Button, Image, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from '@chakra-ui/react'
 import React from 'react'
 import { BsInstagram } from 'react-icons/bs'
 import { CgMoreO } from 'react-icons/cg'
@@ -6,11 +6,16 @@ import { useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
 import { Link as routerLink } from 'react-router-dom' // this link is doing routing through client side, it doesn't reload the page. it we don't have this it will reload the page
 import useFollowUnfollow from '../hooks/useFollowUnfollow'
+import { useDisclosure } from '@chakra-ui/react'
+import { useState } from 'react'
+
 
 const UserHeader = ({user}) => {
     const toast = useToast();
     const currentUser = useRecoilValue(userAtom); // this is the user that logged in
     const {handleFollowUnfollow, following, updating} = useFollowUnfollow(user);
+    const {isOpen, onOpen, onClose} = useDisclosure();
+    const [followModal, setFollowModal] = useState('');
 
     const copyURL = () => {
         const currentUrl = window.location.href;
@@ -24,6 +29,12 @@ const UserHeader = ({user}) => {
             });
         });
     };
+
+    const openModal = (type) => {
+        setFollowModal(type);
+        console.log(user.followers);
+        onOpen();
+    }
 
 
   return (
@@ -78,11 +89,11 @@ const UserHeader = ({user}) => {
                     </Flex>
                 </Box>
                 <Flex justifyContent="center" gap={8} w="full" mt={4}>
-                    <Flex gap={1} alignItems={"center"} flexDirection={"column"}>
+                    <Flex gap={1} alignItems={"center"} flexDirection={"column"}  onClick={() => openModal('followers')}>
                         <Text fontWeight={"bold"}>{user.followers.length} </Text>
                         <Text color={"gray.light"}>followers</Text>
                     </Flex>
-                    <Flex gap={1} alignItems={"center"} flexDirection={"column"}>
+                    <Flex gap={1} alignItems={"center"} flexDirection={"column"} onClick={() => openModal('followings')}>
                         <Text fontWeight={"bold"}>{user.following.length} </Text>
                         <Text color={"gray.light"}>following</Text>
                     </Flex>
@@ -92,6 +103,55 @@ const UserHeader = ({user}) => {
                     <Button size={"sm"} w={"100px"} bg={"yellow.400"} color={"black"}> 100 xp</Button>
                 </Flex>
             </Flex>
+
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                <ModalHeader>
+                {followModal === 'followers' ? 'Followers' : 'Followings'}
+                </ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                {followModal === 'followers' && user.followers.length > 0 ? (
+                    user.followers.map((follower, index) => (
+                    <Flex
+                        key={index}
+                        alignItems="center"
+                        mb={2}
+                        gap={2}
+                        borderBottom="1px solid #e2e8f0"
+                        pb={2}
+                    >
+                        <Avatar size="sm" src={follower.profilePic || ''} />
+                        <Text>{follower.name || 'Anonymous'}</Text>
+                    </Flex>
+                    ))
+                ) : followModal === 'followings' && user.following.length > 0 ? (
+                    user.following.map((following, index) => (
+                    <Flex
+                        key={index}
+                        alignItems="center"
+                        mb={2}
+                        gap={2}
+                        borderBottom="1px solid #e2e8f0"
+                        pb={2}
+                    >
+                        <Avatar size="sm" src={following.profilePic || ''} />
+                        <Text>{following.name || 'Anonymous'}</Text>
+                    </Flex>
+                    ))
+                ) : (
+                    <Text>No data available.</Text>
+                )}
+                </ModalBody>
+
+                <ModalFooter>
+                    <Button colorScheme='blue'  onClick={onClose}>
+                    Close
+                    </Button>
+                </ModalFooter>
+                </ModalContent>
+            </Modal>
 
             {currentUser?._id === user._id && (
                 <Link as={routerLink} to='/update'>

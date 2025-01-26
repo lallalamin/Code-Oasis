@@ -253,4 +253,14 @@ const freezeAccount = async(req, res) => {
     }
 }
 
-export { signupUser, loginUser, logoutUser, followUnfollowUser, updateUser, getUserProfile, getSuggestedUsers, freezeAccount };
+const getFollowDetails = async(req, res) => {
+    const { userIds } = req.body;
+    try {
+        const users = await User.find({ _id: { $in: userIds } }, 'username name profilePic');
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({error: error.message});
+    }
+}
+
+export { signupUser, loginUser, logoutUser, followUnfollowUser, updateUser, getUserProfile, getSuggestedUsers, freezeAccount, getFollowDetails };
