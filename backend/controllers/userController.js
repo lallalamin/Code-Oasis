@@ -233,6 +233,8 @@ const getSuggestedUsers = async(req, res) => {
 
         suggestedUsers.forEach(user => user.password = null);
 
+        console.log("suggestedUsers API", suggestedUsers);
+
         res.status(200).json({suggestedUsers});
     } catch (error) {
         res.status(500).json({error: error.message});
@@ -241,7 +243,7 @@ const getSuggestedUsers = async(req, res) => {
 
 const freezeAccount = async(req, res) => {
     try {
-        const user = await User.findById(req.user._id);
+        const user = await User.find(req.user._id);
         if(!user) return res.status(404).json({error: "User not found"});
 
         user.isFrozen = true;
@@ -257,7 +259,8 @@ const getFollowDetails = async(req, res) => {
     const { userIds } = req.body;
     try {
         const users = await User.find({ _id: { $in: userIds } }, 'username name profilePic');
-        res.status(200).json(users);
+        console.log(users);
+        res.status(200).json({users});
     } catch (error) {
         res.status(500).json({error: error.message});
     }

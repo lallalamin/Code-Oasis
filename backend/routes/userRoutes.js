@@ -10,10 +10,11 @@ router.get("/suggested", protectRoute, getSuggestedUsers)
 router.post("/signup", signupUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
+router.post("/followDetails", protectRoute, getFollowDetails);
 router.post("/follow/:id", protectRoute, followUnfollowUser); // to protec the route, if you are not login or not have an account you cannot follow someone
 router.put("/update/:id", protectRoute, updateUser);
 router.put("/freeze", protectRoute, freezeAccount);
-router.get("/followDetails", protectRoute, getFollowDetails);
+
 
 
 export default router;
