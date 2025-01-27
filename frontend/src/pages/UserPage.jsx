@@ -59,7 +59,7 @@ const UserPage = () => {
   return (
     <>
         <UserHeader user={user}></UserHeader>
-        <Tabs isFitted variant="enclosed">
+        <Tabs isFitted variant="enclosed" mt={4}>
           <TabList mb="1em">
             <Tab>Posts</Tab>
             <Tab>Replies</Tab>
