@@ -8,6 +8,7 @@ import Post from '../components/Post';
 import useGetUserProfile from '../hooks/useGetUserProfile';
 import { useRecoilState } from 'recoil';
 import postsAtom from '../atoms/postsAtom';
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
 
 const UserPage = () => {
   const {username} = useParams();
@@ -58,21 +59,33 @@ const UserPage = () => {
   return (
     <>
         <UserHeader user={user}></UserHeader>
-        {!fetchingPosts && posts.length === 0 && (
-          <Flex justify="center" flexDirection={"column"} alignItems={"center"} >
-            <Text fontWeight={"bold"} padding={4} marginTop={4} >User has no posts</Text>
-            <Image src="/characters/Momo-NoPost.png" alt='post image' w={"300px"} />
-        </Flex>
-        )}
-        {fetchingPosts && (
-          <Flex justifyContent={"center"} my={12}>
-            <Spinner size='xl' />
-          </Flex>
-        )}
-
-        {posts.map((post) => (
-          <Post key={post._id} post={post} postedBy={post.postedBy}/>
-        ))}
+        <Tabs isFitted variant="enclosed">
+          <TabList mb="1em">
+            <Tab>Posts</Tab>
+            <Tab>Replies</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+            {!fetchingPosts && posts.length === 0 && (
+                <Flex justify="center" flexDirection={"column"} alignItems={"center"} >
+                  <Text fontWeight={"bold"} padding={4} marginTop={4} >User has no posts</Text>
+                  <Image src="/characters/Momo-NoPost.png" alt='post image' w={"300px"} />
+              </Flex>
+              )}
+              {fetchingPosts && (
+                <Flex justifyContent={"center"} my={12}>
+                  <Spinner size='xl' />
+                </Flex>
+              )}
+            {posts.map((post) => (
+              <Post key={post._id} post={post} postedBy={post.postedBy}/>
+            ))}
+            </TabPanel>
+            <TabPanel>
+              <p>two!</p>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
     </>
   )
 }

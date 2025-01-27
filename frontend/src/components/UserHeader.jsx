@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react'
 import { Spinner } from '@chakra-ui/react'
 import SuggestedUser from './SuggestedUser'
 import { use } from 'react'
-import { set } from 'mongoose'
+import { useColorMode } from '@chakra-ui/react'
 
 
 const UserHeader = ({user}) => {
@@ -27,6 +27,7 @@ const UserHeader = ({user}) => {
     const [loading, setLoading] = useState(false);
     const [followersData, setFollowersData] = useState([]);
     const [followingsData, setFollowingsData] = useState([]);
+    const { colorMode } = useColorMode();
 
 const fetchUserDetails = async (userIds) => {
     try {
@@ -201,8 +202,9 @@ const openModal = async (type) => {
                     <Button>Update Profile</Button>
                 </Link>
             )}
-
-            <Text>{user.bio}</Text>
+            <Flex w={"full"} bg={colorMode === "dark" ? "gray.dark" : "gray.200"} p={4} borderRadius={"md"}>
+                <Text>{user.bio}</Text>
+            </Flex>
 
             
             {currentUser?._id !== user._id && (
@@ -230,14 +232,14 @@ const openModal = async (type) => {
                     </Box>
                 </Flex>
             </Flex>
-            <Flex w={"full"}>
+            {/* <Flex w={"full"}>
                 <Flex flex={1} borderBottom={"1.5px solid white"} justifyContent={"center"} pb="3" cursor={"pointer"}>
                     <Text fontWeight={"bold"}>Post</Text>
                 </Flex>
                 <Flex flex={1} borderBottom={"1px solid gray"} justifyContent={"center"} pb="3" cursor={"pointer"} color={"gray.light"}>
                     <Text fontWeight={"bold"}>Replies</Text>
                 </Flex>
-            </Flex>
+            </Flex> */}
         </VStack>
         
     </>
