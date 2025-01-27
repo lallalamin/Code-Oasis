@@ -7,7 +7,11 @@ import userAtom from '../atoms/userAtom'
 import { Link as routerLink } from 'react-router-dom' // this link is doing routing through client side, it doesn't reload the page. it we don't have this it will reload the page
 import useFollowUnfollow from '../hooks/useFollowUnfollow'
 import { useDisclosure } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Spinner } from '@chakra-ui/react'
+import SuggestedUser from './SuggestedUser'
+import { use } from 'react'
+import { set } from 'mongoose'
 
 
 const UserHeader = ({user}) => {
@@ -16,7 +20,49 @@ const UserHeader = ({user}) => {
     const {handleFollowUnfollow, following, updating} = useFollowUnfollow(user);
     const {isOpen, onOpen, onClose} = useDisclosure();
     const [followModal, setFollowModal] = useState('');
+    const [followerData, setFollowerData] = useState([]);
+    const [followingData, setFollowingData] = useState([]);
+    const [clickedModalData, setClickedModalData] = useState([]);
+    const [modalLoading, setModalLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [followersData, setFollowersData] = useState([]);
+    const [followingsData, setFollowingsData] = useState([]);
 
+const fetchUserDetails = async (userIds) => {
+    try {
+        const response = await fetch('/api/users/followDetails', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userIds }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch user details');
+        }
+
+        const data = await response.json();
+        return data.users; // Extract the users array
+    } catch (error) {
+        console.error('Error fetching user details:', error);
+        return [];
+    }
+};
+
+const openModal = async (type) => {
+    setLoading(true);
+    const userIds = type === 'followers' ? user.followers : user.following;
+    const data = await fetchUserDetails(userIds);
+    console.log(data);
+    if (type === 'followers') {
+        setFollowersData(data);
+    } else {
+        setFollowingsData(data);
+    }
+    setFollowModal(type);
+    onOpen();
+    setLoading(false);
+};
+    
     const copyURL = () => {
         const currentUrl = window.location.href;
         navigator.clipboard.writeText(currentUrl).then(() =>{
@@ -29,13 +75,6 @@ const UserHeader = ({user}) => {
             });
         });
     };
-
-    const openModal = (type) => {
-        setFollowModal(type);
-        console.log(user.followers);
-        onOpen();
-    }
-
 
   return (
     <>
@@ -107,49 +146,53 @@ const UserHeader = ({user}) => {
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                <ModalHeader>
-                {followModal === 'followers' ? 'Followers' : 'Followings'}
-                </ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                {followModal === 'followers' && user.followers.length > 0 ? (
-                    user.followers.map((follower, index) => (
-                    <Flex
-                        key={index}
-                        alignItems="center"
-                        mb={2}
-                        gap={2}
-                        borderBottom="1px solid #e2e8f0"
-                        pb={2}
-                    >
-                        <Avatar size="sm" src={follower.profilePic || ''} />
-                        <Text>{follower.name || 'Anonymous'}</Text>
-                    </Flex>
-                    ))
-                ) : followModal === 'followings' && user.following.length > 0 ? (
-                    user.following.map((following, index) => (
-                    <Flex
-                        key={index}
-                        alignItems="center"
-                        mb={2}
-                        gap={2}
-                        borderBottom="1px solid #e2e8f0"
-                        pb={2}
-                    >
-                        <Avatar size="sm" src={following.profilePic || ''} />
-                        <Text>{following.name || 'Anonymous'}</Text>
-                    </Flex>
-                    ))
-                ) : (
-                    <Text>No data available.</Text>
-                )}
-                </ModalBody>
-
-                <ModalFooter>
-                    <Button colorScheme='blue'  onClick={onClose}>
-                    Close
-                    </Button>
-                </ModalFooter>
+                    <ModalHeader>
+                        {followModal === 'followers' ? 'Followers' : 'Followings'}
+                    </ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        {loading && <Spinner />}
+                        {!loading && (
+                            <VStack gap={4} align="stretch">
+                                {(followModal === 'followers' ? followersData : followingsData).map((user) => 
+                                (
+                                    // <SuggestedUser key={user._id} user={user} />
+                                    
+                                    <Flex key={user._id} gap={2} justifyContent={"space-between"} alignItems={"center"}>
+                                        <Flex gap={2} as={Link} to={`${user.username}`}>
+                                            <Avatar src={user.profilePic} />
+                                            <Box>
+                                                <Text fontSize={"sm"} fontWeight={"bold"}>
+                                                    {user.username}
+                                                </Text>
+                                                <Text color={"gray.light"} fontSize={"sm"}>
+                                                    {user.name}
+                                                </Text>
+                                            </Box>
+                                        </Flex>
+                                        <Button
+                                            size={"sm"}
+                                            color={following ? "black" : "white"}
+                                            bg={following ? "white" : "blue.400"}
+                                            onClick={handleFollowUnfollow}
+                                            isLoading={updating}
+                                            _hover={{
+                                                color: following ? "black" : "white",
+                                                opacity: ".8",
+                                            }}
+                                        >
+                                            {following ? "Unfollow" : "Follow"}
+                                        </Button>
+                                    </Flex>
+                                ))}
+                            </VStack>
+                        )}
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme="blue" onClick={onClose}>
+                            Close
+                        </Button>
+                    </ModalFooter>
                 </ModalContent>
             </Modal>
 
