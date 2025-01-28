@@ -259,6 +259,9 @@ const getFollowDetails = async(req, res) => {
     const { userIds } = req.body;
     try {
         const users = await User.find({ _id: { $in: userIds } }, 'username name profilePic');
+
+        if(!users) return res.status(404).json({error: "Users not found"});
+
         console.log(users);
         res.status(200).json({users});
     } catch (error) {

@@ -179,4 +179,34 @@ const getUserPosts = async(req, res) => {
     }
 }
 
-export { createPost, getPost, deletePost, likeUnlikePost, replyPost, getFeedPosts, getUserPosts };
+const getUserReplies = async (req, res) => {
+    const { username } = req.params;
+    const currentUserId = req.user._id;
+    try {
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        const replies = await Post.find({
+            replies: { $elemMatch: { userId: user._id } }
+        }).sort({ createdAt: -1 });
+
+        const filteredPosts = replies.map(post => {
+            const filteredReplies = post.replies.filter(reply =>
+                reply.userId.toString() === currentUserId.toString()
+            );
+
+            return {
+                ...post.toObject(), // Convert Mongoose document to plain object
+                replies: filteredReplies, // Replace replies with filteredReplies
+            };
+        });
+
+        res.status(200).json(filteredPosts);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export { createPost, getPost, deletePost, likeUnlikePost, replyPost, getFeedPosts, getUserPosts, getUserReplies };

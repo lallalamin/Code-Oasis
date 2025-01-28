@@ -8,6 +8,7 @@ import Post from '../components/Post';
 import useGetUserProfile from '../hooks/useGetUserProfile';
 import { useRecoilState } from 'recoil';
 import postsAtom from '../atoms/postsAtom';
+import repliesAtom from '../atoms/repliesAtom';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
 
 const UserPage = () => {
@@ -16,6 +17,8 @@ const UserPage = () => {
   const showToast = useShowToast();
   const [posts, setPosts] = useRecoilState(postsAtom);
   const [fetchingPosts, setFetchingPosts] = useState(true);
+  const [replies, setReplies] = useRecoilState(repliesAtom);
+  const [fetchingReplies, setFetchingReplies] = useState(true);
 
   useEffect(() => {
     const getPosts = async() => {
@@ -24,7 +27,7 @@ const UserPage = () => {
       try {
           const res = await fetch(`/api/posts/user/${username}`);
           const data = await res.json();
-          console.log(data);
+          console.log("data",data);
           setPosts(data);
       } catch (error) {
           showToast("Error", error.message, "error");
@@ -34,9 +37,26 @@ const UserPage = () => {
       }
     };
 
-    getPosts();
+    const getReplies = async() => {
+      if(!user) return;
+      setFetchingReplies(true);
+      try {
+          const res = await fetch(`/api/posts/user/replies/${username}`);
+          const data = await res.json();
+          console.log("replies data",data);
+          setReplies(data);
+      } catch (error) {
+          showToast("Error", error.message, "error");
+          setReplies([]);
+      } finally {
+          setFetchingReplies(false);
+      }
+    }
 
-  },[username, showToast, setPosts, user]);
+    getPosts();
+    getReplies();
+
+  },[username, showToast, setPosts, user, setReplies]);
 
   if(!user && loading){
     return (
