@@ -65,6 +65,7 @@ function App() {
           maxW={pathname === "/" ? { base: "700px", md: "900px" } : "700px"}
           py={4}
           mt="auto"
+          position={"relative"}
         >
           <Footer />
         </Container>
