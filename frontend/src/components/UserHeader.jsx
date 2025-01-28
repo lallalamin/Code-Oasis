@@ -17,18 +17,15 @@ import { MdOutlineEditNote } from "react-icons/md";
 
 
 const UserHeader = ({user}) => {
-    const toast = useToast();
-    const currentUser = useRecoilValue(userAtom); // this is the user that logged in
-    const {handleFollowUnfollow, following, updating} = useFollowUnfollow(user);
-    const {isOpen, onOpen, onClose} = useDisclosure();
     const [followModal, setFollowModal] = useState('');
-    const [followerData, setFollowerData] = useState([]);
-    const [followingData, setFollowingData] = useState([]);
-    const [clickedModalData, setClickedModalData] = useState([]);
-    const [modalLoading, setModalLoading] = useState(false);
     const [loading, setLoading] = useState(false);
     const [followersData, setFollowersData] = useState([]);
     const [followingsData, setFollowingsData] = useState([]);
+
+    const toast = useToast();
+    const currentUser = useRecoilValue(userAtom);
+    const {handleFollowUnfollow, following, updating} = useFollowUnfollow(user);
+    const {isOpen, onOpen, onClose} = useDisclosure();
     const { colorMode } = useColorMode();
 
 const fetchUserDetails = async (userIds) => {

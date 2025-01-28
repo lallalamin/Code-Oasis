@@ -11,19 +11,17 @@ import useGetUserProfile from '../hooks/useGetUserProfile';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import postsAtom from '../atoms/postsAtom';
 import repliesAtom from '../atoms/repliesAtom';
-import userAtom from '../atoms/userAtom';
 import { useColorModeValue } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel, Divider } from "@chakra-ui/react"
 
 const UserPage = () => {
   const {username} = useParams();
+  const [fetchingPosts, setFetchingPosts] = useState(true);
+  const [fetchingReplies, setFetchingReplies] = useState(true);
   const {user, loading} = useGetUserProfile();
-  const currentUser = useRecoilValue(userAtom);
   const showToast = useShowToast();
   const [posts, setPosts] = useRecoilState(postsAtom);
-  const [fetchingPosts, setFetchingPosts] = useState(true);
   const [replies, setReplies] = useRecoilState(repliesAtom);
-  const [fetchingReplies, setFetchingReplies] = useState(true);
 
   useEffect(() => {
     const getPosts = async() => {
@@ -84,9 +82,7 @@ const UserPage = () => {
   return (
     <>
         <UserHeader user={user}></UserHeader>
-        {currentUser?._id === user._id && (
-            <ToDoContainer user={user}></ToDoContainer>
-        )}
+        <ToDoContainer user={user}></ToDoContainer>
       
         <Tabs isFitted variant="enclosed" mt={4} colorScheme="blue" >
           <TabList mb="1em">
