@@ -181,7 +181,6 @@ const getUserPosts = async(req, res) => {
 
 const getUserReplies = async (req, res) => {
     const { username } = req.params;
-    const currentUserId = req.user._id;
     try {
         const user = await User.findOne({ username });
         if (!user) {
@@ -194,7 +193,7 @@ const getUserReplies = async (req, res) => {
 
         const filteredPosts = replies.map(post => {
             const filteredReplies = post.replies.filter(reply =>
-                reply.userId.toString() === currentUserId.toString()
+                reply.userId.toString() === user._id.toString()
             );
 
             return {
