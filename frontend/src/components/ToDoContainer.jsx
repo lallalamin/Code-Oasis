@@ -3,6 +3,7 @@ import ToDo from '../components/ToDo'
 import { Flex, Text, Image, Divider } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/react";
 import { FaChartBar, FaPlus } from "react-icons/fa";
+import { FaPen } from "react-icons/fa";
 
 const ToDoContainer = ({user}) => {
   return (
@@ -17,9 +18,9 @@ const ToDoContainer = ({user}) => {
             <Text fontSize="md" fontWeight="bold">
             Daily Routine Task
             </Text>
-            <Flex gap={2}>
+            <Flex gap={3}>
             <FaChartBar size={20} />
-            <FaPlus size={20} />
+            <FaPen size={15} />
             </Flex>
         </Flex>
 
