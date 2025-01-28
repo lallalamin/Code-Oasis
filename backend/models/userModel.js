@@ -42,7 +42,14 @@ const userSchema =  mongoose.Schema({
     bannerPic: {
         type: String,
         default: "",
-    }
+    },
+    xp: {
+        type: Number,
+        default: 0,
+    },
+    rank: {
+        type: Number,
+    },
 }, {
     timestamps: true,
 });
