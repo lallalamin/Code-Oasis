@@ -5,11 +5,12 @@ import { useParams } from 'react-router-dom';
 import useShowToast from '../hooks/useShowToast';
 import { Flex, Spinner, Image, Text } from '@chakra-ui/react';
 import Post from '../components/Post';
+import Reply from '../components/Reply';
 import useGetUserProfile from '../hooks/useGetUserProfile';
 import { useRecoilState } from 'recoil';
 import postsAtom from '../atoms/postsAtom';
 import repliesAtom from '../atoms/repliesAtom';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Divider } from "@chakra-ui/react"
 
 const UserPage = () => {
   const {username} = useParams();
@@ -30,6 +31,7 @@ const UserPage = () => {
           console.log("data",data);
           setPosts(data);
       } catch (error) {
+          if(error.message === "User not found") return;
           showToast("Error", error.message, "error");
           setPosts([]);
       } finally {
@@ -46,6 +48,7 @@ const UserPage = () => {
           console.log("replies data",data);
           setReplies(data);
       } catch (error) {
+          if(error.message === "User not found") return;
           showToast("Error", error.message, "error");
           setReplies([]);
       } finally {
@@ -102,7 +105,24 @@ const UserPage = () => {
             ))}
             </TabPanel>
             <TabPanel>
-              <p>two!</p>
+              {!fetchingReplies && replies.length === 0 && (
+                <Flex justify="center" flexDirection={"column"} alignItems={"center"} >
+                  <Text fontWeight={"bold"} padding={4} marginTop={4} >User has no replies</Text>
+                  <Image src="/characters/Momo-NoPost.png" alt='post image' w={"300px"} />
+              </Flex>
+              )}
+              {fetchingReplies && (
+                <Flex justifyContent={"center"} my={12}>
+                  <Spinner size='xl' />
+                </Flex>
+              )}
+              {replies.map((reply) => (
+                <Flex key={reply._id} flexDirection={"column"}>
+                  <Post post={reply} postedBy={reply.postedBy}/>
+                  <Divider mb={4}/>
+                  <Reply reply={reply.replies} />
+                </Flex>
+              ))}
             </TabPanel>
           </TabPanels>
         </Tabs>
