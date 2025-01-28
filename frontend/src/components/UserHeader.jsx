@@ -13,6 +13,7 @@ import SuggestedUser from './SuggestedUser'
 import { use } from 'react'
 import { useColorMode } from '@chakra-ui/react'
 import { useColorModeValue } from '@chakra-ui/react'
+import { MdOutlineEditNote } from "react-icons/md";
 
 
 const UserHeader = ({user}) => {
@@ -159,8 +160,8 @@ const openModal = async (type) => {
                                 {(followModal === 'followers' ? followersData : followingsData).map((user) => 
                                 (   
                                     <Flex key={user._id} gap={2} justifyContent={"space-between"} alignItems={"center"}>
-                                        <Flex gap={2} as={Link} to={`${user.username}`}>
-                                            <Avatar src={user.profilePic} />
+                                        <Flex gap={2} as={routerLink} to={`/${user.username}`}>
+                                            <Avatar src={user.profilePic}  />
                                             <Box>
                                                 <Text fontSize={"sm"} fontWeight={"bold"}>
                                                     {user.username}
@@ -198,7 +199,10 @@ const openModal = async (type) => {
             <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"}>
                 {currentUser?._id === user._id && (
                     <Link as={routerLink} to='/update'>
-                        <Button bg={useColorModeValue('gray.300', 'gray.dark')} >Update Profile</Button>
+                        <Button bg={useColorModeValue('gray.300', 'gray.dark')} gap={2} >
+                            Update Profile
+                            <MdOutlineEditNote size={20}/>
+                        </Button>
                     </Link>
                     
                 )}
@@ -228,15 +232,10 @@ const openModal = async (type) => {
                 </Flex>
 
             </Flex>
-            
-
-            <Flex w={"full"} justifyContent={"space-between"}>
-                
-            </Flex>
 
             {user.bio && (
                     <Flex w={"full"} bg={colorMode === "dark" ? "gray.dark" : "gray.200"} p={4} borderRadius={"md"}>
-                        <Text>{user.bio}</Text>
+                        <Text fontSize={"sm"}>{user.bio}</Text>
                     </Flex>
             )}
             

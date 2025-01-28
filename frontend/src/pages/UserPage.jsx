@@ -6,6 +6,7 @@ import useShowToast from '../hooks/useShowToast';
 import { Flex, Spinner, Image, Text } from '@chakra-ui/react';
 import Post from '../components/Post';
 import Reply from '../components/Reply';
+import ToDoContainer from '../components/ToDoContainer';
 import useGetUserProfile from '../hooks/useGetUserProfile';
 import { useRecoilState } from 'recoil';
 import postsAtom from '../atoms/postsAtom';
@@ -83,6 +84,7 @@ const UserPage = () => {
   return (
     <>
         <UserHeader user={user}></UserHeader>
+        <ToDoContainer user={user}></ToDoContainer>
         <Tabs isFitted variant="enclosed" mt={4} colorScheme="blue" >
           <TabList mb="1em">
             <Tab color={useColorModeValue("black", "white")}>Posts</Tab>
