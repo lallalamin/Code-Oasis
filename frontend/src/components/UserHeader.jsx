@@ -120,8 +120,8 @@ const openModal = async (type) => {
                     )}
             </Box>
             <Flex justifyContent={"space-between"} w={"full"}>
-                <Box>
-                    <Text fontSize={"2xl"} fontWeight={"bold"}>
+                <Box w={"full"}>
+                    <Text fontSize={"xl"} fontWeight={"bold"}>
                         {user.name}
                     </Text>
                     <Flex gap={2} alignItems={"center"}>
@@ -156,9 +156,7 @@ const openModal = async (type) => {
                         {!loading && (
                             <VStack gap={4} align="stretch">
                                 {(followModal === 'followers' ? followersData : followingsData).map((user) => 
-                                (
-                                    // <SuggestedUser key={user._id} user={user} />
-                                    
+                                (   
                                     <Flex key={user._id} gap={2} justifyContent={"space-between"} alignItems={"center"}>
                                         <Flex gap={2} as={Link} to={`${user.username}`}>
                                             <Avatar src={user.profilePic} />
@@ -202,9 +200,13 @@ const openModal = async (type) => {
                     <Button>Update Profile</Button>
                 </Link>
             )}
-            <Flex w={"full"} bg={colorMode === "dark" ? "gray.dark" : "gray.200"} p={4} borderRadius={"md"}>
-                <Text>{user.bio}</Text>
-            </Flex>
+          
+            {user.bio && (
+                    <Flex w={"full"} bg={colorMode === "dark" ? "gray.dark" : "gray.200"} p={4} borderRadius={"md"}>
+                        <Text>{user.bio}</Text>
+                    </Flex>
+            )}
+            
 
             
             {currentUser?._id !== user._id && (

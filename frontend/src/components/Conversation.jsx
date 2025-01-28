@@ -13,12 +13,9 @@ const Conversation = ({conversation, isOnline}) => {
     const [selectedConversation, setSelectedConversation] = useRecoilState(selectedConversationAtom);
     const colorMode = useColorMode();
 
-    console.log("selectedConversation", selectedConversation);
-    console.log("conversation", conversation);
-    console.log("lastMessage", lastMessage);
-
   return (
-    <Flex gap={4} alignItems={"center"} p={"1"} _hover={{cursor: "pointer", bg: useColorModeValue("gray.600", "gray.dark"), color: "white"}} borderRadius={"md"} 
+    <Flex gap={4} alignItems={"center"} p={"1"} 
+    _hover={{cursor: "pointer", bg: useColorModeValue("gray.200", "gray.dark"), color: useColorModeValue("black", "white")}} borderRadius={"md"} 
     onClick={() => setSelectedConversation({ 
         _id: conversation._id,
         userId: user._id,
@@ -26,7 +23,8 @@ const Conversation = ({conversation, isOnline}) => {
         userName: user.username,
         mock: conversation.mock,
         })} 
-        bg={selectedConversation?._id === conversation._id ? (colorMode == "light" ? "gray.400" : "gray.dark") : ""}
+        bg={selectedConversation?._id === conversation._id ? useColorModeValue("gray.200", "gray.dark")
+            : "transparent"}
         >
         <WrapItem>
             <Avatar size={{base:"xs", sm:"sm", md:"md"}} src={user.profilePic}>
