@@ -14,6 +14,8 @@ const Conversation = ({conversation, isOnline}) => {
     const colorMode = useColorMode();
 
     console.log("selectedConversation", selectedConversation);
+    console.log("conversation", conversation);
+    console.log("lastMessage", lastMessage);
 
   return (
     <Flex gap={4} alignItems={"center"} p={"1"} _hover={{cursor: "pointer", bg: useColorModeValue("gray.600", "gray.dark"), color: "white"}} borderRadius={"md"} 
@@ -41,7 +43,7 @@ const Conversation = ({conversation, isOnline}) => {
                         <BsCheck2All size={16} />
                     </Box>
                 ) : ""}
-                {lastMessage.text.length > 18 ? lastMessage.text.substring(0, 15) + "..." : lastMessage.text || <BsFillImageFill size={16} />}
+                {conversation.mock ? "" : lastMessage.text ? (lastMessage.text.length > 18 ? lastMessage.text.substring(0, 15) + "..." : lastMessage.text) : (<BsFillImageFill size={16} />)}
             </Text>
         </Stack>
     </Flex>
