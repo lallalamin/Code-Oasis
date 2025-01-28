@@ -35,7 +35,6 @@ const Actions = ({ post }) => {
 			if (data.error) {
 				return showToast("Error", data.error, "error");
 			}
-			console.log(data);
 
 			if(!liked){
 				// add the id of the current user to the post.likes array
@@ -94,7 +93,6 @@ const Actions = ({ post }) => {
 
 			setPosts(updatePosts);
 			showToast("Success", "Reply added successfully", "success");
-			console.log(data);
 			onClose();
 			setReply("");
 		} catch (error) {

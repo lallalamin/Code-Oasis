@@ -30,7 +30,6 @@ const UserPage = () => {
       try {
           const res = await fetch(`/api/posts/user/${username}`);
           const data = await res.json();
-          console.log("data",data);
           setPosts(data);
       } catch (error) {
           if(error.message === "User not found") return;
@@ -47,7 +46,6 @@ const UserPage = () => {
       try {
           const res = await fetch(`/api/posts/user/replies/${username}`);
           const data = await res.json();
-          console.log("replies data",data);
           setReplies(data);
       } catch (error) {
           if(error.message === "User not found") return;

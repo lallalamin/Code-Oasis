@@ -55,7 +55,6 @@ const openModal = async (type) => {
     setLoading(true);
     const userIds = type === 'followers' ? user.followers : user.following;
     const data = await fetchUserDetails(userIds);
-    console.log(data);
     if (type === 'followers') {
         setFollowersData(data);
     } else {

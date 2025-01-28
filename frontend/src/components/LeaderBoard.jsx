@@ -19,8 +19,6 @@ const LeaderBoard = () => {
                     showToast("Error", data.error, "error");
                     return;
                 }
-                console.log("data", data);
-                console.log("suggestedUsers", suggestedUsers);
 
                 setSuggestedUsers(data.suggestedUsers);
 

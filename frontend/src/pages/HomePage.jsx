@@ -22,11 +22,9 @@ const HomePage = () => {
         const getFeedPosts = async() => {
             setLoading(true);
             setPosts([]);
-            console.log("getFeedPosts", posts);
             try {
                 const res = await fetch("/api/posts/feed");
                 const data = await res.json();
-                console.log(data);
                 if (data?.message === "Unauthorized") {
                     navigate("/login"); // Redirect on unauthorized
                     return;
@@ -36,7 +34,6 @@ const HomePage = () => {
                     navigate("/login");
                     return;
                 }
-                console.log(data);
                 setPosts(Array.isArray(data) ? data : []);
             } catch (error) {
                 if(error.response?.status === 401) {

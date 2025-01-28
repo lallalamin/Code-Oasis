@@ -76,8 +76,6 @@ export default function UpdateProfilePage() {
       }finally {
         setUpdating(false);
       }
-
-      console.log(bannerUrl);
   }
 
   return (
