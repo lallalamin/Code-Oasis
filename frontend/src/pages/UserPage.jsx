@@ -10,6 +10,7 @@ import useGetUserProfile from '../hooks/useGetUserProfile';
 import { useRecoilState } from 'recoil';
 import postsAtom from '../atoms/postsAtom';
 import repliesAtom from '../atoms/repliesAtom';
+import { useColorModeValue } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel, Divider } from "@chakra-ui/react"
 
 const UserPage = () => {
@@ -82,10 +83,10 @@ const UserPage = () => {
   return (
     <>
         <UserHeader user={user}></UserHeader>
-        <Tabs isFitted variant="enclosed" mt={4}>
+        <Tabs isFitted variant="enclosed" mt={4} colorScheme="blue" >
           <TabList mb="1em">
-            <Tab>Posts</Tab>
-            <Tab>Replies</Tab>
+            <Tab color={useColorModeValue("black", "white")}>Posts</Tab>
+            <Tab color={useColorModeValue("black", "white")}>Replies</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

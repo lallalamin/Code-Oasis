@@ -24,3 +24,28 @@
 ::-webkit-scrollbar-thumb{
     background-color: #555;
 }
+
+/* UserPage.css */
+
+.chakra-tabs__tablist {
+    border-bottom: 2px solid;
+    border-color: var(--chakra-colors-gray-300); /* Light mode */
+  }
+  
+  .dark .chakra-tabs__tablist {
+    border-color: var(--chakra-colors-gray-700); /* Dark mode */
+  }
+  
+  .chakra-tabs__tab {
+    border-bottom: 3px solid transparent;
+  }
+  
+  .chakra-tabs__tab[aria-selected="true"] {
+    border-bottom: 3px solid var(--chakra-colors-blue-500); /* Light mode */
+    font-weight: bold;
+  }
+  
+  .dark .chakra-tabs__tab[aria-selected="true"] {
+    border-bottom: 3px solid var(--chakra-colors-blue-300); /* Dark mode */
+  }
+  

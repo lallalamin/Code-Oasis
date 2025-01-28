@@ -12,6 +12,7 @@ import { Spinner } from '@chakra-ui/react'
 import SuggestedUser from './SuggestedUser'
 import { use } from 'react'
 import { useColorMode } from '@chakra-ui/react'
+import { useColorModeValue } from '@chakra-ui/react'
 
 
 const UserHeader = ({user}) => {
@@ -194,28 +195,20 @@ const openModal = async (type) => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+            <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"}>
+                {currentUser?._id === user._id && (
+                    <Link as={routerLink} to='/update'>
+                        <Button bg={useColorModeValue('gray.300', 'gray.dark')} >Update Profile</Button>
+                    </Link>
+                    
+                )}
 
-            {currentUser?._id === user._id && (
-                <Link as={routerLink} to='/update'>
-                    <Button>Update Profile</Button>
-                </Link>
-            )}
-          
-            {user.bio && (
-                    <Flex w={"full"} bg={colorMode === "dark" ? "gray.dark" : "gray.200"} p={4} borderRadius={"md"}>
-                        <Text>{user.bio}</Text>
-                    </Flex>
-            )}
-            
+                {currentUser?._id !== user._id && (
+                    <Link>
+                        <Button onClick={handleFollowUnfollow} isLoading={updating}>{following ? "Unfollow" : "Follow"}</Button>
+                    </Link>
+                )}
 
-            
-            {currentUser?._id !== user._id && (
-                <Link>
-                    <Button onClick={handleFollowUnfollow} isLoading={updating}>{following ? "Unfollow" : "Follow"}</Button>
-                </Link>
-            )}
-
-            <Flex w={"full"} justifyContent={"space-between"}>
                 <Flex>
                     <Box className='icon-container'>
                         <BsInstagram size={24} cursor={"pointer"}/>
@@ -233,7 +226,20 @@ const openModal = async (type) => {
                         </Menu>
                     </Box>
                 </Flex>
+
             </Flex>
+            
+
+            <Flex w={"full"} justifyContent={"space-between"}>
+                
+            </Flex>
+
+            {user.bio && (
+                    <Flex w={"full"} bg={colorMode === "dark" ? "gray.dark" : "gray.200"} p={4} borderRadius={"md"}>
+                        <Text>{user.bio}</Text>
+                    </Flex>
+            )}
+            
             {/* <Flex w={"full"}>
                 <Flex flex={1} borderBottom={"1.5px solid white"} justifyContent={"center"} pb="3" cursor={"pointer"}>
                     <Text fontWeight={"bold"}>Post</Text>
