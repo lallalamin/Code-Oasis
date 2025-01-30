@@ -36,12 +36,18 @@ import {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [status, setStatus] = useState("");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const handleSubmit = async () => {
         if (!email) {
           setStatus("Please enter a valid email.");
           return;
         }
+
+        if (!emailRegex.test(email)) {
+            setStatus("Please enter a valid email address.");
+            return;
+          }
       
         try {
           const response = await fetch("/api/users/sub", {
