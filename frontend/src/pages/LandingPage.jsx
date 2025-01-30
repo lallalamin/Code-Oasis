@@ -78,7 +78,7 @@ import {
             setStatus("Something went wrong. Try again.");
             return;
           }
-            setStatus("Successfully joined the waitlist!");
+            setStatus("Successfully joined the waitlist! Thank you! ");
             setCount(count + 1);
             setEmail("");
         
