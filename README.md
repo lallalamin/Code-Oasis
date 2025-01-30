@@ -10,8 +10,8 @@ A shared calendar where users can find and share upcoming conferences, workshops
 A structured mentorship program connecting users with peers or industry professionals who are 1-2 steps ahead in their careers. This feature helps students gain hands-on experience and relatable advice without the uncertainty of finding mentors. <br/>
 * [ ] **Tech News Hub:** <br/>
 A centralized news page that keeps students up-to-date with the latest developments in the tech industry. <br/>
-* [ ] **Scholarship and Resources Hub:** <br/>
-A curated section to help students discover scholarships and resources that prepare them for real-world engineering challenges.<br/>
+* [ ] **Resources Hub:** <br/>
+A curated section to help students discover resources that prepare them for real-world engineering challenges.<br/>
 * [ ] **Gamified To-Do List:** <br/>
 An interactive to-do list system where users earn points for completing tasks and can track their progress on a leaderboard. This feature encourages productivity and provides motivation through friendly competition.
 
