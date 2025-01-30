@@ -5,12 +5,16 @@ import {
     Heading, 
     Button, 
     Image, 
-    SimpleGrid 
+    SimpleGrid, 
+    Input
   } from '@chakra-ui/react'
   import { Link as RouterLink } from 'react-router-dom'
   import { motion } from 'framer-motion'
   import React from 'react'
   import { useNavigate } from 'react-router-dom'
+  import { useColorModeValue } from '@chakra-ui/react'
+  import { useState } from 'react'
+  
   
   // Animation variants
   const fadeIn = {
@@ -30,6 +34,35 @@ import {
   
   const LandingPage = () => {
     const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [status, setStatus] = useState("");
+
+    const handleSubmit = async () => {
+        if (!email) {
+          setStatus("Please enter a valid email.");
+          return;
+        }
+      
+        try {
+          const response = await fetch("/api/users/sub", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
+          });
+      
+          const data = await response.json();
+          if (data.success === true) {
+            setStatus("Successfully joined the waitlist!");
+            setEmail("");
+          } else {
+            setStatus("Something went wrong. Try again.");
+          }
+        } catch (error) {
+          setStatus("Failed to submit. Check your connection.");
+        }
+      };
+
+
     return (
       <Box w="100%" minH="100vh" p={4}>
         {/* Hero Section */}
@@ -43,18 +76,48 @@ import {
           <Text fontSize="lg" mb={6}>
             Break barriers, build connections, and thrive in a supportive community designed for growth and productivity.
           </Text>
-          <Button 
-            size="lg" 
-            bg="#f4a258" 
-            color="black" 
-            _hover={{ bg: "#ffbf86" }} 
-            to="/auth"
-            onClick={() => navigate("/auth")}
-            as={motion.button}
-            whileHover={{ scale: 1.1 }}
-          >
-            Join the Community!
-          </Button>
+          <Flex direction="column" align="center" w="100%">
+            <Flex
+            w="100%"
+            maxW="500px"
+            bg={useColorModeValue("gray.100", "gray.700")}
+            p={4}
+            borderRadius="md"
+            flexDirection="column"
+            alignItems="center"
+            boxShadow="md"
+            >
+            <Input
+                w="100%"
+                placeholder="Enter your email"
+                size="md"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                as={motion.input}
+                initial="hidden"
+                animate="visible"
+                variants={fadeInDelay}
+                bg={useColorModeValue("white", "gray.800")}
+                color={useColorModeValue("black", "white")}
+                border="1px solid"
+                borderColor={useColorModeValue("gray.300", "gray.600")}
+                mb={3}
+            />
+            <Button 
+                size="lg" 
+                bg="#f4a258" 
+                color="black" 
+                _hover={{ bg: "#ffbf86" }}
+                as={motion.button}
+                whileHover={{ scale: 1.05 }}
+                onClick={handleSubmit}
+                w="100%"
+            >
+                Join the waitlist for launch updates!
+            </Button>
+            {status && <Text mt={3} fontSize="sm" color="gray.500">{status}</Text>}
+            </Flex>
+        </Flex>
         </Box>
   
         {/* About Section */}

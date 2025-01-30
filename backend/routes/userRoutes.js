@@ -1,5 +1,5 @@
 import express from "express";
-import { signupUser, loginUser, logoutUser, followUnfollowUser, updateUser, getUserProfile, getSuggestedUsers, freezeAccount, getFollowDetails } from "../controllers/userController.js";
+import { signupUser, loginUser, logoutUser, followUnfollowUser, updateUser, getUserProfile, getSuggestedUsers, freezeAccount, getFollowDetails, storeEmail } from "../controllers/userController.js";
 import protectRoute from "../middlewares/protectRoute.js";
 
 
@@ -10,6 +10,7 @@ router.get("/suggested", protectRoute, getSuggestedUsers)
 router.post("/signup", signupUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
+router.post("/sub", storeEmail);
 router.post("/followDetails", protectRoute, getFollowDetails);
 router.post("/follow/:id", protectRoute, followUnfollowUser); // to protec the route, if you are not login or not have an account you cannot follow someone
 router.put("/update/:id", protectRoute, updateUser);

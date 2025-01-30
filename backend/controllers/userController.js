@@ -5,6 +5,12 @@ import mongoose from 'mongoose';
 import { v2 as cloudinary } from 'cloudinary';
 import Post from '../models/postModel.js';
 
+const emailSchema = new mongoose.Schema({
+    email: { type: String, required: true },
+    timestamp: { type: Date, default: Date.now },
+});
+const Email = mongoose.model('Email', emailSchema);
+
 const getUserProfile = async(req, res) =>{
     // We will fetch user profile either with username or userId
     // query is either username or userId
@@ -268,4 +274,18 @@ const getFollowDetails = async(req, res) => {
     }
 }
 
-export { signupUser, loginUser, logoutUser, followUnfollowUser, updateUser, getUserProfile, getSuggestedUsers, freezeAccount, getFollowDetails };
+const storeEmail = async(req, res) => {
+    const email = req.body;
+    try {
+        if(!email) return res.status(400).json({error: "Email not found"});
+
+        const newEmail = new Email(email);
+        await newEmail.save();
+
+        res.status(200).json({success: true});
+    } catch (error) {
+        res.status(500).json({error: error.message});
+    }
+}
+
+export { signupUser, loginUser, logoutUser, followUnfollowUser, updateUser, getUserProfile, getSuggestedUsers, freezeAccount, getFollowDetails, storeEmail };
