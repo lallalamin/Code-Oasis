@@ -61,9 +61,10 @@ const Header = () => {
             )}
 
             {!user && (
-              <Button size={"sm"} as={RouterLink} to={'/auth'} onClick={() => setAuthScreen("login")}>
-                Login
-              </Button>
+              <Box size={"sm"}></Box>
+              // <Button size={"sm"} as={RouterLink} to={'/auth'} onClick={() => setAuthScreen("login")}>
+              //   Login
+              // </Button>
             )}
 
             <Image 
@@ -94,9 +95,10 @@ const Header = () => {
             )}
 
             {!user && (
-              <Button size={"sm"} as={RouterLink} to={'/auth'} onClick={() => setAuthScreen("signup")} >
-                  Sign up
-              </Button>
+              <Box size={"sm"}></Box>
+              // <Button size={"sm"} as={RouterLink} to={'/auth'} onClick={() => setAuthScreen("signup")} >
+              //     Sign up
+              // </Button>
             )}
         </Flex>
     </>

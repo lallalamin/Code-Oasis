@@ -46,3 +46,15 @@
     border-bottom: 3px solid var(--chakra-colors-blue-300); /* Dark mode */
   }
   
+  @media screen and (max-width: 768px) {
+    .fc-toolbar-title {
+      font-size: 0.7rem; /* Font size for mobile */
+    }
+  }
+  
+  .fc-toolbar-title {
+    font-size: 1.5rem; /* Change the font size of the title */
+    font-weight: bold;
+  }
+ 
+  
