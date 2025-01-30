@@ -56,11 +56,6 @@ import {
             Join the Community!
           </Button>
         </Box>
-
-        <Box py={16} >
-        <Heading size="lg" textAlign="center" mb={8}>
-          Features
-        </Heading>
   
         {/* About Section */}
         <Flex w="100%" textAlign="center" my={10} as={motion.div} initial="hidden" animate="visible" variants={fadeInDelay}>
@@ -84,22 +79,26 @@ import {
           <Heading size="lg" textAlign="center" mb={8} as={motion.div} initial="hidden" animate="visible" variants={fadeIn}>
             Features
           </Heading>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={5}>
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
             {[
-              { title: "Meaningful Connections", text: "Easily connect with like-minded tech enthusiasts, mentors, and peers. Build relationships that inspire, support, and push each other forward in a welcoming, uplifting space.", color: "#f4a258", img: "/connect.png" },
-              { title: "Peer-to-Peer Mentorship", text: "Everyone has something to learn and something to share. Whether you're guiding others or seeking advice, CodeOasis makes mentorship accessible, casual, and impactful—without the formality.", color: "#99a661" },
-              { title: "Career Resources", text: "Find career development tools that prepare you for industry challenges.", color: "#f7e6cf" },
-              { title: "Stay Ahead with Tech News", text: "Keep up with the latest trends, breakthroughs, and updates in the tech world—all in one place. Stay informed and ready for what's next.", color: "#f7e6cf" },
-              { title: "Gamified Productivity", text: "Stay motivated with a fun, gamified to-do list where you earn points for completing tasks, track progress on leaderboards, and celebrate achievements with the community.", color: "#f4a258" },
-              { title: "Shared Event Calendar", text: "Stay in the loop with upcoming hackathons, workshops, conferences, and networking events.", color: "#99a661" }
+              { title: "Meaningful Connections", text: "Easily connect with like-minded tech enthusiasts, mentors, and peers. Build relationships that inspire, support, and push each other forward in a welcoming, uplifting space.", color: "#f4a258", img: "connect.png" },
+              { title: "Peer-to-Peer Mentorship", text: "Everyone has something to learn and something to share. Whether you're guiding others or seeking advice, CodeOasis makes mentorship accessible, casual, and impactful—without the formality.", color: "#99a661", img: "/peer.png" },
+              { title: "Career Resources", text: "Find career development tools that prepare you for industry challenges.", color: "#f7e6cf", img: "/career.png" },
+              { title: "Stay Ahead with Tech News", text: "Keep up with the latest trends, breakthroughs, and updates in the tech world—all in one place. Stay informed and ready for what's next.", color: "#f7e6cf", img: "/news.png" },
+              { title: "Gamified Productivity", text: "Stay motivated with a fun, gamified to-do list where you earn points for completing tasks, track progress on leaderboards, and celebrate achievements with the community.", color: "#f4a258", img: "/todo.png" },
+              { title: "Shared Event Calendar", text: "Stay in the loop with upcoming hackathons, workshops, conferences, and networking events.", color: "#99a661", img: "calendar.png" },
             ].map((feature, index) => (
-              <Box 
+              <Flex 
                 key={index} 
                 bg={feature.color} 
                 color="black" 
                 boxShadow="md" 
                 borderRadius="lg" 
                 p={6} 
+                height={"100%"}
+                flexDirection={"column"}
+                alignItems="center"
+                justifyContent="space-between"
                 textAlign="center"
                 as={motion.div}
                 initial="hidden"
@@ -109,19 +108,18 @@ import {
                 {...scaleHover}
               >
                 <Heading size="md" mb={4}>{feature.title}</Heading>
-                <Image src={feature.img} alt="image" maxW="22%" />
-                <Text fontSize="sm">{feature.text}</Text>
-              </Box>
+                <Image src={feature.img} alt="image" maxW="50%" mb={4} mx="auto" />
+                <Text fontSize="sm" flexGrow={1}>{feature.text}</Text>
+              </Flex>
             ))}
           </SimpleGrid>
         </Box>
   
         {/* Footer */}
         <Box bg="#99a661" color="black" py={12} textAlign="center" borderRadius="md" as={motion.div} initial="hidden" animate="visible" variants={fadeIn}>
-          <Text fontSize="md">🌟 CodeOasis: Empowering students to Connect, Collaborate, and Excel 🌟</Text>
+          <Text fontSize="md"> CodeOasis: Empowering students to Connect, Collaborate, and Excel </Text>
         </Box>
       </Box>
-    </Box>
   )
 }  
   export default LandingPage
