@@ -1,4 +1,5 @@
 import { Flex, useColorMode, Image, Link, Box, Button, Icon } from '@chakra-ui/react'
+import { Menu, MenuButton, MenuList, MenuItem, MenuDivider, MenuGroup } from '@chakra-ui/react'
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
@@ -26,6 +27,22 @@ const Header = () => {
         <Flex justifyContent={"space-between"} mt={6} mb="12" alignItems={"center"}>
             {user && (
               <Flex gap={4} alignItems={"center"}> 
+              <Menu>
+                <MenuButton as={Button} colorScheme="pink" size={"sm"}>
+                  Profile
+                </MenuButton>
+                <MenuList>
+                  <MenuGroup title="Profile">
+                    <MenuItem>My Account</MenuItem>
+                    <MenuItem>Payments </MenuItem>
+                  </MenuGroup>
+                  <MenuDivider />
+                  <MenuGroup title="Help">
+                    <MenuItem>Docs</MenuItem>
+                    <MenuItem>FAQ</MenuItem>
+                  </MenuGroup>
+                </MenuList>
+              </Menu>
                 <Link as={RouterLink} to={`/settings`} >
                   <MdOutlineSettings size={22}></MdOutlineSettings>
                 </Link>
@@ -61,9 +78,11 @@ const Header = () => {
                 src={colorMode === "dark" ? "/light-logo/android-chrome-192x192.png" : "/dark-logo/android-chrome-192x192.png"}
             />
 
+            
+
             {user && (
               <Flex gap={4} alignItems={"center"}>
-                <Link as={RouterLink} to={'/'} >
+                <Link as={RouterLink} to={'/home'} >
                   <HomeOutlineIcon h={22} w={22}></HomeOutlineIcon>
                 </Link>
                 <Link as={RouterLink} to={`/${user.username}`} >

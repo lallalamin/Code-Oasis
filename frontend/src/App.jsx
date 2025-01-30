@@ -8,6 +8,7 @@ import AuthPage from "./pages/AuthPage"
 import SettingsPage from "./pages/SettingsPage"
 import NewsPage from "./pages/NewsPage"
 import EventPage from "./pages/EventPage"
+import LandingPage from "./pages/LandingPage"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import { useRecoilValue } from "recoil"
@@ -32,7 +33,7 @@ function App() {
       >
         <Container
           as="header"
-          maxW={pathname === "/" ? { base: "620px", md: "900px" } : "620px"}
+          maxW={pathname === "/home" || pathname === "/" ? { base: "620px", md: "900px" } : "620px"}
           py={4}
         >
           <Header />
@@ -41,11 +42,14 @@ function App() {
         <Container
           as="main"
           flex="1"
-          maxW={pathname === "/" ? { base: "620px", md: "900px" } : "620px"}
+          maxW={pathname === "/home" || pathname === "/" ? { base: "620px", md: "900px" } : "620px"}
           py={4}
         >
           <Routes>
-            <Route path="/" element={user ? <HomePage /> : <Navigate to="/auth" />} />
+            <Route path="/" element={<LandingPage />} />
+
+            {/* <Route path="/" element={user ? <HomePage /> : <Navigate to="/auth" />} /> */}
+            <Route path="/home" element={user ? <HomePage /> : <Navigate to="/auth" />} />
             <Route path="/auth" element={!user ? <AuthPage /> : <Navigate to="/" />} />
             <Route path="/update" element={user ? <UpdateProfilePage /> : <Navigate to="/auth" />} />
             <Route
@@ -62,7 +66,7 @@ function App() {
 
         <Container
           as="footer"
-          maxW={pathname === "/" ? { base: "700px", md: "900px" } : "700px"}
+          maxW={pathname === "/home" || pathname === "/" ? { base: "700px", md: "900px" } : "700px"}
           py={4}
           mt="auto"
           position={"relative"}

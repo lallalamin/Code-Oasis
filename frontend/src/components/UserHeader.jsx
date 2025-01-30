@@ -156,7 +156,7 @@ const openModal = async (type) => {
                                 {(followModal === 'followers' ? followersData : followingsData).map((user) => 
                                 (   
                                     <Flex key={user._id} gap={2} justifyContent={"space-between"} alignItems={"center"}>
-                                        <Flex gap={2} as={routerLink} to={`/${user.username}`}>
+                                        <Flex gap={2} as={routerLink} to={`/${user.username}`} onClose={onClose} >
                                             <Avatar src={user.profilePic}  />
                                             <Box>
                                                 <Text fontSize={"sm"} fontWeight={"bold"}>
