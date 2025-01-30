@@ -274,18 +274,36 @@ const getFollowDetails = async(req, res) => {
     }
 }
 
-const storeEmail = async(req, res) => {
-    const email = req.body;
+const storeEmail = async (req, res) => {
     try {
-        if(!email) return res.status(400).json({error: "Email not found"});
+        const { email } = req.body;
 
-        const newEmail = new Email(email);
+        if (!email) {
+            return res.status(400).json({ error: "Email not found" });
+        }
+
+        // Store the new email
+        const newEmail = new Email({ email });
         await newEmail.save();
 
-        res.status(200).json({success: true});
-    } catch (error) {
-        res.status(500).json({error: error.message});
-    }
-}
+        // Get the updated total count of emails in the waitlist
+        const count = await Email.countDocuments();
 
-export { signupUser, loginUser, logoutUser, followUnfollowUser, updateUser, getUserProfile, getSuggestedUsers, freezeAccount, getFollowDetails, storeEmail };
+        res.status(200).json({ success: true, count });
+    } catch (error) {
+        console.error("Error in storeEmail:", error); // Logs the exact error
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+const getEmailCount = async (req, res) => {
+    try {
+        const count = await Email.countDocuments();
+        res.status(200).json({ count });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export { signupUser, loginUser, logoutUser, followUnfollowUser, updateUser, getUserProfile, getSuggestedUsers, freezeAccount, getFollowDetails, storeEmail, getEmailCount };

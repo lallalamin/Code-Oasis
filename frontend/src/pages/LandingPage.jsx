@@ -10,7 +10,7 @@ import {
   } from '@chakra-ui/react'
   import { Link as RouterLink } from 'react-router-dom'
   import { motion } from 'framer-motion'
-  import React from 'react'
+  import React, { useEffect } from 'react'
   import { useNavigate } from 'react-router-dom'
   import { useColorModeValue } from '@chakra-ui/react'
   import { useState } from 'react'
@@ -35,8 +35,24 @@ import {
   const LandingPage = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
+    const [count, setCount] = useState(0);
     const [status, setStatus] = useState("");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    useEffect(() => {
+        const fetchEmailCount = async () => {
+            try {
+                const response = await fetch("/api/users/emailCount");
+                const data = await response.json();
+
+                setCount(data.count);
+            } catch (error) {
+                console.error("Error fetching email count:", error);
+            }
+        };
+    
+        fetchEmailCount();
+    }, []);
 
     const handleSubmit = async () => {
         if (!email) {
@@ -57,12 +73,15 @@ import {
           });
       
           const data = await response.json();
-          if (data.success === true) {
-            setStatus("Successfully joined the waitlist!");
-            setEmail("");
-          } else {
+
+          if (data.error) {
             setStatus("Something went wrong. Try again.");
+            return;
           }
+            setStatus("Successfully joined the waitlist!");
+            setCount(count + 1);
+            setEmail("");
+        
         } catch (error) {
           setStatus("Failed to submit. Check your connection.");
         }
@@ -93,6 +112,9 @@ import {
             alignItems="center"
             boxShadow="md"
             >
+            <Text fontSize="lg" mb={3} fontWeight="bold">
+                {count} people have joined the waitlist!
+            </Text>
             <Input
                 w="100%"
                 placeholder="Enter your email"
