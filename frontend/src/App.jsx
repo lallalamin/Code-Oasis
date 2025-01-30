@@ -47,10 +47,8 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<LandingPage />} />
-
-            {/* <Route path="/" element={user ? <HomePage /> : <Navigate to="/auth" />} /> */}
             <Route path="/home" element={user ? <HomePage /> : <Navigate to="/auth" />} />
-            <Route path="/auth" element={!user ? <AuthPage /> : <Navigate to="/" />} />
+            <Route path="/auth" element={!user ? <AuthPage /> : <Navigate to="/home" />} />
             <Route path="/update" element={user ? <UpdateProfilePage /> : <Navigate to="/auth" />} />
             <Route
               path="/:username"

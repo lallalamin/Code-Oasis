@@ -110,6 +110,7 @@ export default function SignUpCard() {
 
       localStorage.setItem("user-threads", JSON.stringify(data)); //once you successfully signup, we will send the object or store it in the local storage
       setUser(data);
+      navigate("/home");
       
     } catch (error) {
       showToast("Error", error, "error");

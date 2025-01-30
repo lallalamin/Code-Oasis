@@ -19,6 +19,7 @@ import { useSetRecoilState } from 'recoil';
 import authScreenAtom from '../atoms/authAtom';
 import useShowToast from '../hooks/useShowToast';
 import userAtom from '../atoms/userAtom';
+import { useNavigate } from 'react-router-dom';
 
   
   export default function LoginCard() {
@@ -31,6 +32,7 @@ import userAtom from '../atoms/userAtom';
       password: "",
     });
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = async() => {
       setLoading(true);
@@ -51,6 +53,7 @@ import userAtom from '../atoms/userAtom';
         }
         localStorage.setItem("user-threads", JSON.stringify(data));
         setUser(data);
+        navigate("/home");
 
       } catch (error) {
         showToast("Error", error, "error");
