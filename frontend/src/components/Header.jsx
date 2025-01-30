@@ -1,4 +1,4 @@
-import { Flex, useColorMode, Image, Link, Box, Button, Icon } from '@chakra-ui/react'
+import { Flex, useColorMode, Image, Link, Box, Button, Icon, Text } from '@chakra-ui/react'
 import { Menu, MenuButton, MenuList, MenuItem, MenuDivider, MenuGroup } from '@chakra-ui/react'
 import React from 'react'
 import { useRecoilValue } from 'recoil'
@@ -16,6 +16,7 @@ import { HomeOutlineIcon } from 'chakra-ui-ionicons';
 import { ChatboxEllipsesOutlineIcon } from 'chakra-ui-ionicons';
 import { Switch } from '@chakra-ui/react'
 import { FaMoon, FaSun } from "react-icons/fa"
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const Header = () => {
     const {colorMode, toggleColorMode} = useColorMode()
@@ -28,40 +29,34 @@ const Header = () => {
             {user && (
               <Flex gap={4} alignItems={"center"}> 
               <Menu>
-                <MenuButton as={Button} colorScheme="pink" size={"sm"}>
-                  Profile
+                <MenuButton as={Button} size={"sm"}>
+                  <RxHamburgerMenu size={22}></RxHamburgerMenu>
                 </MenuButton>
                 <MenuList>
-                  <MenuGroup title="Profile">
-                    <MenuItem>My Account</MenuItem>
-                    <MenuItem>Payments </MenuItem>
-                  </MenuGroup>
-                  <MenuDivider />
-                  <MenuGroup title="Help">
-                    <MenuItem>Docs</MenuItem>
-                    <MenuItem>FAQ</MenuItem>
-                  </MenuGroup>
+                  <MenuItem as={RouterLink} to={`/settings`} >
+                    <MdOutlineSettings size={22} ></MdOutlineSettings>
+                    <Text ml={2}>Settings</Text>
+                  </MenuItem>
+                  <MenuItem>
+                    <Flex alignItems="center" gap={2}>
+                      <Icon as={colorMode === "dark" ? FaMoon : FaSun} boxSize={5} />
+                      <Text>{colorMode === "dark" ? "Dark Mode" : "Light Mode"}</Text>
+                      <Switch
+                          isChecked={colorMode === "dark"}
+                          onChange={toggleColorMode}
+                          size="md"
+                          colorScheme="blue"
+                      />
+                    </Flex>
+                  </MenuItem>
                 </MenuList>
               </Menu>
-                <Link as={RouterLink} to={`/settings`} >
-                  <MdOutlineSettings size={22}></MdOutlineSettings>
-                </Link>
                 <Button size={"xs"} onClick={logout}>
                     Logout 
                     <Box ml={2}>
                       <FiLogOut/> 
                     </Box>
                 </Button>
-                
-                <Flex alignItems="center" gap={2}>
-                    <Icon as={colorMode === "dark" ? FaMoon : FaSun} boxSize={5} />
-                    <Switch
-                        isChecked={colorMode === "dark"}
-                        onChange={toggleColorMode}
-                        size="md"
-                        colorScheme="blue"
-                    />
-                </Flex>
               </Flex>
             )}
 
