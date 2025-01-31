@@ -14,6 +14,10 @@ const eventSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    eligibility: {
+        type: String,
+        required: false
+    },
     description: {
         type: String,
         required: true

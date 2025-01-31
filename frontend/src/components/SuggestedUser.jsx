@@ -4,11 +4,12 @@ import useFollowUnfollow from "../hooks/useFollowUnfollow";
 
 const SuggestedUser = ({ user }) => {
 	const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user);
+	console.log("suggested user", user);
 
 	return (
 		<Flex gap={2} justifyContent={"space-between"} alignItems={"center"}>
 			{/* left side */}
-			<Flex gap={2} as={Link} to={`${user.username}`}>
+			<Flex gap={2} as={Link} to={`/${user.username}`}>
 				<Avatar src={user.profilePic} />
 				<Box>
 					<Text fontSize={"sm"} fontWeight={"bold"}>

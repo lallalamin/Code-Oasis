@@ -263,7 +263,7 @@ const freezeAccount = async(req, res) => {
 const getFollowDetails = async(req, res) => {
     const { userIds } = req.body;
     try {
-        const users = await User.find({ _id: { $in: userIds } }, 'username name profilePic');
+        const users = await User.find({ _id: { $in: userIds } }, 'username name profilePic following followers');
 
         if(!users) return res.status(404).json({error: "Users not found"});
 

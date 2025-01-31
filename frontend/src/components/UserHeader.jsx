@@ -10,6 +10,7 @@ import { useDisclosure } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
 import { Spinner } from '@chakra-ui/react'
 import SuggestedUser from './SuggestedUser'
+import FollowUserCard from './FollowUserCard'
 import { use } from 'react'
 import { useColorMode } from '@chakra-ui/react'
 import { useColorModeValue } from '@chakra-ui/react'
@@ -153,34 +154,9 @@ const openModal = async (type) => {
                         {loading && <Spinner />}
                         {!loading && (
                             <VStack gap={4} align="stretch">
-                                {(followModal === 'followers' ? followersData : followingsData).map((user) => 
+                                {(followModal === 'followers' ? followersData : followingsData).map((u) => 
                                 (   
-                                    <Flex key={user._id} gap={2} justifyContent={"space-between"} alignItems={"center"}>
-                                        <Flex gap={2} as={routerLink} to={`/${user.username}`} onClose={onClose} >
-                                            <Avatar src={user.profilePic}  />
-                                            <Box>
-                                                <Text fontSize={"sm"} fontWeight={"bold"}>
-                                                    {user.username}
-                                                </Text>
-                                                <Text color={"gray.light"} fontSize={"sm"}>
-                                                    {user.name}
-                                                </Text>
-                                            </Box>
-                                        </Flex>
-                                        <Button
-                                            size={"sm"}
-                                            color={following ? "black" : "white"}
-                                            bg={following ? "white" : "blue.400"}
-                                            onClick={handleFollowUnfollow}
-                                            isLoading={updating}
-                                            _hover={{
-                                                color: following ? "black" : "white",
-                                                opacity: ".8",
-                                            }}
-                                        >
-                                            {following ? "Unfollow" : "Follow"}
-                                        </Button>
-                                    </Flex>
+                                    <FollowUserCard key={u._id} user={u} onClose={onClose} />
                                 ))}
                             </VStack>
                         )}
