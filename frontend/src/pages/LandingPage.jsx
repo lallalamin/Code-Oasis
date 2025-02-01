@@ -14,6 +14,8 @@ import {
   import { useNavigate } from 'react-router-dom'
   import { useColorModeValue } from '@chakra-ui/react'
   import { useState } from 'react'
+  import "../styles/background.scss";
+  import { useLocation } from 'react-router-dom';
   
   
   // Animation variants
@@ -34,6 +36,8 @@ import {
   
   const LandingPage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const isLandingPage = location.pathname === "/";
     const [email, setEmail] = useState("");
     const [count, setCount] = useState(0);
     const [status, setStatus] = useState("");
@@ -89,7 +93,18 @@ import {
 
 
     return (
-      <Box w="100%" minH="100vh" p={4}>
+      <Box className='landing-page' w="100%" position={"relative"} minH="100vh" p={4}>
+        {isLandingPage && (
+        <Box className="gradient-bg" top="0" left="0" w="100%" h="100%" zIndex="-1">
+          <div className="gradients-container">
+            <div className="g1"></div>
+            <div className="g2"></div>
+            <div className="g3"></div>
+            <div className="g4"></div>
+            <div className="g5"></div>
+          </div>
+        </Box>
+      )}
         {/* Hero Section */}
         <Box textAlign="center" py={16} as={motion.div} initial="hidden" animate="visible" variants={fadeIn}>
           <Flex justifyContent="center" alignItems="center" mb={4}>
