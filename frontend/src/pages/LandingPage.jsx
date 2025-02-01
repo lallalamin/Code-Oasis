@@ -169,7 +169,7 @@ import {
           </Heading>
           <Box
             as="iframe"
-            src="https://www.youtube.com/embed/Z6smGNbzock"
+            src="https://www.youtube.com/embed/BjSgUg7vUHM"
             width="100%"
             maxW="800px"
             height="450px"
