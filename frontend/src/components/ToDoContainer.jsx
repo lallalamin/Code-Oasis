@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ToDo from '../components/ToDo'
 import { Flex, Text, Image, Divider } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/react";
@@ -6,10 +6,20 @@ import { FaChartBar, FaPlus } from "react-icons/fa";
 import { FaPen } from "react-icons/fa";
 import { useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
+import { HiOutlineFire } from "react-icons/hi";
 
 const ToDoContainer = ({user}) => {
-
     const currentUser = useRecoilValue(userAtom);
+
+    useEffect(() => {
+        const fetchTasks = async () => {
+            try {
+                
+            } catch (error) {
+                
+            }
+        }
+    }, [])
 
   return (
     <>
@@ -27,7 +37,7 @@ const ToDoContainer = ({user}) => {
                     Daily Routine Task
                     </Text>
                     <Flex gap={3}>
-                    <FaChartBar size={20} />
+                    <HiOutlineFire size={20} color="red" />
                     <FaPen size={15} />
                     </Flex>
                 </Flex>
