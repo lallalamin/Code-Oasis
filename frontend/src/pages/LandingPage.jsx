@@ -108,7 +108,6 @@ import {
         {/* Hero Section */}
         <Box textAlign="center" py={16} as={motion.div} initial="hidden" animate="visible" variants={fadeIn}>
           <Flex justifyContent="center" alignItems="center" mb={4}>
-            <Image src="/flower.png" alt="flower" maxW="22%" as={motion.img} initial="hidden" animate="visible" variants={fadeInDelay} />
             <Heading size="2xl">
               Connect. Learn. Grow Together.
             </Heading>
