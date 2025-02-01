@@ -4,7 +4,7 @@ import { BsCoin } from "react-icons/bs";
 import { useColorModeValue } from "@chakra-ui/react";
 
 
-const ToDo = ({ title, status, reward, completed }) => {
+const ToDo = ({ task }) => {
   return (
     <Flex
       alignItems="center"
@@ -20,10 +20,10 @@ const ToDo = ({ title, status, reward, completed }) => {
         <Checkbox />
         <Flex flexDirection={"column"}>
             <Text fontSize="md" fontWeight="bold">
-                {title}
+                {task.title}
             </Text>
-            <Text fontSize="sm" color={completed ? "green.500" : "red.500"}>
-                {status}
+            <Text fontSize="sm" color={task.status ? "green.500" : "red.500"}>
+                {task.status}
             </Text>
         </Flex>
         
@@ -31,12 +31,12 @@ const ToDo = ({ title, status, reward, completed }) => {
 
       {/* Right Section: Reward Button */}
       <Button
-        colorScheme={completed ? "green" : "gray"}
-        isDisabled={!completed}
+        colorScheme={task.status ? "green" : "gray"}
+        isDisabled={!task.status}
         rightIcon={<BsCoin />}
         size="sm"
       >
-        {completed ? `Collect ${reward}` : `Collect ${reward}`}
+        {task.status ? `Collect ${task.reward}` : `Collect ${task.reward}`}
       </Button>
     </Flex>
   );

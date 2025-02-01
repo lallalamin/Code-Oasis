@@ -1,25 +1,54 @@
 import React, { useEffect } from 'react'
 import ToDo from '../components/ToDo'
-import { Flex, Text, Image, Divider } from "@chakra-ui/react";
+import { Flex, Text, Image, Divider, Spinner, Button } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/react";
 import { FaChartBar, FaPlus } from "react-icons/fa";
 import { FaPen } from "react-icons/fa";
 import { useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
+import { useState } from 'react'
 import { HiOutlineFire } from "react-icons/hi";
+import useShowToast from '../hooks/useShowToast';
 
 const ToDoContainer = ({user}) => {
     const currentUser = useRecoilValue(userAtom);
+    const [tasks, setTasks] = useState([]);
+    const showToast = useShowToast();
 
     useEffect(() => {
         const fetchTasks = async () => {
+            if (!user || !currentUser) return;
+            if (user._id !== currentUser._id) return;
+            
             try {
-                
+                const response = await fetch(`/api/tasks/${user._id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
+                if (data.error) {
+                    console.error(data.error);
+                    return;
+                }
+                setTasks(data.tasks);
+                console.log(data);
+
             } catch (error) {
-                
+                showToast("Error", error, "error");
             }
         }
+        fetchTasks();
     }, [])
+
+    const handleTaskUpdate = (taskId, updatedTask) => {
+        setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+                task._id === taskId ? { ...task, ...updatedTask } : task
+            )
+        );
+    };
 
   return (
     <>
@@ -37,8 +66,10 @@ const ToDoContainer = ({user}) => {
                     Daily Routine Task
                     </Text>
                     <Flex gap={3}>
-                    <HiOutlineFire size={20} color="red" />
-                    <FaPen size={15} />
+                    <HiOutlineFire size={32} color="red" />
+                    <Button leftIcon={<FaPlus />} size="sm" onClick={() => {/* Open add task modal */}}>
+                        Add Task
+                    </Button>
                     </Flex>
                 </Flex>
 
@@ -46,36 +77,17 @@ const ToDoContainer = ({user}) => {
 
                 <Flex flex={1} flexDirection={"column"} gap={2} py={2} my={2} w={"full"} overflowY={"scroll"}>
                     <Flex flexDirection="column" gap={4}>
-                        <ToDo
-                        title="Exercise for 30 mins"
-                        status="Completed"
-                        reward="10"
-                        completed={true}
-                        />
-                        <ToDo
-                        title="1 Leetcode Question"
-                        status="Need to do!"
-                        reward="10"
-                        completed={false}
-                        />
-                        <ToDo
-                        title="Exercise for 30 mins"
-                        status="Completed"
-                        reward="10"
-                        completed={true}
-                        />
-                        <ToDo
-                        title="Exercise for 30 mins"
-                        status="Completed"
-                        reward="10"
-                        completed={true}
-                        />
-                        <ToDo
-                        title="Exercise for 30 mins"
-                        status="Completed"
-                        reward="10"
-                        completed={true}
-                        />
+                        {tasks === undefined ? (
+                            <Flex alignItems="center" justifyContent="center" h="100%" w="100%">
+                                <Text fontSize="md" color="gray.500">
+                                No tasks found.
+                                </Text>
+                            </Flex>
+                        ) : (
+                            tasks.map((task) => (
+                                <ToDo key={task._id} task={task} onTaskUpdate={handleTaskUpdate} />
+                            ))
+                        )}
                     </Flex>
                 </Flex>
             </Flex>

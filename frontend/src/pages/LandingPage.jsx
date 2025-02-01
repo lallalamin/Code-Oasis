@@ -162,9 +162,27 @@ import {
             </Flex>
         </Flex>
         </Box>
+
+        <Box mt={12} textAlign="center">
+          <Heading size="lg" mb={4}>
+            Watch Current Stage Demo
+          </Heading>
+          <Box
+            as="iframe"
+            src="https://www.youtube.com/embed/Z6smGNbzock"
+            width="100%"
+            maxW="800px"
+            height="450px"
+            mx="auto"
+            borderRadius="md"
+            boxShadow="lg"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></Box>
+        </Box>
   
         {/* About Section */}
-        <Flex w="100%" textAlign="center" my={10} as={motion.div} initial="hidden" animate="visible" variants={fadeInDelay}>
+        <Flex w="100%" textAlign="center" my={12} as={motion.div} initial="hidden" animate="visible" variants={fadeInDelay}>
           <Flex flex={6} flexDirection="column" justifyContent="center" alignItems="center" mx={5}>
             <Heading size="md" mb={4}>
               Stronger Together—More Than Just a Network, a Community
