@@ -151,7 +151,7 @@ const Actions = ({ post }) => {
 			>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader></ModalHeader>
+					<ModalHeader>Reply</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody pb={6}>
 					<FormControl>

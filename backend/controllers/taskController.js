@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Task from '../models/taskModel.js';
 import User from '../models/userModel.js';
 
@@ -39,17 +40,26 @@ export const completedTask = async (req, res) => {
 }
 
 export const createTask = async (req, res) => {
-    const { user, title } = req.body;
+    const { title } = req.body;
     try {
-        if (!mongoose.Types.ObjectId(task.userId).equals(req.user._id)) {
+        console.log(req.user);
+        console.log(req.body);
+        if (!req.user || !mongoose.Types.ObjectId.isValid(req.user._id)) {
             return res.status(401).json({ success: false, message: "Unauthorized" });
         }
-        const newTask = new Task({ user, title });
+        const newTask = new Task({ 
+            userId: req.user._id , 
+            title: title,
+            status: "incomplete",
+            reward: 10
+        });
         await newTask.save();
+        console.log(newTask);   
         res.status(201).json(newTask);
         
     } catch (error) {
-        res.status(500).json({ message: "Error creating task" });
+        console.error("Error creating task:", error.message);
+        res.status(500).json({ error: "Error creating task" });
     }
 }
 

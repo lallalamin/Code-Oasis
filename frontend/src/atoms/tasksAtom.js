@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
 const tasksAtom = atom({
-    key: 'postsAtom',
+    key: 'tasksAtom',
     default: [],
 });
 

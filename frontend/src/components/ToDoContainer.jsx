@@ -9,6 +9,7 @@ import userAtom from '../atoms/userAtom'
 import { useState } from 'react'
 import { HiOutlineFire } from "react-icons/hi";
 import useShowToast from '../hooks/useShowToast';
+import AddTaskModal from '../components/AddTaskModal';
 
 const ToDoContainer = ({user}) => {
     const currentUser = useRecoilValue(userAtom);
@@ -19,7 +20,7 @@ const ToDoContainer = ({user}) => {
         const fetchTasks = async () => {
             if (!user || !currentUser) return;
             if (user._id !== currentUser._id) return;
-            
+
             try {
                 const response = await fetch(`/api/tasks/${user._id}`, {
                     method: 'GET',
@@ -40,7 +41,11 @@ const ToDoContainer = ({user}) => {
             }
         }
         fetchTasks();
-    }, [])
+    }, [user])
+
+    const handleTaskAdd = (newTask) => {
+        setTasks((prevTasks) => [...prevTasks, newTask]);
+    };
 
     const handleTaskUpdate = (taskId, updatedTask) => {
         setTasks((prevTasks) =>
@@ -67,9 +72,7 @@ const ToDoContainer = ({user}) => {
                     </Text>
                     <Flex gap={3}>
                     <HiOutlineFire size={32} color="red" />
-                    <Button leftIcon={<FaPlus />} size="sm" onClick={() => {/* Open add task modal */}}>
-                        Add Task
-                    </Button>
+                    <AddTaskModal />
                     </Flex>
                 </Flex>
 
