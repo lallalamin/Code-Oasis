@@ -138,7 +138,7 @@ const openModal = async (type) => {
                     </Flex>
                     
                 </Flex>
-                <Flex justifyContent={"center"} alignItems={"end"}>
+                <Flex justifyContent={"center"} alignItems={"end"} as={routerLink} to={"/leaderboard"}>
                     <Button size={"sm"} w={"100px"} bg={"yellow.400"} color={"black"}> 
                         {currentUser?.xp || user.xp} xp
                     </Button>
