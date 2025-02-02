@@ -22,6 +22,7 @@ const UserPage = () => {
   const showToast = useShowToast();
   const [posts, setPosts] = useRecoilState(postsAtom);
   const [replies, setReplies] = useRecoilState(repliesAtom);
+  const tabColor = useColorModeValue("gray.600", "gray.400");
 
   useEffect(() => {
     const getPosts = async() => {
@@ -86,8 +87,8 @@ const UserPage = () => {
       
         <Tabs isFitted variant="enclosed" mt={4} colorScheme="blue" >
           <TabList mb="1em">
-            <Tab color={useColorModeValue("black", "white")}>Posts</Tab>
-            <Tab color={useColorModeValue("black", "white")}>Replies</Tab>
+            <Tab color={tabColor}>Posts</Tab>
+            <Tab color={tabColor}>Replies</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
