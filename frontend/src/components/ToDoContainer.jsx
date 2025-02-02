@@ -89,7 +89,7 @@ const ToDoContainer = ({user}) => {
                             </Flex>
                         ) : (
                             tasks.map((task) => (
-                                <ToDo key={task._id} task={task} onTaskUpdate={handleTaskUpdate} />
+                                <ToDo key={task._id} task={task} onTaskUpdate={handleTaskUpdate} onTaskDelete={handleTaskUpdate} />
                             ))
                         )}
                     </Flex>
