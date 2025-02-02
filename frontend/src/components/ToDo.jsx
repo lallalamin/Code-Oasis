@@ -8,6 +8,8 @@ import useConfirmToast from "../hooks/useConfirmToast.jsx";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
+import { MdEdit } from "react-icons/md";
+import EditTaskModal from "./EditTaskModal.jsx";
 
 
 const ToDo = ({ task, onTaskUpdate, onTaskDelete }) => {
@@ -15,6 +17,7 @@ const ToDo = ({ task, onTaskUpdate, onTaskDelete }) => {
   const confirmToast = useConfirmToast();
   const [status, setStatus] = useState(task.status);
   const [currentUser, setCurrentUser] = useRecoilState(userAtom);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const handleCompleteTask = async () => {
     confirmToast(
@@ -37,7 +40,10 @@ const ToDo = ({ task, onTaskUpdate, onTaskDelete }) => {
 
           setStatus("completed");
           onTaskUpdate(task._id, { status: "completed" });
-          setCurrentUser({...currentUser, xp: data.xp});
+          setCurrentUser((prevUser) => ({
+            ...prevUser,
+            xp: data.xp,
+          }));
           showToast("Success", "Task marked as completed", "success");
         } catch (error) {
           showToast("Error", error.message, "error");
@@ -94,7 +100,7 @@ const ToDo = ({ task, onTaskUpdate, onTaskDelete }) => {
       </Flex>
 
       {/* Right Section: Reward Button */}
-      <Flex flexDirection={"row"} gap={4} alignItems={"center"}>
+      <Flex flexDirection={"row"} gap={2} alignItems={"center"}>
         <Button
           colorScheme={status === "completed" ? "green" : "gray"}
           isDisabled={status === "completed"}
@@ -104,8 +110,15 @@ const ToDo = ({ task, onTaskUpdate, onTaskDelete }) => {
         >
           {status === "completed" ? `Collected ${task.reward}` : `Complete & Collect ${task.reward}`}
         </Button>
+        <MdEdit cursor={"pointer"} size={20} onClick={() => setIsEditModalOpen(true)} />
         <DeleteIcon cursor={"pointer"} size={20} onClick={handleDeleteTask} />
       </Flex>
+      <EditTaskModal 
+        task={task}
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onUpdate={onTaskUpdate}
+      />
     </Flex>
   );
 };

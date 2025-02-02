@@ -106,11 +106,11 @@ export const deleteTask = async (req, res) => {
 }
 
 export const updateTask = async (req, res) => {
-    const taskId = req.params.taskId;
+    const taskId = req.params.id;
     const { title } = req.body;
     try {
         const task = await Task.findById(taskId);
-
+        console.log(task);
         if (!task) return res.status(404).json({ message: "Task not found" });
 
         if (task.userId.toString() !== req.user._id.toString()) {
