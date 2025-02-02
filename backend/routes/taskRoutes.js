@@ -4,11 +4,12 @@ import protectRoute from "../middlewares/protectRoute.js";
 
 const router = express.Router();
 
+router.get("/reset", resetTasksForNewDay);
 router.get("/:id", protectRoute, getTasks);
 router.post("/create", protectRoute, createTask);
 router.put("/update/:id", protectRoute, updateTask);
 router.put("/complete/:id", protectRoute, completedTask);
 router.delete("/:id", protectRoute, deleteTask);
-router.get("/reset", resetTasksForNewDay);
+
 
 export default router;

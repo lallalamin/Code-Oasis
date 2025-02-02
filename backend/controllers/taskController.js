@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import Task from '../models/taskModel.js';
 import User from '../models/userModel.js';
+import dotenv from "dotenv";
+dotenv.config();
 
 
 export const getTasks = async (req, res) => {
@@ -125,25 +127,31 @@ export const updateTask = async (req, res) => {
 }
 
 export const resetTasksForNewDay = async (req, res) => {
+    const AUTH_TOKEN = process.env.RESET_API_TOKEN;
+    const providedToken = req.headers.authorization?.split(" ")[1];
+    
+    if (providedToken !== AUTH_TOKEN) {
+        return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    }
+
     try {
-      console.log("Resetting tasks and updating streaks...");
-  
-      // Reset all tasks to "incomplete"
-      await Task.updateMany({}, { status: "incomplete" });
-  
-      // Update streaks for all users
-      const users = await User.find({});
-      for (const user of users) {
-        const currentDate = new Date().setHours(0, 0, 0, 0);
-        const lastCompletedDate = new Date(user.lastCompletedDate || 0).setHours(0, 0, 0, 0);
-  
-        if (currentDate > lastCompletedDate + 86400000) {
-          user.streakCount = 0; // Reset streak if the user missed a day
-          user.lastCompletedDate = null; // Reset last completed date
-        }
-  
-        await user.save();
+      // Add logs for debugging
+    console.log("Resetting tasks...");
+    await Task.updateMany({}, { status: "incomplete" });
+
+    console.log("Updating streaks...");
+    const users = await User.find({});
+    for (const user of users) {
+      const currentDate = new Date().setHours(0, 0, 0, 0);
+      const lastCompletedDate = new Date(user.lastCompletedDate || 0).setHours(0, 0, 0, 0);
+
+      if (currentDate > lastCompletedDate + 86400000) {
+        user.streakCount = 0;
+        user.lastCompletedDate = null;
       }
+
+      await user.save();
+    }
   
       res.status(200).json({ message: "Tasks reset and streaks updated successfully." });
     } catch (error) {
