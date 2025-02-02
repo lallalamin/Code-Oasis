@@ -28,12 +28,29 @@ export const completedTask = async (req, res) => {
 
         task.status = "completed";
         await task.save();
-        const user = await User.findByIdAndUpdate(
-            task.userId,
-            { $inc: { xp: task.reward } },
-        );
-    
-        res.json( task, user.xp );
+
+        const user = await User.findById(task.userId);
+
+        user.xp += task.reward;
+
+        const incompleteTasks = await Task.find({ userId: user._id, status: "incomplete" });
+
+        if (incompleteTasks.length === 0) {
+            const currentDate = new Date().setHours(0, 0, 0, 0); // Today's date
+            const lastCompletedDate = new Date(user.lastCompletedDate || 0).setHours(0, 0, 0, 0);
+      
+            if (currentDate === lastCompletedDate + 86400000) {
+              user.streakCount += 1; // Increment streak
+            } else if (currentDate > lastCompletedDate + 86400000) {
+              user.streakCount = 0; // Reset streak
+            }
+      
+            user.lastCompletedDate = new Date(); // Update last completed date
+        }
+      
+        await user.save();
+
+        res.json( task, user.xp, user.streakCount);
       } catch (error) {
         res.status(500).json({ message: "Error updating task" });
       }
@@ -42,11 +59,15 @@ export const completedTask = async (req, res) => {
 export const createTask = async (req, res) => {
     const { title } = req.body;
     try {
-        console.log(req.user);
-        console.log(req.body);
         if (!req.user || !mongoose.Types.ObjectId.isValid(req.user._id)) {
             return res.status(401).json({ success: false, message: "Unauthorized" });
         }
+
+        const taskCount = await Task.countDocuments({ userId: req.user._id });
+        if (taskCount >= 10) {
+            return res.status(400).json({ success: false, message: "You have reached the maximum number of tasks" });
+        }
+
         const newTask = new Task({ 
             userId: req.user._id , 
             title: title,
