@@ -17,7 +17,7 @@ export const getTasks = async (req, res) => {
 };
 
 export const completedTask = async (req, res) => {
-    const taskId = req.params.taskId;
+    const taskId = req.params.id;
     try {
         const task = await Task.findById(taskId);
         if (!task) return res.status(404).json({ message: "Task not found" });
@@ -64,7 +64,7 @@ export const createTask = async (req, res) => {
 }
 
 export const deleteTask = async (req, res) => {
-    const taskId = req.params.taskId;
+    const taskId = req.params.id;
     try {
         if (!req.user || !mongoose.Types.ObjectId.isValid(req.user._id)) {
             return res.status(401).json({ success: false, message: "Unauthorized" });
@@ -78,7 +78,6 @@ export const deleteTask = async (req, res) => {
 
         res.json({ message: "Task deleted", task });
     } catch (error) {
-        console.error("Error deleting task:", error.message);
         res.status(500).json({ message: "Error deleting task" });
     }
 }

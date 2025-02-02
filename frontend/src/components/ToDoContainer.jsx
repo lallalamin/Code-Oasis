@@ -56,6 +56,10 @@ const ToDoContainer = ({user}) => {
         );
     };
 
+    const handleTaskDelete = (taskId) => {
+        setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
+    };
+
   return (
     <>
         {currentUser?._id === user._id && (
@@ -89,7 +93,7 @@ const ToDoContainer = ({user}) => {
                             </Flex>
                         ) : (
                             tasks.map((task) => (
-                                <ToDo key={task._id} task={task} onTaskUpdate={handleTaskUpdate} onTaskDelete={handleTaskUpdate} />
+                                <ToDo key={task._id} task={task} onTaskUpdate={handleTaskUpdate} onTaskDelete={handleTaskDelete} />
                             ))
                         )}
                     </Flex>
