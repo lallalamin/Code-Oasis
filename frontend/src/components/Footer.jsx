@@ -15,6 +15,7 @@ import { NewspaperOutlineIcon } from 'chakra-ui-ionicons';
 import { HomeOutlineIcon } from 'chakra-ui-ionicons';
 import { ChatboxEllipsesOutlineIcon } from 'chakra-ui-ionicons';
 import { LogoLinkedinIcon } from 'chakra-ui-ionicons';
+import { LogoInstagramIcon } from 'chakra-ui-ionicons'
 import { FaDiscord } from "react-icons/fa";
 
 const Footer = () => {
@@ -35,15 +36,23 @@ const Footer = () => {
 
 
             <Flex gap={4} alignItems={"center"}> 
-            <Text fontSize={"sm"}>
-                © Website made by Mari Hirota 
-            </Text>
+                <Text fontSize={"sm"}>
+                    Privacy Policy
+                </Text>
+                <Text fontSize={"sm"}>
+                    Term of Service
+                </Text>
+                <Text fontSize={"sm"}>
+                    Contact Us
+                </Text>
             </Flex>
             
 
             <Flex gap={4} alignItems={"center"} >
                 <FaDiscord size={25}/>
-
+                <Link as={RouterLink} to={'https://www.instagram.com/codeoasis.official'} target='_blank' >
+                    <LogoInstagramIcon h={22} w={22}></LogoInstagramIcon>
+                </Link>
                 <Link as={RouterLink} to={'https://www.linkedin.com/company/codeoasis/'} target='_blank' >
                     <LogoLinkedinIcon h={22} w={22}></LogoLinkedinIcon>
                 </Link>

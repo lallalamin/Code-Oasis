@@ -102,6 +102,7 @@ const loginUser = async(req, res) => {
             username: user.username,
             bio: user.bio,
             profilePic: user.profilePic,
+            bannerPic: user.bannerPic,
         });
         
     } catch (error) {

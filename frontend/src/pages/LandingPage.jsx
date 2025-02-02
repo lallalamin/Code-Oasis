@@ -210,7 +210,7 @@ import {
               { title: "Stay Ahead with Tech News", text: "Keep up with the latest trends, breakthroughs, and updates in the tech world—all in one place. Stay informed and ready for what's next.", color: "#f7e6cf", img: "/news.png" },
               { title: "Gamified Productivity", text: "Stay motivated with a fun, gamified to-do list where you earn points for completing tasks, track progress on leaderboards, and celebrate achievements with the community.", color: "#f4a258", img: "/todo.png" },
               { title: "Shared Event Calendar", text: "Stay in the loop with upcoming hackathons, workshops, conferences, and networking events.", color: "#99a661", img: "calendar.png" },
-              { title: "Discover Your Coding Personality", text: "Take the CodeOasis quiz to uncover your unique mascot! Learn your coding style and connect with others who share similar strengths.", color: "#99a661", img: "/todo.png"}
+              { title: "Discover Your Coding Personality", text: "Take the CodeOasis quiz to uncover your unique mascot! Learn your coding style and connect with others who share similar strengths.", color: "#99a661", img: "/quiz.png"}
             ].map((feature, index) => (
               <Flex 
                 key={index} 

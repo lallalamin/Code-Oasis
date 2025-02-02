@@ -42,6 +42,8 @@ export default function UpdateProfilePage() {
   const { handleImageChange, imgUrl } = usePreviewImg();
   const { handleBannerChange, imgUrl: bannerUrl } = usePreviewBanner();
 
+  console.log("update profile page",user);
+
   const handleSubmit = async(e) => {
     e.preventDefault();
     if(updating) return;
