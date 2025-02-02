@@ -50,6 +50,17 @@ const userSchema =  mongoose.Schema({
     rank: {
         type: Number,
     },
+    streakCount: {
+        type: Number,
+        default: 0, 
+    },
+    lastCompletedDate: {
+        type: Date, 
+    },
+    taskLimit: {
+        type: Number,
+        default: 10, 
+    },
 }, {
     timestamps: true,
 });
