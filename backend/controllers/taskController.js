@@ -124,5 +124,33 @@ export const updateTask = async (req, res) => {
     }
 }
 
+export const resetTasksForNewDay = async (req, res) => {
+    try {
+      console.log("Resetting tasks and updating streaks...");
+  
+      // Reset all tasks to "incomplete"
+      await Task.updateMany({}, { status: "incomplete" });
+  
+      // Update streaks for all users
+      const users = await User.find({});
+      for (const user of users) {
+        const currentDate = new Date().setHours(0, 0, 0, 0);
+        const lastCompletedDate = new Date(user.lastCompletedDate || 0).setHours(0, 0, 0, 0);
+  
+        if (currentDate > lastCompletedDate + 86400000) {
+          user.streakCount = 0; // Reset streak if the user missed a day
+          user.lastCompletedDate = null; // Reset last completed date
+        }
+  
+        await user.save();
+      }
+  
+      res.status(200).json({ message: "Tasks reset and streaks updated successfully." });
+    } catch (error) {
+      console.error("Error resetting tasks or updating streaks:", error.message);
+      res.status(500).json({ message: "Error resetting tasks or updating streaks." });
+    }
+  };
 
-export default { getTasks, completedTask, createTask, deleteTask, updateTask };
+
+export default { getTasks, completedTask, createTask, deleteTask, updateTask, resetTasksForNewDay };
