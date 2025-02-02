@@ -6,12 +6,15 @@ import { DeleteIcon } from '@chakra-ui/icons'
 import useShowToast from "../hooks/useShowToast";
 import useConfirmToast from "../hooks/useConfirmToast.jsx";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import userAtom from "../atoms/userAtom";
 
 
 const ToDo = ({ task, onTaskUpdate, onTaskDelete }) => {
   const showToast = useShowToast();
   const confirmToast = useConfirmToast();
   const [status, setStatus] = useState(task.status);
+  const [currentUser, setCurrentUser] = useRecoilState(userAtom);
 
   const handleCompleteTask = async () => {
     confirmToast(
@@ -34,6 +37,7 @@ const ToDo = ({ task, onTaskUpdate, onTaskDelete }) => {
 
           setStatus("completed");
           onTaskUpdate(task._id, { status: "completed" });
+          setCurrentUser({...currentUser, xp: data.xp});
           showToast("Success", "Task marked as completed", "success");
         } catch (error) {
           showToast("Error", error.message, "error");

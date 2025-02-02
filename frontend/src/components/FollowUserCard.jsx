@@ -2,9 +2,12 @@ import React from 'react'
 import useFollowUnfollow from '../hooks/useFollowUnfollow'
 import { Link as routerLink } from 'react-router-dom'
 import { Avatar, Box, Button, Flex, Text } from '@chakra-ui/react'
+import { useRecoilValue } from 'recoil'
+import userAtom from '../atoms/userAtom'
 
 const FollowUserCard = ({user, onClose}) => {
     const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user);
+    const currentUser = useRecoilValue(userAtom);
 
     console.log("follow card user", user);
   return (
@@ -20,7 +23,8 @@ const FollowUserCard = ({user, onClose}) => {
                 </Text>
             </Box>
         </Flex>
-        <Button
+        {user._id !== currentUser._id && (
+            <Button
             size={"sm"}
             color={following ? "black" : "white"}
             bg={following ? "white" : "blue.400"}
@@ -33,6 +37,8 @@ const FollowUserCard = ({user, onClose}) => {
         >
             {following ? "Unfollow" : "Follow"}
         </Button>
+        )}
+        
     </Flex>
   )
 }

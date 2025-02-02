@@ -140,7 +140,7 @@ const openModal = async (type) => {
                 </Flex>
                 <Flex justifyContent={"center"} alignItems={"end"}>
                     <Button size={"sm"} w={"100px"} bg={"yellow.400"} color={"black"}> 
-                        {user.xp} xp
+                        {currentUser?.xp || user.xp} xp
                     </Button>
                 </Flex>
             </Flex>

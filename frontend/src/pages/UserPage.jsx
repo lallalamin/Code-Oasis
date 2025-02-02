@@ -13,6 +13,7 @@ import postsAtom from '../atoms/postsAtom';
 import repliesAtom from '../atoms/repliesAtom';
 import { useColorModeValue } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel, Divider } from "@chakra-ui/react"
+import CreatePost from '../components/CreatePost';
 
 const UserPage = () => {
   const {username} = useParams();
@@ -84,7 +85,6 @@ const UserPage = () => {
     <>
         <UserHeader user={user}></UserHeader>
         <ToDoContainer user={user}></ToDoContainer>
-      
         <Tabs isFitted variant="enclosed" mt={4} colorScheme="blue" >
           <TabList mb="1em">
             <Tab color={tabColor}>Posts</Tab>
