@@ -15,6 +15,7 @@ import { NewspaperOutlineIcon } from 'chakra-ui-ionicons';
 import { HomeOutlineIcon } from 'chakra-ui-ionicons';
 import { ChatboxEllipsesOutlineIcon } from 'chakra-ui-ionicons';
 import { LogoLinkedinIcon } from 'chakra-ui-ionicons';
+import { FaDiscord } from "react-icons/fa";
 
 const Footer = () => {
     const {colorMode, toggleColorMode} = useColorMode()
@@ -40,7 +41,9 @@ const Footer = () => {
             </Flex>
             
 
-            <Flex gap={4} alignItems={"center"}>
+            <Flex gap={4} alignItems={"center"} >
+                <FaDiscord size={25}/>
+
                 <Link as={RouterLink} to={'https://www.linkedin.com/company/codeoasis/'} target='_blank' >
                     <LogoLinkedinIcon h={22} w={22}></LogoLinkedinIcon>
                 </Link>
