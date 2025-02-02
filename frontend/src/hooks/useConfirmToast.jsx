@@ -1,4 +1,5 @@
 import { useToast, Box, Text, Button, Flex } from "@chakra-ui/react";
+import { useColorModeValue } from "@chakra-ui/react";
 
 const useConfirmToast = () => {
   const toast = useToast();
@@ -6,11 +7,11 @@ const useConfirmToast = () => {
   const confirm = (title, description, onConfirm, onCancel) => {
     toast({
       duration: null, // Keeps the toast open until manually closed
-      position: "top",
+      position: "bottom",
       render: ({ onClose }) => (
         <Box
-          bg="white"
           p={4}
+          bg={useColorModeValue("gray.200", "gray.dark")}
           borderRadius="md"
           boxShadow="md"
           border="1px solid"
