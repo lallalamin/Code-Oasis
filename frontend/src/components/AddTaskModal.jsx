@@ -12,6 +12,7 @@ import {
   FormLabel,
   Input,
   useDisclosure,
+  Text
 } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
 import useShowtoast from "../hooks/useShowToast";
@@ -22,7 +23,7 @@ import { useParams } from "react-router-dom";
 
 const MAX_CHAR = 50;
 
-const AddTaskModal = () => {
+const AddTaskModal = ({ onTaskAdd }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [title, setTitle] = useState("");
   const [remainingChar, setRemainingChar] = useState(MAX_CHAR);
@@ -31,6 +32,18 @@ const AddTaskModal = () => {
   const [loading, setLoading] = useState(false);
   const [tasks, setTasks] = useRecoilState(tasksAtom);
   const {username} = useParams();
+
+  const handleTextChange = (e) => {
+    const inputText = e.target.value;
+    if (inputText.length > MAX_CHAR) {
+      const truncatedText = inputText.slice(0, MAX_CHAR);
+      setTitle(truncatedText);
+      setRemainingChar(0);
+    } else {
+      setTitle(inputText);
+      setRemainingChar(MAX_CHAR - inputText.length);
+    }
+  };
 
   const handleAddTasK = async () => {
     setLoading(true);
@@ -52,6 +65,7 @@ const AddTaskModal = () => {
       
       if(username === user.username) {
         setTasks([data, ...tasks]);
+        onTaskAdd(data);
       }
       onClose();
       setTitle("");
@@ -79,13 +93,16 @@ const AddTaskModal = () => {
               <FormLabel>Task Title</FormLabel>
               <Input
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={handleTextChange}
                 placeholder="Enter task title"
               />
+              <Text fontSize={"sm"} mt={2}>
+                {remainingChar}/{MAX_CHAR}
+              </Text>
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" onClick={handleAddTasK}>
+            <Button colorScheme="blue" onClick={handleAddTasK} isLoading={loading}>
               Add Task
             </Button>
           </ModalFooter>

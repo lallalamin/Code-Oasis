@@ -33,7 +33,7 @@ const ToDoContainer = ({user}) => {
                     console.error(data.error);
                     return;
                 }
-                setTasks(data.tasks);
+                setTasks(data);
                 console.log(data);
 
             } catch (error) {
@@ -45,6 +45,7 @@ const ToDoContainer = ({user}) => {
 
     const handleTaskAdd = (newTask) => {
         setTasks((prevTasks) => [...prevTasks, newTask]);
+        console.log("updated tasks:", tasks);
     };
 
     const handleTaskUpdate = (taskId, updatedTask) => {
@@ -72,7 +73,7 @@ const ToDoContainer = ({user}) => {
                     </Text>
                     <Flex gap={3}>
                     <HiOutlineFire size={32} color="red" />
-                    <AddTaskModal />
+                    <AddTaskModal onTaskAdd={handleTaskAdd} />
                     </Flex>
                 </Flex>
 
@@ -80,7 +81,7 @@ const ToDoContainer = ({user}) => {
 
                 <Flex flex={1} flexDirection={"column"} gap={2} py={2} my={2} w={"full"} overflowY={"scroll"}>
                     <Flex flexDirection="column" gap={4}>
-                        {tasks === undefined ? (
+                        {tasks.length === 0 ? (
                             <Flex alignItems="center" justifyContent="center" h="100%" w="100%">
                                 <Text fontSize="md" color="gray.500">
                                 No tasks found.

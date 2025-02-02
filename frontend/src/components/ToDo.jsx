@@ -22,7 +22,7 @@ const ToDo = ({ task }) => {
             <Text fontSize="md" fontWeight="bold">
                 {task.title}
             </Text>
-            <Text fontSize="sm" color={task.status ? "green.500" : "red.500"}>
+            <Text fontSize="sm" color={task.status === "Completed" ? "green.500" : "red.500"}>
                 {task.status}
             </Text>
         </Flex>
@@ -31,7 +31,7 @@ const ToDo = ({ task }) => {
 
       {/* Right Section: Reward Button */}
       <Button
-        colorScheme={task.status ? "green" : "gray"}
+        colorScheme={task.status === "Completed" ? "green" : "gray"}
         isDisabled={!task.status}
         rightIcon={<BsCoin />}
         size="sm"
