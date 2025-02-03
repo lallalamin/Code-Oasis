@@ -42,7 +42,10 @@ import { useNavigate } from 'react-router-dom';
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(inputs),
+          body: JSON.stringify({
+            ...inputs,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          }),
         })
 
         const data = await res.json();

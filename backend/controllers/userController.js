@@ -40,10 +40,14 @@ const getUserProfile = async(req, res) =>{
 // This will create a user and their JWT and cookies which last for 15d. If the user exist then it will give message that they exist
 const signupUser = async(req, res) => {
     try{
-        const { name, email, username, password} = req.body;
+        const { name, email, username, password, timezone} = req.body;
         const user = await User.findOne({$or:[{email}, {username}]}); // this will find out if the email or the username is already exist
         if(user){
             return res.status(400).json({error:"Username or email already exists."});
+        }
+
+        if(!timezone){
+            timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -54,6 +58,7 @@ const signupUser = async(req, res) => {
             email,
             username,
             password: hashedPassword,
+            timezone,
         });
 
         await newUser.save();
@@ -82,7 +87,7 @@ const signupUser = async(req, res) => {
 
 const loginUser = async(req, res) => {
     try {
-        const { username, password } = req.body;
+        const { username, password, timezone } = req.body;
         const user = await User.findOne({ username }); //when the user is not found, you cannot reach to password of undefined
         const isPasswordCorrect = await bcrypt.compare(password, user?.password || ""); // we put "" because we don't want to compare existing password with a null
 
@@ -103,6 +108,7 @@ const loginUser = async(req, res) => {
             bio: user.bio,
             profilePic: user.profilePic,
             bannerPic: user.bannerPic,
+            timezone: user.timezone,
         });
         
     } catch (error) {

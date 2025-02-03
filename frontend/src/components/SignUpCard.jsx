@@ -35,6 +35,7 @@ export default function SignUpCard() {
 
   const showToast = useShowToast();
   const setUser = useSetRecoilState(userAtom);
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const validateName = () => {
     if(inputs.name.match(/[^a-zA-Z]/)){
@@ -98,7 +99,10 @@ export default function SignUpCard() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(inputs)
+        body: JSON.stringify({
+          ...inputs,
+          timezone: userTimezone,
+        })
       });
 
       const data = await res.json();

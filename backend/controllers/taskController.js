@@ -137,22 +137,27 @@ export const resetTasksForNewDay = async (req, res) => {
     try {
       // Add logs for debugging
     console.log("Resetting tasks...");
-    await Task.updateMany({}, { status: "incomplete" });
-
-    console.log("Updating streaks...");
     const users = await User.find({});
-    for (const user of users) {
-      const currentDate = new Date().setHours(0, 0, 0, 0);
-      const lastCompletedDate = new Date(user.lastCompletedDate || 0).setHours(0, 0, 0, 0);
 
-      if (currentDate > lastCompletedDate + 86400000) {
-        user.streakCount = 0;
-        user.lastCompletedDate = null;
-      }
+    for (const user of users){
+        if(!user.timezone) continue;
 
-      await user.save();
-    }
-  
+        const now = moment().tz(user.timezone);
+
+        if(now.hours() === 0 && now.minutes() === 0) {
+            console.log(`Resetting tasks for user: ${user.username} in ${user.timezone}`);
+            await Task.updateMany({ userId: user._id }, { status: "incomplete" });
+
+            const lastCompletedDate = user.lastCompletedDate ? moment(user.lastCompletedDate).tz(user.timezone) : null;
+
+            if (lastCompletedDate && now.diff(lastCompletedDate, "days") >= 1) {
+                user.streakCount = 0; 
+                user.lastCompletedDate = null;
+            }
+
+            await user.save();
+        }
+    } 
       res.status(200).json({ message: "Tasks reset and streaks updated successfully." });
     } catch (error) {
       console.error("Error resetting tasks or updating streaks:", error.message);
