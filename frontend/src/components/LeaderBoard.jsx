@@ -13,6 +13,7 @@ const LeaderBoard = () => {
     const [loading, setLoading] = useState(true);
     const showToast = useShowToast();
     const currentUser = useRecoilValue(userAtom);
+    const userBG = useColorModeValue("gray.200", "gray.dark")
 
     useEffect(() => {
         const fetchLeaderboard = async () => {
@@ -91,7 +92,7 @@ const LeaderBoard = () => {
                         Your Position
                     </Text>
                     {userRankData.map((user, index) => (
-                        <Flex key={user._id} alignItems="center" p={2} borderRadius="md" mb={2} bg={user._id === currentUser._id ? useColorModeValue("gray.200", "gray.dark") : "transparent"}>
+                        <Flex key={user._id} alignItems="center" p={2} borderRadius="md" mb={2} bg={user._id === currentUser._id ? userBG : "transparent"}>
                             <Text fontWeight="bold" mr={2}>
                                 #{currentUserRank - 2 + index}
                             </Text>

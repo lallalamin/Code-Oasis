@@ -4,7 +4,7 @@ import LeaderBoard from '../components/LeaderBoard'
 const LeaderboardPage = () => {
   return (
     <div>
-      <LeaderBoard />
+      <LeaderBoard/>
     </div>
   )
 }
