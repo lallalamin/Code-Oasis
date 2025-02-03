@@ -56,6 +56,7 @@ import { useNavigate } from 'react-router-dom';
         }
         localStorage.setItem("user-threads", JSON.stringify(data));
         setUser(data);
+        console.log(data);
         navigate("/home");
 
       } catch (error) {

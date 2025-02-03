@@ -108,7 +108,7 @@ const loginUser = async(req, res) => {
             bio: user.bio,
             profilePic: user.profilePic,
             bannerPic: user.bannerPic,
-            timezone: user.timezone,
+            timezone: timezone,
         });
         
     } catch (error) {
