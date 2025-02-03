@@ -6,6 +6,7 @@ import userRoutes from './routes/userRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import eventRoutes from './routes/eventRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
+import leaderboardRoutes from './routes/leaderboardRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
 import {v2 as cloudinary} from 'cloudinary';
 import { app, server } from './socket/socket.js';
@@ -39,6 +40,7 @@ app.use("/api/posts", postRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/tasks", taskRoutes);
+app.use("/api/leaderboard", leaderboardRoutes);
 
 // http://localhost:5000 => both backend and frontend
 
