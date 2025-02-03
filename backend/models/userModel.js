@@ -57,9 +57,10 @@ const userSchema =  mongoose.Schema({
     lastCompletedDate: {
         type: Date, 
     },
-    taskLimit: {
-        type: Number,
-        default: 10, 
+    timezone: {
+        type: String,
+        required: true,
+        default: "UTC",
     },
 }, {
     timestamps: true,
