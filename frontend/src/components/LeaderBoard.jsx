@@ -45,6 +45,18 @@ const LeaderBoard = () => {
         fetchLeaderboard();
     }, []);
 
+    const sparkleAnimation = {
+        hidden: { opacity: 0, scale: 0 },
+        visible: {
+            opacity: [0, 1, 0],
+            scale: [1, 1.5, 1],
+            transition: {
+                repeat: Infinity,
+                duration: 1.5,
+            },
+        },
+    };
+
     return (
         <Box>
             <Text fontSize="2xl" fontWeight="bold" my={1}>
@@ -65,30 +77,50 @@ const LeaderBoard = () => {
                     </Flex>
                 ))
             ) : (
-                <Flex flexDirection="column" align="center">
+                <Flex flexDirection="column" gap={4} align="center">
                     {/* Podium Display */}
                     <Flex justifyContent="center" alignItems="flex-end" mb={6}>
                         <Box textAlign="center" mx={2}>
                             <Avatar size="lg" src={leaderboard[1]?.profilePic} mb={2} />
-                            <Text fontWeight="bold">#{leaderboard[1]?.rank} {leaderboard[1]?.name}</Text>
-                            <Box bg="gray.300" w="80px" h="60px" borderRadius="md" />
+                            <Text fontWeight="bold">{leaderboard[1]?.name}</Text>
+                            <Flex flexDirection="column" alignItems="center" mt={2}>
+                                <Image src="/leaderboard/silver-cup.png" w="40px" />
+                                <Flex bg="gray.400" w="120px" h="80px" borderRadius="md" alignItems="flex-end" justifyContent="center" >
+                                    <Text color={"black"} w={"full"} bg="gray.200" m={3} borderRadius="md" fontSize="sm" fontWeight="bold">{leaderboard[1]?.xp} XP</Text>
+                                </Flex>
+                            </Flex>
                         </Box>
                         <Box textAlign="center" mx={2}>
-                            <Avatar size="lg" src={leaderboard[0]?.profilePic} mb={2} />
-                            <Text fontWeight="bold">#{leaderboard[0]?.rank} {leaderboard[0]?.name}</Text>
-                            <Box bg="gold" w="100px" h="80px" borderRadius="md" />
+                            <Flex flexDirection="column" alignItems="center">
+                                <Image src="/leaderboard/crown.png" w="40px" />
+                                <Avatar size="lg" src={leaderboard[0]?.profilePic} mb={2} />
+                            </Flex>
+
+                            <Text fontWeight="bold">{leaderboard[0]?.name}</Text>
+                            <Flex flexDirection="column" alignItems="center" mt={2}>
+                                <Image src="/leaderboard/gold-cup.png" w="40px" />
+                                <Flex bg="gold" w="120px" h="100px" borderRadius="md" alignItems="flex-end" justifyContent="center" >
+                                    <Text color={"black"} w={"full"} bg="yellow.200" m={3} borderRadius="md" fontSize="sm" fontWeight="bold">{leaderboard[0]?.xp} XP</Text>
+                                </Flex>
+                            </Flex>
                         </Box>
                         <Box textAlign="center" mx={2}>
                             <Avatar size="lg" src={leaderboard[2]?.profilePic} mb={2} />
-                            <Text fontWeight="bold">#{leaderboard[2]?.rank} {leaderboard[2]?.name}</Text>
-                            <Box bg="silver" w="80px" h="60px" borderRadius="md" />
+                            <Text fontWeight="bold">{leaderboard[2]?.name}</Text>
+                            <Flex flexDirection="column" alignItems="center" mt={2}>
+                                <Image src="/leaderboard/bronze-cup.png" w="40px" />
+                                <Flex bg="orange.800" w="120px" h="60px" borderRadius="md" alignItems="flex-end" justifyContent="center" >
+                                    <Text color={"black"} w={"full"} bg="orange.200" m={3} borderRadius="md" fontSize="sm" fontWeight="bold">{leaderboard[2]?.xp} XP</Text>
+                                </Flex>
+                            </Flex>
                         </Box>
                     </Flex>
 
                     {/* Remaining Users */}
                     <Flex flexDirection="column" w="full">
                         {leaderboard.slice(3).map((user) => (
-                            <Flex key={user._id} alignItems="center" p={2}>
+                            <Flex key={user._id} alignItems="center" p={2} >
+                                <Image src="/leaderboard/medal.png" w="40px" mr={2} />
                                 <Text fontWeight="bold" mr={2}>#{user.rank}</Text>
                                 <Avatar size="md" src={user.profilePic} mr={2} />
                                 <Flex flexDirection="column">
@@ -102,7 +134,7 @@ const LeaderBoard = () => {
                 </Flex>
             )}
 
-            {/* USER'S RELATIVE RANK (ALWAYS SHOW 5) */}
+            {/* USER'S RELATIVE RANK */}
             {currentUserRank && (
                 <>
                     <Divider my={4} />
