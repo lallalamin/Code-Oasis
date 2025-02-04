@@ -45,11 +45,7 @@ export const getLeaderboard = async (req, res) => {
                     rank: start + index + 1,
                 }));
             }
-        }
-
-        console.log("Current User Rank:", currentUserRank);
-        console.log("User Rank Data:", userRankData);
-        console.log("Top Users:", topUsers);   
+        }  
 
         res.status(200).json({
             topUsers,
