@@ -87,7 +87,7 @@ const LeaderBoard = () => {
                             <Flex flexDirection="column" alignItems="center" mt={2}>
                                 <Image src="/leaderboard/gold-cup.png" w="40px" />
                                 <Flex bg="gold" w="120px" h="100px" borderRadius="md" alignItems="flex-end" justifyContent="center" >
-                                    <Text color={"black"} w={"full"} bg="yellow.200" m={3} borderRadius="md" fontSize="sm" fontWeight="bold">{leaderboard[0]?.xp} XP</Text>
+                                    <Text color={"black"} w={"full"} bg="yellow.100" m={3} borderRadius="md" fontSize="sm" fontWeight="bold">{leaderboard[0]?.xp} XP</Text>
                                 </Flex>
                             </Flex>
                         </Box>
