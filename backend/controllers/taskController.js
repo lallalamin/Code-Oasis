@@ -38,16 +38,8 @@ export const completedTask = async (req, res) => {
 
         const incompleteTasks = await Task.find({ userId: user._id, status: "incomplete" });
 
-        if (incompleteTasks.length === 0) {
-            const currentDate = new Date().setHours(0, 0, 0, 0); // Today's date
-            const lastCompletedDate = new Date(user.lastCompletedDate || 0).setHours(0, 0, 0, 0);
-      
-            if (currentDate === lastCompletedDate + 86400000) {
-              user.streakCount += 1; // Increment streak
-            } else if (currentDate > lastCompletedDate + 86400000) {
-              user.streakCount = 0; // Reset streak
-            }
-      
+        if (incompleteTasks.length === 0) {  
+            user.streakCount += 1; // Increment streak
             user.lastCompletedDate = new Date(); // Update last completed date
         }
       

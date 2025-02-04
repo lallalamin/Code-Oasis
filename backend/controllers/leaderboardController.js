@@ -42,7 +42,7 @@ export const getLeaderboard = async (req, res) => {
 
                 userRankData = allUsers.slice(start, end).map((user, index) => ({
                     ...user.toObject(),
-                    rank: index + 1,
+                    rank: start + index + 1,
                 }));
             }
         }
