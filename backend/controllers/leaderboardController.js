@@ -3,12 +3,14 @@ import User from '../models/userModel.js';
 
 export const getLeaderboard = async (req, res) => {
     try {
-        const topUsers = await User.find({}, "name username profilePic xp")
-            .sort({ xp: -1 }) // Sort users by XP
-            .limit(10); // Get top 10
-
         const allUsers = await User.find({}, "name username profilePic xp")
             .sort({ xp: -1 }); // Sort all users to determine ranks
+
+            
+        const topUsers = allUsers.slice(0, 10).map((user, index) => ({
+            ...user.toObject(),
+            rank: index + 1, // Assign rank explicitly
+        }));
 
         // Find current user's rank
         const currentUserId = req.user?._id; // Ensure authentication
@@ -24,17 +26,24 @@ export const getLeaderboard = async (req, res) => {
                 let start = Math.max(0, userIndex - 2); // 2 above
                 let end = Math.min(allUsers.length, userIndex + 3); // 2 below
 
-                if (userIndex === 0) {
-                    // If user is #1, show 4 below
-                    start = 0;
-                    end = Math.min(allUsers.length, 5);
-                } else if (userIndex === allUsers.length - 1) {
-                    // If user is last, show 4 above
-                    start = Math.max(0, allUsers.length - 5);
-                    end = allUsers.length;
+                if (end - start < 5) {
+                    // Adjust `start` or `end` to make up for the difference
+                    if (start === 0) {
+                        end = Math.min(allUsers.length, 5); // Pad below if at the top
+                    } else if (end === allUsers.length) {
+                        start = Math.max(0, allUsers.length - 5); // Pad above if at the bottom
+                    } else {
+                        // Dynamically adjust both `start` and `end` if in the middle
+                        const extra = 5 - (end - start);
+                        start = Math.max(0, start - Math.floor(extra / 2));
+                        end = Math.min(allUsers.length, end + Math.ceil(extra / 2));
+                    }
                 }
 
-                userRankData = allUsers.slice(start, end);
+                userRankData = allUsers.slice(start, end).map((user, index) => ({
+                    ...user.toObject(),
+                    rank: index + 1,
+                }));
             }
         }
 

@@ -9,7 +9,7 @@ import postsAtom from "../atoms/postsAtom";
 import { useNavigate } from "react-router-dom";
 import SuggestedUsers from "../components/SuggestedUsers";
 import CustomCalendar from "../components/CustomCalendar";
-import LeaderBoard from "../components/LeaderBoard";
+import MiniLeaderboard from "../components/MiniLeaderboard";
 import { Link as RouterLink } from 'react-router-dom'
 
 const HomePage = () => {
@@ -80,7 +80,7 @@ const HomePage = () => {
             </Box>
             <Box flex={30} display={{base: "none", md: "block"}}>
                 <SuggestedUsers />
-                <LeaderBoard/>
+                <MiniLeaderboard/>
             </Box>
         </Flex>
     );

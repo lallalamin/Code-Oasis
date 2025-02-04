@@ -65,23 +65,41 @@ const LeaderBoard = () => {
                     </Flex>
                 ))
             ) : (
-                leaderboard.map((user, index) => (
-                    <Flex key={user._id} alignItems="center" p={2} borderRadius="md" mb={2}>
-                        <Box mr={3}>
-                            {index === 0 ? <Image src="/leaderboard/gold-cup.png" w="40px" /> :
-                             index === 1 ? <Image src="/leaderboard/silver-cup.png" w="40px" /> :
-                             index === 2 ? <Image src="/leaderboard/bronze-cup.png" w="40px" /> : null}
+                <Flex flexDirection="column" align="center">
+                    {/* Podium Display */}
+                    <Flex justifyContent="center" alignItems="flex-end" mb={6}>
+                        <Box textAlign="center" mx={2}>
+                            <Avatar size="lg" src={leaderboard[1]?.profilePic} mb={2} />
+                            <Text fontWeight="bold">#{leaderboard[1]?.rank} {leaderboard[1]?.name}</Text>
+                            <Box bg="gray.300" w="80px" h="60px" borderRadius="md" />
                         </Box>
-                        <Flex flex="1">
-                            <Avatar size="md" name={user.name} src={user.profilePic} mr={2} />
-                            <Flex flex="1" flexDirection="column">
-                                <Text fontWeight="bold">{user.name}</Text>
-                                <Text fontSize="sm" color="gray.500">@{user.username}</Text>
-                            </Flex>
-                        </Flex>
-                        <Text fontWeight="bold">{user.xp} XP</Text>
+                        <Box textAlign="center" mx={2}>
+                            <Avatar size="lg" src={leaderboard[0]?.profilePic} mb={2} />
+                            <Text fontWeight="bold">#{leaderboard[0]?.rank} {leaderboard[0]?.name}</Text>
+                            <Box bg="gold" w="100px" h="80px" borderRadius="md" />
+                        </Box>
+                        <Box textAlign="center" mx={2}>
+                            <Avatar size="lg" src={leaderboard[2]?.profilePic} mb={2} />
+                            <Text fontWeight="bold">#{leaderboard[2]?.rank} {leaderboard[2]?.name}</Text>
+                            <Box bg="silver" w="80px" h="60px" borderRadius="md" />
+                        </Box>
                     </Flex>
-                ))
+
+                    {/* Remaining Users */}
+                    <Flex flexDirection="column" w="full">
+                        {leaderboard.slice(3).map((user) => (
+                            <Flex key={user._id} alignItems="center" p={2}>
+                                <Text fontWeight="bold" mr={2}>#{user.rank}</Text>
+                                <Avatar size="md" src={user.profilePic} mr={2} />
+                                <Flex flexDirection="column">
+                                    <Text fontWeight="bold">{user.name}</Text>
+                                    <Text fontSize="sm" color="gray.500">@{user.username}</Text>
+                                </Flex>
+                                <Text fontWeight="bold" ml="auto">{user.xp} XP</Text>
+                            </Flex>
+                        ))}
+                    </Flex>
+                </Flex>
             )}
 
             {/* USER'S RELATIVE RANK (ALWAYS SHOW 5) */}
@@ -94,7 +112,7 @@ const LeaderBoard = () => {
                     {userRankData.map((user, index) => (
                         <Flex key={user._id} alignItems="center" p={2} borderRadius="md" mb={2} bg={user._id === currentUser._id ? userBG : "transparent"}>
                             <Text fontWeight="bold" mr={2}>
-                                #{currentUserRank - 2 + index}
+                                #{user.rank}
                             </Text>
                             <Flex flex="1">
                                 <Avatar size="md" name={user.name} src={user.profilePic} mr={2} />
