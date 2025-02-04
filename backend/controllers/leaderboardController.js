@@ -6,7 +6,7 @@ export const getLeaderboard = async (req, res) => {
         const allUsers = await User.find({}, "name username profilePic xp")
             .sort({ xp: -1 }); // Sort all users to determine ranks
 
-            
+
         const topUsers = allUsers.slice(0, 10).map((user, index) => ({
             ...user.toObject(),
             rank: index + 1, // Assign rank explicitly

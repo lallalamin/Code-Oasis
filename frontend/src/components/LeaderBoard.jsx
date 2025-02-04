@@ -45,18 +45,6 @@ const LeaderBoard = () => {
         fetchLeaderboard();
     }, []);
 
-    const sparkleAnimation = {
-        hidden: { opacity: 0, scale: 0 },
-        visible: {
-            opacity: [0, 1, 0],
-            scale: [1, 1.5, 1],
-            transition: {
-                repeat: Infinity,
-                duration: 1.5,
-            },
-        },
-    };
-
     return (
         <Box>
             <Text fontSize="2xl" fontWeight="bold" my={1}>
@@ -81,7 +69,7 @@ const LeaderBoard = () => {
                     {/* Podium Display */}
                     <Flex justifyContent="center" alignItems="flex-end" mb={6}>
                         <Box textAlign="center" mx={2}>
-                            <Avatar size="lg" src={leaderboard[1]?.profilePic} mb={2} />
+                            <Avatar size="lg" src={leaderboard[1]?.profilePic} mb={2} as={routerLink} to={`/${leaderboard[1]?._id}`} />
                             <Text fontWeight="bold">{leaderboard[1]?.name}</Text>
                             <Flex flexDirection="column" alignItems="center" mt={2}>
                                 <Image src="/leaderboard/silver-cup.png" w="40px" />
@@ -93,9 +81,8 @@ const LeaderBoard = () => {
                         <Box textAlign="center" mx={2}>
                             <Flex flexDirection="column" alignItems="center">
                                 <Image src="/leaderboard/crown.png" w="40px" />
-                                <Avatar size="lg" src={leaderboard[0]?.profilePic} mb={2} />
+                                <Avatar size="lg" src={leaderboard[0]?.profilePic} mb={2} as={routerLink} to={`/${leaderboard[0]?._id}`}/>
                             </Flex>
-
                             <Text fontWeight="bold">{leaderboard[0]?.name}</Text>
                             <Flex flexDirection="column" alignItems="center" mt={2}>
                                 <Image src="/leaderboard/gold-cup.png" w="40px" />
@@ -105,7 +92,7 @@ const LeaderBoard = () => {
                             </Flex>
                         </Box>
                         <Box textAlign="center" mx={2}>
-                            <Avatar size="lg" src={leaderboard[2]?.profilePic} mb={2} />
+                            <Avatar size="lg" src={leaderboard[2]?.profilePic} mb={2} as={routerLink} to={`/${leaderboard[2]?._id}`}/>
                             <Text fontWeight="bold">{leaderboard[2]?.name}</Text>
                             <Flex flexDirection="column" alignItems="center" mt={2}>
                                 <Image src="/leaderboard/bronze-cup.png" w="40px" />
@@ -121,8 +108,8 @@ const LeaderBoard = () => {
                         {leaderboard.slice(3).map((user) => (
                             <Flex key={user._id} alignItems="center" p={2} >
                                 <Image src="/leaderboard/medal.png" w="40px" mr={2} />
-                                <Text fontWeight="bold" mr={2}>#{user.rank}</Text>
-                                <Avatar size="md" src={user.profilePic} mr={2} />
+                                <Text fontWeight="bold" mr={2}>{user.rank}</Text>
+                                <Avatar size="md" src={user.profilePic} mr={2} as={routerLink} to={`/${user.username}`} />
                                 <Flex flexDirection="column">
                                     <Text fontWeight="bold">{user.name}</Text>
                                     <Text fontSize="sm" color="gray.500">@{user.username}</Text>
@@ -144,10 +131,10 @@ const LeaderBoard = () => {
                     {userRankData.map((user, index) => (
                         <Flex key={user._id} alignItems="center" p={2} borderRadius="md" mb={2} bg={user._id === currentUser._id ? userBG : "transparent"}>
                             <Text fontWeight="bold" mr={2}>
-                                #{user.rank}
+                                {user.rank}
                             </Text>
                             <Flex flex="1">
-                                <Avatar size="md" name={user.name} src={user.profilePic} mr={2} />
+                                <Avatar size="md" name={user.name} src={user.profilePic} mr={2}  as={routerLink} to={`/${user.username}`} />
                                 <Flex flex="1" flexDirection="column">
                                     <Text fontWeight="bold">{user.name}</Text>
                                     <Text fontSize="sm" color="gray.500">@{user.username}</Text>
