@@ -119,108 +119,32 @@ export const updateTask = async (req, res) => {
     }
 }
 
-// export const resetTasksForNewDay = async (req, res) => {
-//     const AUTH_TOKEN = process.env.RESET_API_TOKEN;
-//     const providedToken = req.headers.authorization?.split(" ")[1];
-    
-//     if (providedToken !== AUTH_TOKEN) {
-//         return res.status(401).json({ message: "Unauthorized: Invalid token" });
-//     }
-
-//     try {
-//       // Add logs for debugging
-//     console.log("Resetting tasks...");
-//     const users = await User.find({});
-
-//     for (const user of users){
-//         if(!user.timezone) continue;
-
-//         const now = moment().tz(user.timezone);
-
-//         if(now.hours() === 0 && now.minutes() === 0) {
-//             console.log(`Resetting tasks for user: ${user.username} in ${user.timezone}`);
-//             await Task.updateMany({ userId: user._id }, { status: "incomplete" });
-
-//             const lastCompletedDate = user.lastCompletedDate ? moment(user.lastCompletedDate).tz(user.timezone) : null;
-
-//             if (lastCompletedDate && now.diff(lastCompletedDate, "days") >= 1) {
-//                 user.streakCount = 0; 
-//                 user.lastCompletedDate = null;
-//             }
-
-//             await user.save();
-//         }
-//     } 
-//       res.status(200).json({ message: "Tasks reset and streaks updated successfully." });
-//     } catch (error) {
-//       console.error("Error resetting tasks or updating streaks:", error.message);
-//       res.status(500).json({ message: "Error resetting tasks or updating streaks." });
-//     }
-//   };
-
-export const resetTasksForNewDay = async (req, res) => {
-    const AUTH_TOKEN = process.env.RESET_API_TOKEN;
-    const providedToken = req.headers.authorization?.split(" ")[1];
-
-    if (providedToken !== AUTH_TOKEN) {
-        return res.status(401).json({ message: "Unauthorized: Invalid token" });
-    }
-
+export const resetTasksForUser = async (req, res) => {
     try {
-        console.log("Resetting tasks...");
-        const users = await User.find({});
+        const userId = req.user._id; // Assume the user is authenticated
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ message: "User not found" });
 
-        for (const user of users) {
-            if (!user.timezone) continue;
+        const incompleteTasks = await Task.find({ userId, status: "incomplete" });
 
-            const now = moment().tz(user.timezone);
-            const previousDayStart = now.clone().subtract(1, "day").startOf("day");
-            const previousDayEnd = now.clone().startOf("day");
-
-            // Check if all tasks were completed on the previous day
-            const totalTasks = await Task.countDocuments({ userId: user._id });
-            const completedTasks = await Task.find({
-                userId: user._id,
-                status: "completed",
-                updatedAt: { $gte: previousDayStart.toDate(), $lt: previousDayEnd.toDate() },
-            });
-
-            // Update streak and lastCompletedDate
-            if (completedTasks.length === totalTasks && totalTasks > 0) {
-                const lastCompletedDate = user.lastCompletedDate
-                    ? moment(user.lastCompletedDate).tz(user.timezone)
-                    : null;
-
-                // Increment streak if the user completed tasks consecutively
-                if (lastCompletedDate && now.diff(lastCompletedDate, "days") === 1) {
-                    user.streakCount += 1;
-                } else {
-                    user.streakCount = 1; // Start a new streak
-                }
-
-                user.lastCompletedDate = now.clone().subtract(1, "day").toDate(); // Update to previous day
-            } else {
-                // Reset streak if tasks were not fully completed
-                user.streakCount = 0;
-                user.lastCompletedDate = null;
-            }
-
-            await user.save(); // Save user updates
-
-            // Log the streak update
-            console.log(`User: ${user.username}, Streak: ${user.streakCount}`);
+        if (incompleteTasks.length !== 0) {
+            user.streakCount = 0;
+            user.lastCompletedDate = null;
+            await user.save();
         }
 
-        // Reset all tasks to "incomplete" for the new day
-        await Task.updateMany({}, { status: "incomplete" });
+        await Task.updateMany({ userId, status:"completed" }, { status: "incomplete" });
 
-        res.status(200).json({ message: "Tasks reset and streaks updated successfully." });
+        res.status(200).json({
+            message: "Tasks reset and streak updated successfully",
+            streakCount: user.streakCount
+        });
+
     } catch (error) {
-        console.error("Error resetting tasks or updating streaks:", error.message);
-        res.status(500).json({ message: "Error resetting tasks or updating streaks." });
+        console.error("Error resetting tasks:", error.message);
+        res.status(500).json({ message: "Error resetting tasks" });
     }
-};
+}
 
 
-
-export default { getTasks, completedTask, createTask, deleteTask, updateTask, resetTasksForNewDay };
+export default { getTasks, completedTask, createTask, deleteTask, updateTask, resetTasksForUser };

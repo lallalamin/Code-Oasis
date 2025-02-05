@@ -1,10 +1,10 @@
 import express from "express";
-import { getTasks, completedTask, createTask, deleteTask, updateTask, resetTasksForNewDay } from "../controllers/taskController.js";
+import { getTasks, completedTask, createTask, deleteTask, updateTask, resetTasksForUser } from "../controllers/taskController.js";
 import protectRoute from "../middlewares/protectRoute.js";
 
 const router = express.Router();
 
-router.get("/reset", resetTasksForNewDay);
+router.get("/reset", protectRoute, resetTasksForUser);
 router.get("/:id", protectRoute, getTasks);
 router.post("/create", protectRoute, createTask);
 router.put("/update/:id", protectRoute, updateTask);
