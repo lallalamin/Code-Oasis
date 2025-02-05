@@ -121,11 +121,11 @@ export const updateTask = async (req, res) => {
 
 export const resetTasksForUser = async (req, res) => {
     try {
-        const userId = req.user._id; // Assume the user is authenticated
+        const userId = req.user._id; 
         const user = await User.findById(userId);
         if (!user) return res.status(404).json({ message: "User not found" });
 
-        const incompleteTasks = await Task.find({ userId, status: "incomplete" });
+        const incompleteTasks = await Task.countDocuments({ userId, status: "incomplete" });
 
         if (incompleteTasks.length !== 0) {
             user.streakCount = 0;
