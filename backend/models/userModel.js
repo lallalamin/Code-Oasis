@@ -60,7 +60,6 @@ const userSchema =  mongoose.Schema({
     timezone: {
         type: String,
         required: true,
-        default: "UTC",
     },
     timezoneOffset: {
         type: Number,

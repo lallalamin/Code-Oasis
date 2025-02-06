@@ -2,6 +2,7 @@ import User from '../models/userModel.js';
 import bcrypt from "bcryptjs"
 import generateTokenAndSetCookie from '../utils/helpers/generateTokenAndSetCookie.js';
 import mongoose from 'mongoose';
+import moment from "moment-timezone";
 import { v2 as cloudinary } from 'cloudinary';
 import Post from '../models/postModel.js';
 
@@ -47,8 +48,10 @@ const signupUser = async(req, res) => {
         }
 
         if(!timezone){
-            timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+            timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         }
+
+        const timezoneOffset = moment.tz(timezone).utcOffset() / 60;
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -59,6 +62,7 @@ const signupUser = async(req, res) => {
             username,
             password: hashedPassword,
             timezone,
+            timezoneOffset
         });
 
         await newUser.save();
@@ -90,7 +94,7 @@ const loginUser = async(req, res) => {
         const { username, password, timezone } = req.body;
         const user = await User.findOne({ username }); //when the user is not found, you cannot reach to password of undefined
         const isPasswordCorrect = await bcrypt.compare(password, user?.password || ""); // we put "" because we don't want to compare existing password with a null
-
+        console.log(timezone)
         if(!user || !isPasswordCorrect) return res.status(400).json({error: "Invalid username or password"});
 
         if(user.isFrozen){
@@ -98,7 +102,14 @@ const loginUser = async(req, res) => {
             await user.save();
         }
 
+        user.timezone = timezone;
+        user.timezoneOffset = moment.tz(timezone).utcOffset() / 60;
+
+        await user.save();
+
         generateTokenAndSetCookie(user._id, res);
+
+        console.log(user);
 
         res.status(200).json({
             _id: user._id,
@@ -108,7 +119,8 @@ const loginUser = async(req, res) => {
             bio: user.bio,
             profilePic: user.profilePic,
             bannerPic: user.bannerPic,
-            timezone: timezone,
+            timezone: user.timezone,
+            timezoneOffset: user.timezoneOffset
         });
         
     } catch (error) {

@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import { resetTasksForTimezoneBatch } from "./controllers/taskController.js"; 
+import { resetTasksForTimezoneBatch } from "../controllers/taskController.js";
 
 // Run every hour (at the start of the hour)
 cron.schedule("0 * * * *", async () => {
@@ -8,3 +8,5 @@ cron.schedule("0 * * * *", async () => {
     
     await resetTasksForTimezoneBatch(currentHourUTC - 12);
 });
+
+export default cron;

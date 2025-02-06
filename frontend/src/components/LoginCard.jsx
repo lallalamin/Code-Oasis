@@ -33,6 +33,8 @@ import { useNavigate } from 'react-router-dom';
     });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log(timezone);
 
     const handleLogin = async() => {
       setLoading(true);
@@ -44,7 +46,7 @@ import { useNavigate } from 'react-router-dom';
           },
           body: JSON.stringify({
             ...inputs,
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            timezone: timezone,
           }),
         })
 

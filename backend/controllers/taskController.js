@@ -193,4 +193,4 @@ export const resetTasksForTimezoneBatch = async (utcOffset) => {
 
 
 
-export default { getTasks, completedTask, createTask, deleteTask, updateTask, resetTasksForUser };
+export default { getTasks, completedTask, createTask, deleteTask, updateTask, resetTasksForUser, resetTasksForTimezoneBatch };
