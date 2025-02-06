@@ -119,33 +119,6 @@ export const updateTask = async (req, res) => {
     }
 }
 
-export const resetTasksForUser = async (req, res) => {
-    try {
-        const userId = req.user._id; 
-        const user = await User.findById(userId);
-        if (!user) return res.status(404).json({ message: "User not found" });
-
-        const incompleteTasks = await Task.countDocuments({ userId, status: "incomplete" });
-
-        if (incompleteTasks.length !== 0) {
-            user.streakCount = 0;
-            user.lastCompletedDate = null;
-            await user.save();
-        }
-
-        await Task.updateMany({ userId, status:"completed" }, { status: "incomplete" });
-
-        res.status(200).json({
-            message: "Tasks reset and streak updated successfully",
-            streakCount: user.streakCount
-        });
-
-    } catch (error) {
-        console.error("Error resetting tasks:", error.message);
-        res.status(500).json({ message: "Error resetting tasks" });
-    }
-}
-
 export const resetTasksForTimezoneBatch = async (utcOffset) => {
     try {
         // Find users who are in this timezone batch
@@ -193,4 +166,4 @@ export const resetTasksForTimezoneBatch = async (utcOffset) => {
 
 
 
-export default { getTasks, completedTask, createTask, deleteTask, updateTask, resetTasksForUser, resetTasksForTimezoneBatch };
+export default { getTasks, completedTask, createTask, deleteTask, updateTask, resetTasksForTimezoneBatch };
