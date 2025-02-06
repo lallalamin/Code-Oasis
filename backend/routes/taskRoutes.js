@@ -4,8 +4,9 @@ import protectRoute from "../middlewares/protectRoute.js";
 
 const router = express.Router();
 
-router.get("/reset", protectRoute, resetTasksForUser);
+
 router.get("/:id", protectRoute, getTasks);
+router.post("/reset", protectRoute, resetTasksForUser);
 router.post("/create", protectRoute, createTask);
 router.put("/update/:id", protectRoute, updateTask);
 router.put("/complete/:id", protectRoute, completedTask);
