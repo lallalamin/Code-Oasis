@@ -48,37 +48,12 @@ const ToDoContainer = ({user}) => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            const updatedTIme = useTimeUntilNextDay();
-            setTimeLeft(updatedTIme);
+            const updatedTime = useTimeUntilNextDay();
+            setTimeLeft(updatedTime);
 
-            if(updatedTIme.hours === 0 && updatedTIme.minutes === 0 && updatedTIme.seconds === 0) {
-                resetTasksForNewDay();
-            }
         }, 1000);
         return () => clearInterval(interval);
     }, []);
-
-    const resetTasksForNewDay = async () => {
-        try {
-            const response = await fetch(`/api/tasks/reset`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            const data = await response.json();
-            if (data.error) {
-                showToast("Error", data.error, "error");
-                return;
-            }
-
-            setStreak(data.streak);
-        } catch (error) {
-            showToast("Error", error, "error");
-        }
-    }
-    
 
     const handleTaskAdd = (newTask) => {
         setTasks((prevTasks) => [...prevTasks, newTask]);

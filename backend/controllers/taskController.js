@@ -146,5 +146,51 @@ export const resetTasksForUser = async (req, res) => {
     }
 }
 
+export const resetTasksForTimezoneBatch = async (utcOffset) => {
+    try {
+        // Find users who are in this timezone batch
+        const users = await User.find({ timezoneOffset: utcOffset });
+
+        if (users.length === 0) {
+            console.log(`🚫 No users found for UTC offset ${utcOffset}. Skipping.`);
+            return;
+        }
+
+        console.log(`🔥 Resetting tasks for users in UTC offset ${utcOffset}...`);
+
+        for (const user of users) {
+            const now = moment().tz(user.timezone);
+            const previousDayStart = now.clone().subtract(1, "day").startOf("day");
+            const previousDayEnd = now.clone().startOf("day");
+
+            // Check if the user completed all tasks
+            const incompleteTasks = await Task.countDocuments({
+                userId: user._id,
+                status: "incomplete",
+                updatedAt: { $gte: previousDayStart.toDate(), $lt: previousDayEnd.toDate() },
+            });
+
+            if (incompleteTasks > 0) {
+                console.log(`❌ User ${user.username} did NOT complete all tasks. Resetting streak.`);
+                user.streakCount = 0;
+                user.lastCompletedDate = null;
+            } else {
+                console.log(`✅ User ${user.username} completed all tasks! Keeping streak.`);
+            }
+
+            await user.save();
+
+            // Reset only "completed" tasks to "incomplete"
+            await Task.updateMany({ userId: user._id, status: "completed" }, { status: "incomplete" });
+
+            console.log(`✅ Reset successful for user: ${user.username}, New Streak Count: ${user.streakCount}`);
+        }
+
+    } catch (error) {
+        console.error(`❌ Error in resetTasksForTimezoneBatch (UTC offset ${utcOffset}):`, error.message);
+    }
+};
+
+
 
 export default { getTasks, completedTask, createTask, deleteTask, updateTask, resetTasksForUser };
