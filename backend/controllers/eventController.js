@@ -1,10 +1,10 @@
 import Event from "../models/eventModel.js";
 
-async function createEvent(req, res) {
+const createEvent = async(req, res) =>{
     try {
-        const { postedBy, title, eventType, description, date, time, location } = req.body;
+        const { postedBy, title, eventType, description, date, time, location, eligibility, link } = req.body;
 
-        if(!postedBy || !title || !eventType || !description || !date || !time || !location) {
+        if(!postedBy || !title || !eventType || !description || !date || !time || !location ) {
             return res.status(400).json({ error: "All fields are required" });
         }
 
@@ -15,7 +15,9 @@ async function createEvent(req, res) {
             description,
             date,
             time,
-            location
+            location,
+            eligibility,
+            link
         });
 
         await newEvent.save();
@@ -25,3 +27,5 @@ async function createEvent(req, res) {
         res.status(500).json({ error: error.message})
     }
 }
+
+export { createEvent };
