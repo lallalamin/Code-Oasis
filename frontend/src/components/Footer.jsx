@@ -2,7 +2,6 @@ import { Flex, useColorMode, Image, Link, Box, Button, Text, useToast } from '@c
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
-import { AiFillHome } from 'react-icons/ai'
 import { Link as RouterLink } from 'react-router-dom'
 import authScreenAtom from '../atoms/authAtom'
 import { useSetRecoilState } from 'recoil'
