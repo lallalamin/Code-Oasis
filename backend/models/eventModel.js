@@ -33,6 +33,10 @@ const eventSchema = mongoose.Schema({
     location: {
         type: String,
         required: true
+    },
+    link: {
+        type: String,
+        required: false
     }
 },{
     timestamps: true

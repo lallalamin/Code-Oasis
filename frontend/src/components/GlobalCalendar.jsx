@@ -10,7 +10,7 @@ import { Button, Collapse, Box } from '@chakra-ui/react';
 
 const localizer = momentLocalizer(moment);
 
-const CustomCalendar = () => {
+const GlobalCalendar = () => {
   const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(!show);
@@ -33,7 +33,7 @@ const CustomCalendar = () => {
   )
 }
 
-export default CustomCalendar
+export default GlobalCalendar
 
     
       {/* <div className="custom-calendar-container">

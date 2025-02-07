@@ -1,4 +1,4 @@
-import { Flex, useColorMode, Image, Link, Box, Button, Text } from '@chakra-ui/react'
+import { Flex, useColorMode, Image, Link, Box, Button, Text, useToast } from '@chakra-ui/react'
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
@@ -22,6 +22,33 @@ const Footer = () => {
     const {colorMode, toggleColorMode} = useColorMode()
     const user = useRecoilValue(userAtom);
     const setAuthScreen = useSetRecoilState(authScreenAtom);
+    const toast = useToast();
+
+    const copyEmail = () => {
+        const email = "hello.codeoasis@gmail.com";
+        navigator.clipboard.writeText(email).then(() =>{
+            toast({
+                title: 'Copied.',
+                description: "Email Address copied to clipboard.",
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            });
+        });
+    };
+
+    const copyDiscord = () => {
+        const discordInviteLink = "https://discord.gg/uRZ6KkTGbx";
+        navigator.clipboard.writeText(discordInviteLink).then(() =>{
+            toast({
+                title: 'Copied.',
+                description: "Discord Invite Link copied to clipboard.",
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            });
+        });
+    };
     
   return (
     <>
@@ -42,9 +69,12 @@ const Footer = () => {
                 <Text fontSize={"sm"}>
                     Term of Service
                 </Text>
-                <Text fontSize={"sm"}>
-                    Contact Us
-                </Text>
+                <Box cursor={"pointer"} onClick={copyEmail}>
+                    <Text fontSize={"sm"}>
+                        Contact Us
+                    </Text>
+                </Box>
+                
             </Flex>
             
 
