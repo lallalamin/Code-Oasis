@@ -55,7 +55,7 @@ const userSchema =  mongoose.Schema({
         default: 0, 
     },
     lastCompletedDate: {
-        type: Date | null, 
+        type: Date, 
     },
     timezone: {
         type: String,
