@@ -142,6 +142,7 @@ export const resetTasksForTimezoneBatch = async (utcOffset) => {
                 status: "incomplete",
                 updatedAt: { $gte: previousDayStart.toDate(), $lt: previousDayEnd.toDate() },
             });
+            console.log("Incomplete tasks:", incompleteTasks);
 
             if (incompleteTasks > 0) {
                 console.log(`❌ User ${user.username} did NOT complete all tasks. Resetting streak.`);

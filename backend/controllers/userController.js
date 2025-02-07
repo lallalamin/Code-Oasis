@@ -94,7 +94,7 @@ const loginUser = async(req, res) => {
         const { username, password, timezone } = req.body;
         const user = await User.findOne({ username }); //when the user is not found, you cannot reach to password of undefined
         const isPasswordCorrect = await bcrypt.compare(password, user?.password || ""); // we put "" because we don't want to compare existing password with a null
-        console.log(timezone)
+
         if(!user || !isPasswordCorrect) return res.status(400).json({error: "Invalid username or password"});
 
         if(user.isFrozen){
@@ -108,8 +108,6 @@ const loginUser = async(req, res) => {
         await user.save();
 
         generateTokenAndSetCookie(user._id, res);
-
-        console.log(user);
 
         res.status(200).json({
             _id: user._id,
