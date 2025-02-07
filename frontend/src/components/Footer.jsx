@@ -4,16 +4,8 @@ import { useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
 import { AiFillHome } from 'react-icons/ai'
 import { Link as RouterLink } from 'react-router-dom'
-import { RxAvatar } from 'react-icons/rx'
-import { FiLogOut } from "react-icons/fi"
-import useLogout from '../hooks/useLogout'
 import authScreenAtom from '../atoms/authAtom'
 import { useSetRecoilState } from 'recoil'
-import { BsFillChatQuoteFill } from 'react-icons/bs'
-import { MdOutlineSettings } from 'react-icons/md'
-import { NewspaperOutlineIcon } from 'chakra-ui-ionicons';
-import { HomeOutlineIcon } from 'chakra-ui-ionicons';
-import { ChatboxEllipsesOutlineIcon } from 'chakra-ui-ionicons';
 import { LogoLinkedinIcon } from 'chakra-ui-ionicons';
 import { LogoInstagramIcon } from 'chakra-ui-ionicons'
 import { FaDiscord } from "react-icons/fa";
