@@ -20,6 +20,7 @@ import { useRecoilValue, useRecoilState,  } from "recoil";
 import userAtom from "../atoms/userAtom.js";
 import tasksAtom from "../atoms/tasksAtom.js";
 import { useParams } from "react-router-dom";
+import { set } from "mongoose";
 
 const MAX_CHAR = 50;
 
@@ -69,6 +70,7 @@ const AddTaskModal = ({ onTaskAdd }) => {
       }
       onClose();
       setTitle("");
+      setRemainingChar(MAX_CHAR);
       showToast("Success", "Task added successfully", "success");
 
     } catch (error) {

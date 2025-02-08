@@ -69,7 +69,7 @@ const LeaderBoard = () => {
                     {/* Podium Display */}
                     <Flex justifyContent="center" alignItems="flex-end" mb={6}>
                         <Box textAlign="center" mx={2}>
-                            <Avatar size="lg" src={leaderboard[1]?.profilePic} mb={2} as={routerLink} to={`/${leaderboard[1]?._id}`} />
+                            <Avatar size="lg" src={leaderboard[1]?.profilePic} mb={2} as={routerLink} to={`/${leaderboard[1]?.username}`} />
                             <Text fontWeight="bold">{leaderboard[1]?.name}</Text>
                             <Flex flexDirection="column" alignItems="center" mt={2}>
                                 <Image src="/leaderboard/silver-cup.png" w="40px" />
@@ -81,7 +81,7 @@ const LeaderBoard = () => {
                         <Box textAlign="center" mx={2}>
                             <Flex flexDirection="column" alignItems="center">
                                 <Image src="/leaderboard/crown.png" w="40px" />
-                                <Avatar size="lg" src={leaderboard[0]?.profilePic} mb={2} as={routerLink} to={`/${leaderboard[0]?._id}`}/>
+                                <Avatar size="lg" src={leaderboard[0]?.profilePic} mb={2} as={routerLink} to={`/${leaderboard[0]?.username}`}/>
                             </Flex>
                             <Text fontWeight="bold">{leaderboard[0]?.name}</Text>
                             <Flex flexDirection="column" alignItems="center" mt={2}>
@@ -92,7 +92,7 @@ const LeaderBoard = () => {
                             </Flex>
                         </Box>
                         <Box textAlign="center" mx={2}>
-                            <Avatar size="lg" src={leaderboard[2]?.profilePic} mb={2} as={routerLink} to={`/${leaderboard[2]?._id}`}/>
+                            <Avatar size="lg" src={leaderboard[2]?.profilePic} mb={2} as={routerLink} to={`/${leaderboard[2]?.username}`}/>
                             <Text fontWeight="bold">{leaderboard[2]?.name}</Text>
                             <Flex flexDirection="column" alignItems="center" mt={2}>
                                 <Image src="/leaderboard/bronze-cup.png" w="40px" />
