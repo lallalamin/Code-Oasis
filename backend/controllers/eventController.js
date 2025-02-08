@@ -8,6 +8,16 @@ const getAllEvents = async(req, res) => {
         res.status(500).json({ error: error.message});
     }
 }
+
+const getUserEvents = async(req, res) => {
+    const userId = req.params.id;
+    try {
+        const events = await Event.find({ postedBy: userId });
+        res.status(200).json(events);
+    } catch (error) {
+        res.status(500).json({ error: error.message});
+    }
+}
 const createEvent = async(req, res) =>{
     try {
         const { postedBy, title, eventType, description, date, time, location, eligibility, link } = req.body;
@@ -93,4 +103,4 @@ const deleteEvent = async(req, res) => {
     }
 }
 
-export { createEvent, getAllEvents, editEvent, deleteEvent };
+export { createEvent, getAllEvents, editEvent, deleteEvent, getUserEvents };
