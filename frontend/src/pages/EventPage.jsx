@@ -4,49 +4,60 @@ import { InformationCircleOutlineIcon } from 'chakra-ui-ionicons';
 import { HelpCircleOutlineIcon } from 'chakra-ui-ionicons';
 import { useColorModeValue } from '@chakra-ui/react';
 import GlobalCalendar from '../components/GlobalCalendar'
+import { useState } from 'react';
+
 
 const EventPage = () => {
+  const [loading, setLoading] = useState(true);
+  const [eventListLoading, setEventListLoading] = useState(true);
+
   return (
     <>
       <Text fontSize="2xl" fontWeight="bold" my={1}>
           Events Calendar
       </Text>
       <Divider my={4} />
-      
 
-      <Box position={"relative"} left={"50%"} w={{lg:"800px", md:"80%", base:"100%"}} transform={"translateX(-50%)"}  p={4} flex={1} overflow={"auto"}>
-        <Flex gap={4} flexDirection={{base:"column", md:"row"}} maxW={{sm:"400px", md:"full"}} mx={"auto"}>
-            <GlobalCalendar/>
+      <Box>
+        <Flex gap={2} flexDirection={{base:"column", md:"row"}} maxW={{sm:"400px", md:"full"}} mx={"auto"} >
+            <Flex flex={70} >
+                <GlobalCalendar/>
+            </Flex>
             <Flex flex={30} gap={2} flexDirection={"column"} maxW={{sm:"250px", md:"full"}} mx={"auto"}>
-                <Text fontWeight={700} color={useColorModeValue("gray.600", "gray.400")}>
-                    Events
+              <Text fontWeight={700} color={useColorModeValue("gray.600", "gray.400")}>
+                    Your Added Events
                 </Text>
-                
-                {(
-                    [0,1,2,3,4].map((_, i) => (
+                <Divider/>
+                {loading && (
+                    [0,1,2].map((_, i) => (
                         <Flex key={i} gap={4} alignItems={"center"} p={"1"} borderRadius={"md"}>
-                            <Box>
-                                <SkeletonCircle size='10' />
-                            </Box>
-                            <Flex w={"full"} flexDirection={"column"} gap={3}>
-                                <Skeleton h={"10px"} w={"80px"}/>
-                                <Skeleton h={"8px"} w={"80%"} />
-                            </Flex>
+                          <Skeleton h={"100px"} w={"full"}/>
                         </Flex>
                     ))
                 )}
             </Flex>
-            {/* {!selectedConversation._id && (
-                <Flex flex={70} borderRadius={"md"} p={2} flexDir={"column"} alignItems={"center"} justifyContent={"center"} height={"400px"}>
-                    <Text fontSize={20} fontWeight={"bold"}>Select a conversation to start messaging</Text>
-                    <Image src="/characters/Ricky-NoChat.png" alt='post image' w={"300px"} />
-                </Flex>
-            )}
-
-            {selectedConversation._id && <MessageContainer/>} */}
-            
         </Flex>
-    </Box>
+        <Flex flexDirection={"column"}>
+          <Box mt={5}>
+            <Text fontSize="xl" fontWeight="bold" >
+              📆 May 25, 2025 | Events & Activities
+            </Text>
+            <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")}>Select other date to see events and activities</Text>
+          </Box>
+          <Divider my={4} />
+          {eventListLoading && (
+            [0,1,2].map((_, i) => (
+              <Flex key={i} gap={4} alignItems={"center"} p={"1"} borderRadius={"md"} mb={2}>
+                <Skeleton h={"150px"} w={"full"}/>
+                <Skeleton h={"150px"} w={"full"}/>
+              </Flex>
+            ))
+          )}
+        </Flex>
+      </Box>
+      
+
+      
     </>
   )
 }

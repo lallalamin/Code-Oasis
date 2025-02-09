@@ -56,5 +56,19 @@
     font-size: 1.5rem; /* Change the font size of the title */
     font-weight: bold;
   }
+
+  .fc-daygrid-day {
+    width: auto !important; /* Make each day cell auto-expand */
+    text-align: center; /* Optional: Center-align the text */
+  }
+  
+  .fc .fc-daygrid {
+    table-layout: fixed; /* Ensure the grid layout is responsive */
+  }
+  
+  .fc-daygrid-day-number {
+    font-size: 14px; /* Adjust font size for better scaling */
+  }
+  
  
   

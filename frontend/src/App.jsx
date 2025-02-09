@@ -34,7 +34,7 @@ function App() {
       >
         <Container
           as="header"
-          maxW={pathname === "/home" || pathname === "/" ? { base: "620px", md: "900px" } : "620px"}
+          maxW={pathname === "/home" || pathname === "/" || pathname === "/events" ? { base: "620px", md: "900px" } : "620px"}
           py={4}
         >
           <Header />
@@ -43,7 +43,7 @@ function App() {
         <Container
           as="main"
           flex="1"
-          maxW={pathname === "/home" || pathname === "/" ? { base: "620px", md: "900px" } : "620px"}
+          maxW={pathname === "/home" || pathname === "/" || pathname === "/events" ? { base: "620px", md: "900px" } : "620px"}
           py={4}
         >
           <Routes>
@@ -63,7 +63,7 @@ function App() {
 
         <Container
           as="footer"
-          maxW={pathname === "/home" || pathname === "/" ? { base: "700px", md: "900px" } : "700px"}
+          maxW={pathname === "/home" || pathname === "/"  || pathname === "/events"  ? { base: "700px", md: "900px" } : "700px"}
           py={4}
           mt="auto"
           position={"relative"}

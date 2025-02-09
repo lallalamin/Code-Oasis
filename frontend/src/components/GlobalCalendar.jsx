@@ -7,25 +7,59 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { Button, Collapse, Box } from '@chakra-ui/react';
+import useShowToast from '../hooks/useShowToast';
+import userAtom from '../atoms/userAtom';
+import { useRecoilValue } from 'recoil';
 
 const localizer = momentLocalizer(moment);
 
 const GlobalCalendar = () => {
   const [show, setShow] = useState(false);
+  const user = useRecoilValue(userAtom);
+  const [events, setEvents] = useState([]);
+  const showToast = useShowToast();
 
   const handleShow = () => setShow(!show);
 
+  useEffect(() => {
+    const fetchEvents = async () => {
+        try {
+            const response = await fetch('/api/events/',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
+
+            if (data.error) {
+                showToast("Error", data.error, "error");
+                return;
+            }
+
+            setEvents(data);
+            
+        } catch (error) {
+            
+        }
+    }
+
+    fetchEvents();
+  });
+
   return (
     <>
-      <Box maxW="100%" overflow="hidden" p={4} > 
+      <Box overflow="hidden" p={2} width="100%"> 
           <Fullcalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView={"dayGridMonth"}
             headerToolbar={{
               start: "today prev,next", // Left side of the toolbar
               center: "title", // Center of the toolbar
-              end: "dayGridMonth,timeGridWeek,timeGridDay", // Right side of the toolbar - ,timeGridWeek,timeGridDay
+              end: "dayGridMonth", // Right side of the toolbar - ,timeGridWeek,timeGridDay
             }}
+            width="100%"
             height={"70vh"} // Adjust calendar height to fit expanded container
           />
       </Box>
