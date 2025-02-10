@@ -168,7 +168,7 @@ const LandingPage = () => {
         </Heading>
         <Box
           as="iframe"
-          src="https://www.youtube.com/embed/BjSgUg7vUHM"
+          src="https://www.youtube.com/embed/Q_tLqnikBVw"
           width="100%"
           maxW="800px"
           height="450px"
