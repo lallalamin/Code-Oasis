@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Divider, Input, Button, Flex, Image, Skeleton, SkeletonCircle, Box } from '@chakra-ui/react'
+import { Text, Divider, Input, Button, Flex, Image, Skeleton, SkeletonCircle, Box, SimpleGrid } from '@chakra-ui/react'
 import { InformationCircleOutlineIcon } from 'chakra-ui-ionicons';
 import { HelpCircleOutlineIcon } from 'chakra-ui-ionicons';
 import { useColorModeValue } from '@chakra-ui/react';
@@ -55,7 +55,10 @@ const EventPage = () => {
             ))
           )}
           {!eventListLoading && (
-            <Event></Event>
+            <SimpleGrid columns={{ base: 1, md: 2, sm: 1 }} spacing={6}>
+              <Event></Event>
+              <Event></Event>
+            </SimpleGrid>
           )}
         </Flex>
       </Box>
