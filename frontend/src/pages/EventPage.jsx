@@ -5,11 +5,12 @@ import { HelpCircleOutlineIcon } from 'chakra-ui-ionicons';
 import { useColorModeValue } from '@chakra-ui/react';
 import GlobalCalendar from '../components/GlobalCalendar'
 import { useState } from 'react';
+import Event from '../components/Event';
 
 
 const EventPage = () => {
   const [loading, setLoading] = useState(true);
-  const [eventListLoading, setEventListLoading] = useState(true);
+  const [eventListLoading, setEventListLoading] = useState(false);
 
   return (
     <>
@@ -52,6 +53,9 @@ const EventPage = () => {
                 <Skeleton h={"150px"} w={"full"}/>
               </Flex>
             ))
+          )}
+          {!eventListLoading && (
+            <Event></Event>
           )}
         </Flex>
       </Box>
