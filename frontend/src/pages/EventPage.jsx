@@ -6,10 +6,11 @@ import { useColorModeValue } from '@chakra-ui/react';
 import GlobalCalendar from '../components/GlobalCalendar'
 import { useState } from 'react';
 import Event from '../components/Event';
+import UserAddedEvents from '../components/UserAddedEvents';
 
 
 const EventPage = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [eventListLoading, setEventListLoading] = useState(false);
 
   return (
@@ -25,16 +26,23 @@ const EventPage = () => {
                 <GlobalCalendar/>
             </Flex>
             <Flex flex={30} gap={2} flexDirection={"column"} maxW={{sm:"250px", md:"full"}} mx={"auto"}>
-              <Text fontWeight={700} color={useColorModeValue("gray.600", "gray.400")}>
+                <Text fontWeight={700} color={useColorModeValue("gray.600", "gray.400")}>
                     Your Added Events
                 </Text>
                 <Divider/>
+                <Button>+ Add Event</Button>
                 {loading && (
                     [0,1,2].map((_, i) => (
                         <Flex key={i} gap={4} alignItems={"center"} p={"1"} borderRadius={"md"}>
                           <Skeleton h={"100px"} w={"full"}/>
                         </Flex>
                     ))
+                )}
+                {!loading && (
+                    <Flex gap={4} alignItems={"center"} p={"1"} borderRadius={"md"} overflowY={"auto"} h={{base:"450px", md:"500px", lg:"520px"}} flexDirection={"column"}>
+                      <UserAddedEvents></UserAddedEvents>
+                      <UserAddedEvents></UserAddedEvents>
+                    </Flex>
                 )}
             </Flex>
         </Flex>

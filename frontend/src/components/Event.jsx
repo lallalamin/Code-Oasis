@@ -10,7 +10,7 @@ import { useColorModeValue } from '@chakra-ui/react'
 const Event = () => {
   return (
     <>
-        <Box flex={1} bg={useColorModeValue("gray.200", "gray.dark")} p={4} borderRadius={"md"}>
+        <Box bg={useColorModeValue("gray.200", "gray.dark")} p={4} borderRadius={"md"}>
             <Flex gap={2} flexDirection={"column"}>
                 <Flex justifyContent={"space-between"} mb={2}>
                   <Text fontSize={"xl"} fontWeight={"bold"}>Hack the North</Text>
@@ -45,7 +45,7 @@ const Event = () => {
                   </Flex>
                   <Flex>
                     <IoTimeOutline size={20} />
-                    <Text ml={2} fontSize={"sm"}>8:00 AM</Text>
+                    <Text ml={2} fontSize={"sm"}>8:00 AM EDT</Text>
                   </Flex>
                 </Flex> 
                 <Flex bg={useColorModeValue("gray.100", "#313131")} flexDirection={"column"} p={2} borderRadius={"md"}>
@@ -54,15 +54,12 @@ const Event = () => {
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quia.
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quia.
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quia.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quia.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quia.
                   </Text>
                 </Flex>
             </Flex>
             <Flex justifyContent={"flex-end"} mt={2} alignItems={"center"}>
-              <Text fontSize={"sm"} fontWeight={"bold"}>Posted by: </Text>
-              <Avatar size={"sm"} ml={2} name='John Doe' src='https://bit.ly/dan-abramov' />
               <Text ml={2} fontSize={"sm"}>John Doe</Text>
+              <Avatar size={"sm"} ml={2} name='John Doe' src='https://bit.ly/dan-abramov' />
             </Flex>
         </Box>
     </>
