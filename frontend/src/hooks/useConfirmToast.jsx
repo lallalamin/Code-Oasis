@@ -14,8 +14,6 @@ const useConfirmToast = () => {
           bg={useColorModeValue("gray.200", "gray.dark")}
           borderRadius="md"
           boxShadow="md"
-          border="1px solid"
-          borderColor="gray.200"
           width="100%"
           maxWidth="400px"
         >
@@ -27,7 +25,6 @@ const useConfirmToast = () => {
           </Text>
           <Flex justifyContent="flex-end" gap={2}>
             <Button
-              variant="outline"
               colorScheme="red"
               onClick={() => {
                 onCancel?.(); // Optional cancel callback
