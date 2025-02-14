@@ -14,6 +14,7 @@ A centralized news page that keeps students up-to-date with the latest developme
 A curated section to help students discover resources that prepare them for real-world engineering challenges.<br/>
 * [ ] **Gamified To-Do List:** <br/>
 An interactive to-do list system where users earn points for completing tasks and can track their progress on a leaderboard. This feature encourages productivity and provides motivation through friendly competition.
+* [ ] **Discover Your Coding Personality**
 
 ## 🚀 Tech Stack
 
