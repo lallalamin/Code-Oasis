@@ -13,6 +13,7 @@ const EventPage = () => {
   const [loading, setLoading] = useState(false);
   const [eventListLoading, setEventListLoading] = useState(false);
 
+
   return (
     <>
       <Text fontSize="2xl" fontWeight="bold" my={1}>
@@ -49,7 +50,7 @@ const EventPage = () => {
         <Flex flexDirection={"column"}>
           <Box mt={5}>
             <Text fontSize="xl" fontWeight="bold" >
-              📆 May 25, 2025 | Events & Activities
+              📆Events & Activities |  May 25, 2025 
             </Text>
             <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")}>Select other date to see events and activities</Text>
           </Box>
