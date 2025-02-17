@@ -7,12 +7,31 @@ import GlobalCalendar from '../components/GlobalCalendar'
 import { useState } from 'react';
 import Event from '../components/Event';
 import UserAddedEvents from '../components/UserAddedEvents';
+import useShowToast from '../hooks/useShowToast';
+
 
 
 const EventPage = () => {
   const [loading, setLoading] = useState(false);
   const [eventListLoading, setEventListLoading] = useState(false);
+  const showToast = useShowToast();
 
+  const getEvents = async () => {
+    setLoading(true);
+    try {
+      const respone = await fetch("api/events",{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+      
+    } catch (error) {
+      showToast("error", "An error occurred while fetching events");
+    }
+    setLoading(false);
+  }
 
   return (
     <>
