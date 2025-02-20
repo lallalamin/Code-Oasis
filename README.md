@@ -31,7 +31,7 @@ Take the CodeOasis quiz to uncover your unique mascot! Learn your coding style a
   <br/>
   <br/>
 ## Join the waitlist!
-https://docs.google.com/spreadsheets/d/1fblgPueCKlAILmm5L1SgbkmyKsnrm8J1BrDfRqPNLcg/edit?gid=0#gid=0
+https://code-oasis.onrender.com/
 ## 🛠 Underconstruction
 <div align="center" style=" align-items: center;">
   <span style="display:inline-block; width: 20px; align-items: center;"><strong>🚧 Coming Soon! ⏳👀</strong></span> <!-- Spacer -->
