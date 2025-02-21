@@ -32,9 +32,9 @@ Take the CodeOasis quiz to uncover your unique mascot! Learn your coding style a
   <br/>
 ## Join the waitlist!
 https://code-oasis.onrender.com/
-## 🛠 Underconstruction
+## 🛠 Underconstruction ⏳👀</strong>
 <div align="center" style=" align-items: center;">
-  <span style="display:inline-block; width: 20px; align-items: center;"><strong>🚧 Coming Soon! ⏳👀</strong></span> <!-- Spacer -->
+  <span style="display:inline-block; width: 20px; align-items: center;"></span> <!-- Spacer -->
 </div>
 
 
