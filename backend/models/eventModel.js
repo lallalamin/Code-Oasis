@@ -38,6 +38,10 @@ const eventSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    registrationDeadline: {
+        type: Date,
+        required: false
+    },
     link: {
         type: String,
         required: false

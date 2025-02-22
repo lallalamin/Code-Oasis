@@ -25,6 +25,9 @@
     "moment-timezone": "^0.5.47",
     "mongoose": "^8.6.1",
     "node-cron": "^3.0.3",
+    "react-datepicker": "^8.1.0",
+    "react-places-autocomplete": "^7.3.0",
+    "react-timezone-select": "^3.2.8",
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
