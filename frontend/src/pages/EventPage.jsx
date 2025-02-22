@@ -8,7 +8,7 @@ import { useState } from 'react';
 import Event from '../components/Event';
 import UserAddedEvents from '../components/UserAddedEvents';
 import useShowToast from '../hooks/useShowToast';
-
+import AddEventModal from '../components/AddEventModal';
 
 
 const EventPage = () => {
@@ -50,7 +50,7 @@ const EventPage = () => {
                     Your Added Events
                 </Text>
                 <Divider/>
-                <Button>+ Add Event</Button>
+                <AddEventModal/>
                 {loading && (
                     [0,1,2].map((_, i) => (
                         <Flex key={i} gap={4} alignItems={"center"} p={"1"} borderRadius={"md"}>
