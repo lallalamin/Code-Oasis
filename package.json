@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@react-google-maps/api": "^2.20.6",
     "bcryptjs": "^2.4.3",
     "chakra-ui-ionicons": "^0.3.3",
     "cloudinary": "^2.5.1",

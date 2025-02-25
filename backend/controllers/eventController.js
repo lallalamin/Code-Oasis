@@ -20,7 +20,7 @@ const getUserEvents = async(req, res) => {
 }
 const createEvent = async(req, res) =>{
     try {
-        const { postedBy, title, eventType, description, date, time, location, eligibility, link } = req.body;
+        const { postedBy, title, eventType, description, startDate, endDate, time, location, eligibility, link } = req.body;
 
         if(!postedBy || !title || !eventType || !description || !date || !time || !location ) {
             return res.status(400).json({ error: "All fields are required" });
@@ -31,7 +31,8 @@ const createEvent = async(req, res) =>{
             title,
             eventType,
             description,
-            date,
+            startDate,
+            endDate,
             time,
             location,
             eligibility,
@@ -50,7 +51,7 @@ const editEvent = async(req, res) =>{
     const eventId = req.params.id;
     const userId = req.user._id;
     try {
-        const { title, eventType, description, date, time, location, eligibility, link } = req.body;
+        const { title, eventType, description, startDate, endDate, time, location, eligibility, link } = req.body;
 
         const event = await Event.findById(eventId);
 
@@ -65,7 +66,8 @@ const editEvent = async(req, res) =>{
         event.title = title;
         event.eventType = eventType;
         event.description = description;
-        event.date = date;
+        event.startDate = startDate;
+        event.endDate = endDate;
         event.time = time;
         event.location = location;
         event.eligibility = eligibility;

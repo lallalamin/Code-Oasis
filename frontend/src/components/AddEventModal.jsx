@@ -12,15 +12,17 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 
 const MAX_CHAR = 50;
 const timeOptions = [
+  '5:00 AM', '5:30 AM', '6:00 AM', '6:30 AM', '7:00 AM', '7:30 AM',
   '8:00 AM', '8:30 AM', '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM',
   '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM',
   '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM',
   '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM',
-  '8:00 PM', '8:30 PM'
+  '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM', '10:00 PM', '10:30 PM',
+  '11:00 PM', '11:30 PM'
 ];
-
-const eventTypes = ['Workshop', 'Seminar', 'Hackathon', 'Networking'];
-const eligibilityOptions = ['Open to All', 'Students Only', 'Professionals Only'];
+const timezones = ['CST', 'EST', 'PST', 'MST'];
+const eventTypes = ['Workshop', 'Conference', 'Hackathon', 'Fellowship', 'Meetup', 'Networking Event', 'Career Fair', 'Panel Discussion', 'Other'];
+const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals Only', 'Graduate Students Only', 'High School Students Only', 'Freshmen Only', 'Sophomores Only', 'Juniors Only', 'Seniors Only', 'Freshmen and Sophomores Only', 'Juniors and Seniors Only'];
 
 const AddEventModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -31,10 +33,11 @@ const AddEventModal = () => {
     eventType: '',
     eligibility: '',
     description: '',
-    date: new Date(),
+    startDate: new Date(),
+    endDate: new Date(),
     registrationDeadline: new Date(),
     time: '',
-    timezone: {},
+    timezone: '',
     location: '',
     isVirtual: false,
     isInPerson: false,
@@ -101,7 +104,16 @@ const AddEventModal = () => {
               </FormControl>
 
               <FormControl>
-                <FormLabel>Event Date</FormLabel>
+                <FormLabel>Event Start Date</FormLabel>
+                <DatePicker
+                  selected={eventInfo.date}
+                  onChange={(date) => setEventInfo({ ...eventInfo, date })}
+                  minDate={new Date()}
+                  dateFormat="MMMM d, yyyy"
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Event End Date</FormLabel>
                 <DatePicker
                   selected={eventInfo.date}
                   onChange={(date) => setEventInfo({ ...eventInfo, date })}
@@ -125,6 +137,7 @@ const AddEventModal = () => {
                 <Select
                   placeholder="Select time"
                   onChange={(e) => setEventInfo({ ...eventInfo, time: e.target.value })}
+                  bg={'transparent'}
                 >
                   {timeOptions.map((time) => (
                     <option key={time} value={time}>{time}</option>
@@ -134,10 +147,15 @@ const AddEventModal = () => {
 
               <FormControl>
                 <FormLabel>Timezone</FormLabel>
-                <TimezoneSelect
-                  value={eventInfo.timezone}
-                  onChange={(timezone) => setEventInfo({ ...eventInfo, timezone })}
-                />
+                <Select
+                  placeholder="Select timezone"
+                  onChange={(e) => setEventInfo({ ...eventInfo, timezone: e.target.value })}
+                  >
+
+                  {timezones.map((timezone) => (
+                    <option key={timezone} value={timezone}>{timezone}</option>
+                  ))}
+                </Select>
               </FormControl>
 
               <FormControl>
