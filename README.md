@@ -12,7 +12,7 @@ A structured mentorship program connecting users with peers or industry professi
 A centralized news page that keeps students up-to-date with the latest developments in the tech industry. <br/>
 * [ ] **Resources Hub:** <br/>
 A curated section to help students discover resources that prepare them for real-world engineering challenges.<br/>
-* [ ] **Gamified To-Do List:** <br/>
+* [x] **Gamified To-Do List:** <br/>
 An interactive to-do list system where users earn points for completing tasks and can track their progress on a leaderboard. This feature encourages productivity and provides motivation through friendly competition.
 * [ ] **Discover Your Coding Personality** <br/>
 Take the CodeOasis quiz to uncover your unique mascot! Learn your coding style and connect with others who share similar strengths.
