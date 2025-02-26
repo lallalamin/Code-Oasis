@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader,
   ModalFooter, ModalBody, ModalCloseButton, FormControl,
-  FormLabel, Input, Text, useDisclosure, Select, Checkbox, VStack
+  FormLabel, Input, VStack, useDisclosure, Text, Select, Checkbox, Flex
 } from '@chakra-ui/react';
+import { LoadScript } from '@react-google-maps/api';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import { FaPlus } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FaPlus } from 'react-icons/fa';
-import TimezoneSelect from 'react-timezone-select';
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
+const libraries = ['places'];
 const MAX_CHAR = 50;
 const timeOptions = [
   '5:00 AM', '5:30 AM', '6:00 AM', '6:30 AM', '7:00 AM', '7:30 AM',
@@ -24,7 +25,7 @@ const timezones = ['CST', 'EST', 'PST', 'MST'];
 const eventTypes = ['Workshop', 'Conference', 'Hackathon', 'Fellowship', 'Meetup', 'Networking Event', 'Career Fair', 'Panel Discussion', 'Other'];
 const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals Only', 'Graduate Students Only', 'High School Students Only', 'Freshmen Only', 'Sophomores Only', 'Juniors Only', 'Seniors Only', 'Freshmen and Sophomores Only', 'Juniors and Seniors Only'];
 
-const AddEventModal = () => {
+const FullEventForm = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
   const [remainingChar, setRemainingChar] = useState(MAX_CHAR);
@@ -39,9 +40,11 @@ const AddEventModal = () => {
     time: '',
     timezone: '',
     location: '',
+    lat: null,
+    lng: null,
     isVirtual: false,
     isInPerson: false,
-    virtualLink: ''
+    link: ''
   });
 
   const handleLocationChange = (address) => {
@@ -49,14 +52,15 @@ const AddEventModal = () => {
   };
 
   const handleSelectLocation = async (address) => {
+    setEventInfo({ ...eventInfo, location: address });
     const results = await geocodeByAddress(address);
     const latLng = await getLatLng(results[0]);
-    setEventInfo({ ...eventInfo, location: address });
+    setEventInfo({ ...eventInfo, lat: latLng.lat, lng: latLng.lng });
   };
 
   return (
     <>
-      <Button leftIcon={<FaPlus />} size="sm" onClick={onOpen}>
+      <Button leftIcon={<FaPlus />} onClick={onOpen}>
         Add Event
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
@@ -76,7 +80,15 @@ const AddEventModal = () => {
                   }}
                   placeholder="Enter event title"
                 />
-                <Text fontSize="sm" mt={2}>{remainingChar}/{MAX_CHAR}</Text>
+                <Text fontSize="sm">{remainingChar}/{MAX_CHAR}</Text>
+              </FormControl>
+
+              <FormControl>
+                <FormLabel>Event Link</FormLabel>
+                <Input
+                  value={eventInfo.link}
+                  placeholder="Enter url"
+                />
               </FormControl>
 
               <FormControl>
@@ -103,24 +115,29 @@ const AddEventModal = () => {
                 </Select>
               </FormControl>
 
-              <FormControl>
-                <FormLabel>Event Start Date</FormLabel>
-                <DatePicker
-                  selected={eventInfo.date}
-                  onChange={(date) => setEventInfo({ ...eventInfo, date })}
-                  minDate={new Date()}
-                  dateFormat="MMMM d, yyyy"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Event End Date</FormLabel>
-                <DatePicker
-                  selected={eventInfo.date}
-                  onChange={(date) => setEventInfo({ ...eventInfo, date })}
-                  minDate={new Date()}
-                  dateFormat="MMMM d, yyyy"
-                />
-              </FormControl>
+              {/* Event Dates */}
+              <Flex justify="space-between" gap={4}>
+                <FormControl>
+                  <FormLabel>Event Start Date</FormLabel>
+                  <DatePicker
+                    selected={eventInfo.startDate}
+                    onChange={(date) => setEventInfo({ ...eventInfo, startDate: date })}
+                    minDate={new Date()}
+                    dateFormat="MMMM d, yyyy"
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel>Event End Date</FormLabel>
+                  <DatePicker
+                    selected={eventInfo.endDate}
+                    onChange={(date) => setEventInfo({ ...eventInfo, endDate: date })}
+                    minDate={new Date()}
+                    dateFormat="MMMM d, yyyy"
+                  />
+                </FormControl>
+              </Flex>
+
 
               <FormControl>
                 <FormLabel>Registration Deadline</FormLabel>
@@ -132,32 +149,40 @@ const AddEventModal = () => {
                 />
               </FormControl>
 
-              <FormControl>
-                <FormLabel>Time</FormLabel>
-                <Select
-                  placeholder="Select time"
-                  onChange={(e) => setEventInfo({ ...eventInfo, time: e.target.value })}
-                  bg={'transparent'}
-                >
-                  {timeOptions.map((time) => (
-                    <option key={time} value={time}>{time}</option>
-                  ))}
-                </Select>
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>Timezone</FormLabel>
-                <Select
-                  placeholder="Select timezone"
-                  onChange={(e) => setEventInfo({ ...eventInfo, timezone: e.target.value })}
+              {/* Time and Timezone */}
+              <Flex justify="space-between" gap={4}>
+                <FormControl>
+                  <FormLabel>Time</FormLabel>
+                  {/* <Select
+                    placeholder="Select time"
+                    onChange={(e) => setEventInfo({ ...eventInfo, time: e.target.value })}
                   >
+                    {timeOptions.map((time) => (
+                      <option key={time} value={time}>{time}</option>
+                    ))}
+                  </Select> */}
+                  <Input
+                    placeholder="Enter time"
+                    onChange={(e) => setEventInfo({ ...eventInfo, time: e.target.value })}
+                    value={eventInfo.time}
+                    type='time'
+                  >
+                  </Input>
+                </FormControl>
 
-                  {timezones.map((timezone) => (
-                    <option key={timezone} value={timezone}>{timezone}</option>
-                  ))}
-                </Select>
-              </FormControl>
-
+                <FormControl>
+                  <FormLabel>Timezone</FormLabel>
+                  <Select
+                    placeholder="Select timezone"
+                    onChange={(e) => setEventInfo({ ...eventInfo, timezone: e.target.value })}
+                  >
+                    {timezones.map((timezone) => (
+                      <option key={timezone} value={timezone}>{timezone}</option>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Flex>
+  
               <FormControl>
                 <FormLabel>Event Format</FormLabel>
                 <Checkbox isChecked={eventInfo.isVirtual} onChange={(e) => setEventInfo({ ...eventInfo, isVirtual: e.target.checked })}>Virtual</Checkbox>
@@ -165,28 +190,28 @@ const AddEventModal = () => {
               </FormControl>
 
               {eventInfo.isInPerson && (
-                <FormControl>
-                  <FormLabel>Location</FormLabel>
-                  <PlacesAutocomplete
-                    value={eventInfo.location}
-                    onChange={handleLocationChange}
-                    onSelect={handleSelectLocation}
-                  >
-                    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                      <div>
-                        <Input {...getInputProps({ placeholder: 'Search address...' })} />
+                  <FormControl>
+                    <FormLabel>Location</FormLabel>
+                    <PlacesAutocomplete
+                      value={eventInfo.location}
+                      onChange={handleLocationChange}
+                      onSelect={handleSelectLocation}
+                    >
+                      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                         <div>
-                          {loading && <div>Loading...</div>}
-                          {suggestions.map((suggestion) => (
-                            <div {...getSuggestionItemProps(suggestion)}>
-                              {suggestion.description}
-                            </div>
-                          ))}
+                          <Input {...getInputProps({ placeholder: 'Search address...' })} />
+                          <div>
+                            {loading && <Text>Loading suggestions...</Text>}
+                            {suggestions.map((suggestion) => (
+                              <div key={suggestion.placeId} {...getSuggestionItemProps(suggestion)}>
+                                {suggestion.description}
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </PlacesAutocomplete>
-                </FormControl>
+                      )}
+                    </PlacesAutocomplete>
+                  </FormControl>
               )}
 
               {eventInfo.isVirtual && (
@@ -204,7 +229,7 @@ const AddEventModal = () => {
           <ModalFooter>
             <Button colorScheme="blue" isLoading={isLoading} onClick={() => {
               setIsLoading(true);
-              // Submit logic here
+              console.log('Event Info:', eventInfo);
               setIsLoading(false);
               onClose();
             }}>
@@ -217,4 +242,4 @@ const AddEventModal = () => {
   );
 };
 
-export default AddEventModal;
+export default FullEventForm;

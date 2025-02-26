@@ -46,7 +46,7 @@ const GlobalCalendar = () => {
     }
 
     fetchEvents();
-  });
+  }, []);
 
   return (
     <>
