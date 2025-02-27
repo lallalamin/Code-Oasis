@@ -5,12 +5,11 @@ import {
   FormLabel, Input, VStack, useDisclosure, Text, Select, Flex, Box, List, ListItem,
   useColorMode
 } from '@chakra-ui/react';
-import { LoadScript, useJsApiLoader } from '@react-google-maps/api';
+import { useJsApiLoader } from '@react-google-maps/api';
 import { FaPlus } from 'react-icons/fa';
-import { useColorModeValue } from '@chakra-ui/react';
-import DatePicker from 'react-datepicker';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import 'react-datepicker/dist/react-datepicker.css';
+import debounce from 'lodash.debounce';
 
 const MAX_CHAR = 50;
 const libraries = ['places'];
@@ -60,7 +59,7 @@ const FullEventForm = () => {
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    libraries: ['places'],
+    libraries,
   });
   
 
