@@ -1,29 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader,
   ModalFooter, ModalBody, ModalCloseButton, FormControl,
-  FormLabel, Input, VStack, useDisclosure, Text, Select, Checkbox, Flex
+  FormLabel, Input, VStack, useDisclosure, Text, Select, Flex, Box, List, ListItem,
+  useColorMode
 } from '@chakra-ui/react';
 import { LoadScript } from '@react-google-maps/api';
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { FaPlus } from 'react-icons/fa';
+import { useColorModeValue } from '@chakra-ui/react';
 import DatePicker from 'react-datepicker';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const libraries = ['places'];
 const MAX_CHAR = 50;
-const timeOptions = [
-  '5:00 AM', '5:30 AM', '6:00 AM', '6:30 AM', '7:00 AM', '7:30 AM',
-  '8:00 AM', '8:30 AM', '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM',
-  '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM',
-  '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM',
-  '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM',
-  '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM', '10:00 PM', '10:30 PM',
-  '11:00 PM', '11:30 PM'
-];
+const libraries = ['places'];
 const timezones = ['CST', 'EST', 'PST', 'MST'];
 const eventTypes = ['Workshop', 'Conference', 'Hackathon', 'Fellowship', 'Meetup', 'Networking Event', 'Career Fair', 'Panel Discussion', 'Other'];
-const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals Only', 'Graduate Students Only', 'High School Students Only', 'Freshmen Only', 'Sophomores Only', 'Juniors Only', 'Seniors Only', 'Freshmen and Sophomores Only', 'Juniors and Seniors Only'];
+const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals Only', 'Graduate Students Only', 'High School Students Only'];
 
 const FullEventForm = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -47,19 +40,27 @@ const FullEventForm = () => {
     link: ''
   });
 
-  const handleLocationChange = (address) => {
-    setEventInfo({ ...eventInfo, location: address });
+  const handleSelect = async (address) => {
+    setEventInfo((prev) => ({ ...prev, location: address }));
+  
+    try {
+      const results = await geocodeByAddress(address);
+      const latLng = await getLatLng(results[0]);
+  
+      setEventInfo((prev) => ({
+        ...prev,
+        location: address,
+        lat: latLng.lat,
+        lng: latLng.lng,
+      }));
+    } catch (error) {
+      console.error("Error selecting address:", error);
+    }
   };
-
-  const handleSelectLocation = async (address) => {
-    setEventInfo({ ...eventInfo, location: address });
-    const results = await geocodeByAddress(address);
-    const latLng = await getLatLng(results[0]);
-    setEventInfo({ ...eventInfo, lat: latLng.lat, lng: latLng.lng });
-  };
+  
 
   return (
-    <>
+    <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={libraries}>
       <Button leftIcon={<FaPlus />} onClick={onOpen}>
         Add Event
       </Button>
@@ -84,10 +85,61 @@ const FullEventForm = () => {
               </FormControl>
 
               <FormControl>
+                <FormLabel>Location</FormLabel>
+                <PlacesAutocomplete
+                  value={eventInfo.location}
+                  onChange={(address) => setEventInfo({ ...eventInfo, location: address })}
+                  onSelect={handleSelect}
+                >
+                  {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                    <Box position="relative">
+                      <Input
+                        {...getInputProps({
+                          placeholder: "Enter location",
+                        })}
+                        _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
+                      />
+                      {suggestions.length > 0 && (
+                        <List
+                          position="absolute"
+                          w="100%"
+                          borderRadius="md"
+                          boxShadow="md"
+                          zIndex="10"
+                          mt={1}
+                          overflow="hidden"
+                        >
+                          {loading && <ListItem p={2}>Loading...</ListItem>}
+                          {suggestions.map((suggestion, index) => {
+                            const { key, ...suggestionProps } = getSuggestionItemProps(suggestion);
+                            return (
+                              <ListItem
+                                key={suggestion.placeId || index}
+                                {...suggestionProps}
+                                p={2}
+                                cursor="pointer"
+                                bg={"white"}
+                                color={"black"}
+                                fontWeight={"bold"}
+                                _hover={{ bg: "gray.100" }}
+                              >
+                                {suggestion.description}
+                              </ListItem>
+                            );
+                          })}
+                        </List>
+                      )}
+                    </Box>
+                  )}
+                </PlacesAutocomplete>
+              </FormControl>
+
+              <FormControl>
                 <FormLabel>Event Link</FormLabel>
                 <Input
                   value={eventInfo.link}
-                  placeholder="Enter url"
+                  onChange={(e) => setEventInfo({ ...eventInfo, link: e.target.value })}
+                  placeholder="Enter URL"
                 />
               </FormControl>
 
@@ -119,21 +171,25 @@ const FullEventForm = () => {
               <Flex justify="space-between" gap={4}>
                 <FormControl>
                   <FormLabel>Event Start Date</FormLabel>
-                  <DatePicker
-                    selected={eventInfo.startDate}
-                    onChange={(date) => setEventInfo({ ...eventInfo, startDate: date })}
-                    minDate={new Date()}
-                    dateFormat="MMMM d, yyyy"
+                  <Input
+                    type="date"
+                    value={eventInfo.startDate ? eventInfo.startDate.toISOString().split("T")[0] : ""}
+                    onChange={(e) =>
+                      setEventInfo({ ...eventInfo, startDate: new Date(e.target.value) })
+                    }
+                    min={new Date().toISOString().split("T")[0]} // Prevent selecting past dates
                   />
                 </FormControl>
 
                 <FormControl>
                   <FormLabel>Event End Date</FormLabel>
-                  <DatePicker
-                    selected={eventInfo.endDate}
-                    onChange={(date) => setEventInfo({ ...eventInfo, endDate: date })}
-                    minDate={new Date()}
-                    dateFormat="MMMM d, yyyy"
+                  <Input
+                    type="date"
+                    value={eventInfo.endDate ? eventInfo.endDate.toISOString().split("T")[0] : ""}
+                    onChange={(e) =>
+                      setEventInfo({ ...eventInfo, endDate: new Date(e.target.value) })
+                    }
+                    min={eventInfo.startDate ? eventInfo.startDate.toISOString().split("T")[0] : ""}
                   />
                 </FormControl>
               </Flex>
@@ -141,12 +197,14 @@ const FullEventForm = () => {
 
               <FormControl>
                 <FormLabel>Registration Deadline</FormLabel>
-                <DatePicker
-                  selected={eventInfo.registrationDeadline}
-                  onChange={(date) => setEventInfo({ ...eventInfo, registrationDeadline: date })}
-                  minDate={new Date()}
-                  dateFormat="MMMM d, yyyy"
-                />
+                <Input
+                    type="date"
+                    value={eventInfo.registrationDeadline ? eventInfo.registrationDeadline.toISOString().split("T")[0] : ""}
+                    onChange={(e) =>
+                      setEventInfo({ ...eventInfo, registrationDeadline: new Date(e.target.value) })
+                    }
+                    min={eventInfo.registrationDeadline ? eventInfo.registrationDeadline.toISOString().split("T")[0] : ""}
+                  />
               </FormControl>
 
               {/* Time and Timezone */}
@@ -182,48 +240,6 @@ const FullEventForm = () => {
                   </Select>
                 </FormControl>
               </Flex>
-  
-              <FormControl>
-                <FormLabel>Event Format</FormLabel>
-                <Checkbox isChecked={eventInfo.isVirtual} onChange={(e) => setEventInfo({ ...eventInfo, isVirtual: e.target.checked })}>Virtual</Checkbox>
-                <Checkbox isChecked={eventInfo.isInPerson} onChange={(e) => setEventInfo({ ...eventInfo, isInPerson: e.target.checked })}>In-Person</Checkbox>
-              </FormControl>
-
-              {eventInfo.isInPerson && (
-                  <FormControl>
-                    <FormLabel>Location</FormLabel>
-                    <PlacesAutocomplete
-                      value={eventInfo.location}
-                      onChange={handleLocationChange}
-                      onSelect={handleSelectLocation}
-                    >
-                      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                        <div>
-                          <Input {...getInputProps({ placeholder: 'Search address...' })} />
-                          <div>
-                            {loading && <Text>Loading suggestions...</Text>}
-                            {suggestions.map((suggestion) => (
-                              <div key={suggestion.placeId} {...getSuggestionItemProps(suggestion)}>
-                                {suggestion.description}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </PlacesAutocomplete>
-                  </FormControl>
-              )}
-
-              {eventInfo.isVirtual && (
-                <FormControl>
-                  <FormLabel>Virtual Link</FormLabel>
-                  <Input
-                    placeholder="Enter virtual meeting link"
-                    onChange={(e) => setEventInfo({ ...eventInfo, virtualLink: e.target.value })}
-                  />
-                </FormControl>
-              )}
-
             </VStack>
           </ModalBody>
           <ModalFooter>
@@ -238,7 +254,7 @@ const FullEventForm = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
+    </LoadScript>
   );
 };
 

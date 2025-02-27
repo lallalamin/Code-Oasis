@@ -162,7 +162,7 @@ const LandingPage = () => {
       </Flex>
       </Box>
 
-      <Box mt={12} textAlign="center">
+      <Box mt={12} mb={12} textAlign="center">
         <Heading size="lg" mb={4}>
           Watch Current Stage Demo
         </Heading>
@@ -181,7 +181,7 @@ const LandingPage = () => {
       </Box>
 
       {/* About Section */}
-      <Flex w="100%" textAlign="center" my={12} as={motion.div} initial="hidden" animate="visible" variants={fadeInDelay}>
+      <Flex w="100%" textAlign="center"  my={12} as={motion.div} initial="hidden" animate="visible" variants={fadeInDelay}>
         <Flex flex={6} flexDirection="column" justifyContent="center" alignItems="center" mx={5}>
           <Heading size="md" mb={4}>
             Stronger Together—More Than Just a Network, a Community
