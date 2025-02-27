@@ -5,7 +5,7 @@ import {
   FormLabel, Input, VStack, useDisclosure, Text, Select, Flex, Box, List, ListItem,
   useColorMode
 } from '@chakra-ui/react';
-import { LoadScript } from '@react-google-maps/api';
+import { LoadScript, useJsApiLoader } from '@react-google-maps/api';
 import { FaPlus } from 'react-icons/fa';
 import { useColorModeValue } from '@chakra-ui/react';
 import DatePicker from 'react-datepicker';
@@ -57,10 +57,15 @@ const FullEventForm = () => {
       console.error("Error selecting address:", error);
     }
   };
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+    libraries: ['places'],
+  });
   
 
   return (
-    <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={libraries}>
+    <>
       <Button leftIcon={<FaPlus />} onClick={onOpen}>
         Add Event
       </Button>
@@ -86,53 +91,56 @@ const FullEventForm = () => {
 
               <FormControl>
                 <FormLabel>Location</FormLabel>
-                <PlacesAutocomplete
-                  value={eventInfo.location}
-                  onChange={(address) => setEventInfo({ ...eventInfo, location: address })}
-                  onSelect={handleSelect}
-                >
-                  {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                    <Box position="relative">
-                      <Input
-                        {...getInputProps({
-                          placeholder: "Enter location",
-                        })}
-                        _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
-                      />
-                      {suggestions.length > 0 && (
-                        <List
-                          position="absolute"
-                          w="100%"
-                          borderRadius="md"
-                          boxShadow="md"
-                          zIndex="10"
-                          mt={1}
-                          overflow="hidden"
-                        >
-                          {loading && <ListItem p={2}>Loading...</ListItem>}
-                          {suggestions.map((suggestion, index) => {
-                            const { key, ...suggestionProps } = getSuggestionItemProps(suggestion);
-                            return (
-                              <ListItem
-                                key={suggestion.placeId || index}
-                                {...suggestionProps}
-                                p={2}
-                                cursor="pointer"
-                                bg={"white"}
-                                color={"black"}
-                                fontWeight={"bold"}
-                                _hover={{ bg: "gray.100" }}
-                              >
-                                {suggestion.description}
-                              </ListItem>
-                            );
-                          })}
-                        </List>
-                      )}
-                    </Box>
-                  )}
-                </PlacesAutocomplete>
+                {!isLoaded ? (
+                  <Text>Loading...</Text> // Show a loading message until the API is ready
+                ) : (
+                  <PlacesAutocomplete
+                    value={eventInfo.location}
+                    onChange={(address) => setEventInfo({ ...eventInfo, location: address })}
+                    onSelect={handleSelect}
+                  >
+                    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                      <Box position="relative">
+                        <Input
+                          {...getInputProps({ placeholder: "Enter location" })}
+                          _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
+                        />
+                        {suggestions.length > 0 && (
+                          <List
+                            position="absolute"
+                            w="100%"
+                            borderRadius="md"
+                            boxShadow="md"
+                            zIndex="10"
+                            mt={1}
+                            overflow="hidden"
+                            bg="white"
+                          >
+                            {loading && <ListItem p={2}>Loading...</ListItem>}
+                            {suggestions.map((suggestion, index) => {
+                              const { key, ...suggestionProps } = getSuggestionItemProps(suggestion);
+                              return (
+                                <ListItem
+                                  key={suggestion.placeId || index}
+                                  {...suggestionProps}
+                                  p={2}
+                                  cursor="pointer"
+                                  fontWeight="bold"
+                                  color={"black"}
+                                  _hover={{ bg: "gray.100" }}
+                                >
+                                  {suggestion.description}
+                                </ListItem>
+                              );
+                            })}
+                          </List>
+                        )}
+                      </Box>
+                    )}
+                  </PlacesAutocomplete>
+                )}
               </FormControl>
+
 
               <FormControl>
                 <FormLabel>Event Link</FormLabel>
@@ -254,7 +262,7 @@ const FullEventForm = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </LoadScript>
+    </>
   );
 };
 
