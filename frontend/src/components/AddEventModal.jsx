@@ -3,7 +3,7 @@ import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader,
   ModalFooter, ModalBody, ModalCloseButton, FormControl,
   FormLabel, Input, VStack, useDisclosure, Text, Select, Flex, Box, List, ListItem,
-  useColorMode
+  Textarea
 } from '@chakra-ui/react';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { FaPlus } from 'react-icons/fa';
@@ -17,7 +17,7 @@ const timezones = ['CST', 'EST', 'PST', 'MST'];
 const eventTypes = ['Workshop', 'Conference', 'Hackathon', 'Fellowship', 'Meetup', 'Networking Event', 'Career Fair', 'Panel Discussion', 'Other'];
 const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals Only', 'Graduate Students Only', 'High School Students Only'];
 
-const FullEventForm = () => {
+const AddEventModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
   const [remainingChar, setRemainingChar] = useState(MAX_CHAR);
@@ -38,6 +38,18 @@ const FullEventForm = () => {
     isInPerson: false,
     link: ''
   });
+
+  const handleTextChange = (e) => {
+    const inputText = e.target.value;
+    if (inputText.length > MAX_CHAR) {
+      const truncatedText = inputText.slice(0, MAX_CHAR);
+      setEventInfo((prev) => ({ ...prev, title: truncatedText }));
+      setRemainingChar(0);
+    } else {
+      setEventInfo((prev) => ({ ...prev, title: inputText }));
+      setRemainingChar(MAX_CHAR - inputText.length);
+    }
+  }
 
   const handleSelect = async (address) => {
     setEventInfo((prev) => ({ ...prev, location: address }));
@@ -92,10 +104,7 @@ const FullEventForm = () => {
                 <FormLabel>Event Title</FormLabel>
                 <Input
                   value={eventInfo.title}
-                  onChange={(e) => {
-                    setEventInfo({ ...eventInfo, title: e.target.value });
-                    setRemainingChar(MAX_CHAR - e.target.value.length);
-                  }}
+                  onChange={handleTextChange}
                   placeholder="Enter event title"
                 />
                 <Text fontSize="sm">{remainingChar}/{MAX_CHAR}</Text>
@@ -186,6 +195,16 @@ const FullEventForm = () => {
                     <option key={option} value={option}>{option}</option>
                   ))}
                 </Select>
+              </FormControl>
+
+              <FormControl>
+                <FormLabel>Description</FormLabel>
+                <Textarea
+                  value={eventInfo.description}
+                  onChange={(e) => setEventInfo({ ...eventInfo, description: e.target.value })}
+                  placeholder="Enter event description"
+                >
+                </Textarea>
               </FormControl>
 
               {/* Event Dates */}
@@ -279,4 +298,4 @@ const FullEventForm = () => {
   );
 };
 
-export default FullEventForm;
+export default AddEventModal;
