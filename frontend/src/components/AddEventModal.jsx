@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader,
   ModalFooter, ModalBody, ModalCloseButton, FormControl,
@@ -61,7 +61,20 @@ const FullEventForm = () => {
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
     libraries,
   });
+
+  const debouncedSetLocation = useCallback(
+    debounce((address) => {
+      setEventInfo((prev) => ({ ...prev, location: address }));
+    }, 3000), 
+    []
+  );
   
+  const handleLocationChange = (address) => {
+    setEventInfo((prev) => ({ ...prev, location: address }));
+    if (address.length >= 3) {
+      debouncedSetLocation(address); 
+    }
+  };
 
   return (
     <>
@@ -95,16 +108,17 @@ const FullEventForm = () => {
                 ) : (
                   <PlacesAutocomplete
                     value={eventInfo.location}
-                    onChange={(address) => setEventInfo({ ...eventInfo, location: address })}
+                    onChange={handleLocationChange}
                     onSelect={handleSelect}
                   >
                     {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                       <Box position="relative">
                         <Input
-                          {...getInputProps({ placeholder: "Enter location" })}
+                          {...getInputProps({ placeholder: "Enter location... (min 3 chars)" })}
                           _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
                         />
-                        {suggestions.length > 0 && (
+                        {eventInfo.location.length < 3 && <Text fontSize="sm" color="gray.500">Type at least 3 characters...</Text>}
+                        {suggestions.length > 0 && eventInfo.location.length >= 3 && (
                           <List
                             position="absolute"
                             w="100%"
