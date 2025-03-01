@@ -3,16 +3,20 @@ import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader,
   ModalFooter, ModalBody, ModalCloseButton, FormControl,
   FormLabel, Input, VStack, useDisclosure, Text, Select, Flex, Box, List, ListItem,
-  Textarea
+  Textarea, Checkbox
 } from '@chakra-ui/react';
 import { useJsApiLoader } from '@react-google-maps/api';
 import { FaPlus } from 'react-icons/fa';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import 'react-datepicker/dist/react-datepicker.css';
 import debounce from 'lodash.debounce';
+import useShowToast from '../hooks/useShowToast';
 
-const MAX_CHAR = 50;
-const libraries = ['places'];
+const MAX_CHAR = {
+  title: 100,
+  description: 500
+};
+let libraries = ['places'];
 const timezones = ['CST', 'EST', 'PST', 'MST'];
 const eventTypes = ['Workshop', 'Conference', 'Hackathon', 'Fellowship', 'Meetup', 'Networking Event', 'Career Fair', 'Panel Discussion', 'Other'];
 const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals Only', 'Graduate Students Only', 'High School Students Only'];
@@ -20,7 +24,6 @@ const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals
 const AddEventModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
-  const [remainingChar, setRemainingChar] = useState(MAX_CHAR);
   const [eventInfo, setEventInfo] = useState({
     title: '',
     eventType: '',
@@ -35,21 +38,22 @@ const AddEventModal = () => {
     lat: null,
     lng: null,
     isVirtual: false,
-    isInPerson: false,
     link: ''
   });
 
-  const handleTextChange = (e) => {
+  const showToast = useShowToast();
+
+  const handleTextChange = (field) => (e) => {
     const inputText = e.target.value;
-    if (inputText.length > MAX_CHAR) {
-      const truncatedText = inputText.slice(0, MAX_CHAR);
-      setEventInfo((prev) => ({ ...prev, title: truncatedText }));
-      setRemainingChar(0);
+    const maxLimit = MAX_CHAR[field];
+  
+    if (inputText.length > maxLimit) {
+      setEventInfo((prev) => ({ ...prev, [field]: inputText.slice(0, maxLimit) }));
     } else {
-      setEventInfo((prev) => ({ ...prev, title: inputText }));
-      setRemainingChar(MAX_CHAR - inputText.length);
+      setEventInfo((prev) => ({ ...prev, [field]: inputText }));
     }
-  }
+  };
+
 
   const handleSelect = async (address) => {
     setEventInfo((prev) => ({ ...prev, location: address }));
@@ -88,6 +92,15 @@ const AddEventModal = () => {
     }
   };
 
+  const handleAddEvent = async () => {
+    try {
+      console.log('Adding event:', eventInfo);
+      console.log('Added!');
+    } catch (error) {
+      showToast("error", "An error occurred while adding the event");
+    }
+  };
+
   return (
     <>
       <Button leftIcon={<FaPlus />} onClick={onOpen}>
@@ -104,68 +117,81 @@ const AddEventModal = () => {
                 <FormLabel>Event Title</FormLabel>
                 <Input
                   value={eventInfo.title}
-                  onChange={handleTextChange}
+                  onChange={handleTextChange("title")}
                   placeholder="Enter event title"
                 />
-                <Text fontSize="sm">{remainingChar}/{MAX_CHAR}</Text>
+                <Text fontSize="sm" color="gray.500" mt={1}>{eventInfo.title.length}/{MAX_CHAR.title}</Text>
               </FormControl>
 
-              <FormControl>
-                <FormLabel>Location</FormLabel>
-                {!isLoaded ? (
-                  <Text>Loading...</Text> // Show a loading message until the API is ready
-                ) : (
-                  <PlacesAutocomplete
-                    value={eventInfo.location}
-                    onChange={handleLocationChange}
-                    onSelect={handleSelect}
-                  >
-                    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                      <Box position="relative">
-                        <Input
-                          {...getInputProps({ placeholder: "Enter location... (min 3 chars)" })}
-                          _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
-                        />
-                        {eventInfo.location.length < 3 && <Text fontSize="sm" color="gray.500">Type at least 3 characters...</Text>}
-                        {suggestions.length > 0 && eventInfo.location.length >= 3 && (
-                          <List
-                            position="absolute"
-                            w="100%"
-                            borderRadius="md"
-                            boxShadow="md"
-                            zIndex="10"
-                            mt={1}
-                            overflow="hidden"
-                            bg="white"
-                          >
-                            {loading && <ListItem p={2}>Loading...</ListItem>}
-                            {suggestions.map((suggestion, index) => {
-                              const { key, ...suggestionProps } = getSuggestionItemProps(suggestion);
-                              return (
-                                <ListItem
-                                  key={suggestion.placeId || index}
-                                  {...suggestionProps}
-                                  p={2}
-                                  cursor="pointer"
-                                  fontWeight="bold"
-                                  color={"black"}
-                                  _hover={{ bg: "gray.100" }}
-                                >
-                                  {suggestion.description}
-                                </ListItem>
-                              );
-                            })}
-                          </List>
-                        )}
-                      </Box>
-                    )}
-                  </PlacesAutocomplete>
-                )}
-              </FormControl>
+              <Flex>
+                <FormControl flex={5}>
+                  <FormLabel>Location</FormLabel>
+                  {!isLoaded ? (
+                    <Text>Loading...</Text> // Show a loading message until the API is ready
+                  ) : (
+                    <PlacesAutocomplete
+                      value={eventInfo.location}
+                      onChange={handleLocationChange}
+                      onSelect={handleSelect}
+                    >
+                      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                        <Box position="relative">
+                          <Input
+                            {...getInputProps({ placeholder: "Enter location... (min 3 chars)" })}
+                            _focus={{ borderColor: "blue.500", boxShadow: "outline" }}
+                          />
+                          {eventInfo.location.length < 3 && <Text fontSize="sm" color="gray.500">Type at least 3 characters...</Text>}
+                          {suggestions.length > 0 && eventInfo.location.length >= 3 && (
+                            <List
+                              position="absolute"
+                              w="100%"
+                              borderRadius="md"
+                              boxShadow="md"
+                              zIndex="10"
+                              mt={1}
+                              overflow="hidden"
+                              bg="white"
+                            >
+                              {loading && <ListItem p={2}>Loading...</ListItem>}
+                              {suggestions.map((suggestion, index) => {
+                                const { key, ...suggestionProps } = getSuggestionItemProps(suggestion);
+                                return (
+                                  <ListItem
+                                    key={suggestion.placeId || index}
+                                    {...suggestionProps}
+                                    p={2}
+                                    cursor="pointer"
+                                    fontWeight="bold"
+                                    color={"black"}
+                                    _hover={{ bg: "gray.100" }}
+                                  >
+                                    {suggestion.description}
+                                  </ListItem>
+                                );
+                              })}
+                            </List>
+                          )}
+                        </Box>
+                      )}
+                    </PlacesAutocomplete>
+                  )}
+                </FormControl>
 
+                <FormControl flex={1}>
+                  <Flex justify="center" align="center" flexDirection={"column"}>
+                    <FormLabel m={0} pb={2}>Virtual</FormLabel>
+                  
+                    <Checkbox 
+                      size={"lg"}
+                      isChecked={eventInfo.isVirtual}
+                      onChange={(e) => setEventInfo({ ...eventInfo, isVirtual: e.target.checked })}
+                    />
+                  </Flex>
+                </FormControl>
+              </Flex>
 
               <FormControl>
-                <FormLabel>Event Link</FormLabel>
+                <FormLabel>Link</FormLabel>
                 <Input
                   value={eventInfo.link}
                   onChange={(e) => setEventInfo({ ...eventInfo, link: e.target.value })}
@@ -201,10 +227,11 @@ const AddEventModal = () => {
                 <FormLabel>Description</FormLabel>
                 <Textarea
                   value={eventInfo.description}
-                  onChange={(e) => setEventInfo({ ...eventInfo, description: e.target.value })}
+                  onChange={handleTextChange("description")}
                   placeholder="Enter event description"
                 >
                 </Textarea>
+                <Text fontSize="sm" color="gray.500" mt={1}>{eventInfo.description.length}/{MAX_CHAR.description}</Text>
               </FormControl>
 
               {/* Event Dates */}
@@ -234,7 +261,6 @@ const AddEventModal = () => {
                 </FormControl>
               </Flex>
 
-
               <FormControl>
                 <FormLabel>Registration Deadline</FormLabel>
                 <Input
@@ -250,7 +276,7 @@ const AddEventModal = () => {
               {/* Time and Timezone */}
               <Flex justify="space-between" gap={4}>
                 <FormControl>
-                  <FormLabel>Time</FormLabel>
+                  <FormLabel>Event Time</FormLabel>
                   {/* <Select
                     placeholder="Select time"
                     onChange={(e) => setEventInfo({ ...eventInfo, time: e.target.value })}
@@ -283,12 +309,7 @@ const AddEventModal = () => {
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" isLoading={isLoading} onClick={() => {
-              setIsLoading(true);
-              console.log('Event Info:', eventInfo);
-              setIsLoading(false);
-              onClose();
-            }}>
+            <Button colorScheme="blue" isLoading={isLoading} onClick={handleAddEvent}>
               Add Event
             </Button>
           </ModalFooter>

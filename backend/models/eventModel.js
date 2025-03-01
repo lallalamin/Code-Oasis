@@ -30,6 +30,10 @@ const eventSchema = mongoose.Schema({
         type: Date,
         required: true
     },
+    registrationDeadline: {
+        type: Date,
+        required: false
+    },
     time: {
         type: String,
         required: true
@@ -40,10 +44,18 @@ const eventSchema = mongoose.Schema({
     },
     location: {
         type: String,
-        required: true
+        required: false
     },
-    registrationDeadline: {
-        type: Date,
+    lat: {
+        type: Number,
+        required: false
+    },
+    lng: {
+        type: Number,
+        required: false
+    },
+    isVirtual: {
+        type: Boolean,
         required: false
     },
     link: {
