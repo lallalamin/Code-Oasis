@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader,
   ModalFooter, ModalBody, ModalCloseButton, FormControl,
@@ -11,6 +11,8 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 import 'react-datepicker/dist/react-datepicker.css';
 import debounce from 'lodash.debounce';
 import useShowToast from '../hooks/useShowToast';
+import { useRecoilValue } from 'recoil';
+import userAtom from '../atoms/userAtom';
 
 const MAX_CHAR = {
   title: 100,
@@ -22,9 +24,12 @@ const eventTypes = ['Workshop', 'Conference', 'Hackathon', 'Fellowship', 'Meetup
 const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals Only', 'Graduate Students Only', 'High School Students Only'];
 
 const AddEventModal = () => {
+  const currentUser = useRecoilValue(userAtom); 
+  console.log(currentUser);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
   const [eventInfo, setEventInfo] = useState({
+    postedBy: currentUser._id,
     title: '',
     eventType: '',
     eligibility: '',

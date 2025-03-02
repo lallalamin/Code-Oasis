@@ -14,6 +14,7 @@ import AddEventModal from '../components/AddEventModal';
 const EventPage = () => {
   const [loading, setLoading] = useState(false);
   const [eventListLoading, setEventListLoading] = useState(false);
+  const [userAddedEvents, setUserAddedEvents] = useState([]);
   const showToast = useShowToast();
 
   const getEvents = async () => {
@@ -31,6 +32,10 @@ const EventPage = () => {
       showToast("error", "An error occurred while fetching events");
     }
     setLoading(false);
+  }
+
+  const handleEventAdd = (newEvent) => {
+    setUserAddedEvents((prevEvents) => [...prevEvents, newEvent]);
   }
 
   return (
@@ -83,11 +88,16 @@ const EventPage = () => {
             ))
           )}
           {!eventListLoading && (
-            <SimpleGrid columns={{ base: 1, md: 2, sm: 1 }} spacing={6}>
-              <Event></Event>
-              <Event></Event>
-            </SimpleGrid>
-          )}
+            userAddedEvents.length  === 0 ? (
+              <Flex gap={4} alignItems={"center"} p={"1"} borderRadius={"md"} mb={2}>
+                <Text fontSize="md" color={useColorModeValue("gray.600", "gray.400")} >No events added yet</Text>
+              </Flex>
+            ) : (
+              userAddedEvents.map((event) => (
+                <Event key={event._id} event={event} />
+              ))
+            )
+          )};
         </Flex>
       </Box>
       

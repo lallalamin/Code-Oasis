@@ -20,10 +20,10 @@ const getUserEvents = async(req, res) => {
 }
 const createEvent = async(req, res) =>{
     try {
-        const { postedBy, title, eventType, description, startDate, endDate, time, location, eligibility, link } = req.body;
+        const { postedBy, title, eventType, description, startDate, endDate, registrationDate, time, timezone, location, lat, lng, isVirtual, eligibility, link } = req.body;
 
         if(!postedBy || !title || !eventType || !description || !date || !time || !location ) {
-            return res.status(400).json({ error: "All fields are required" });
+            return res.status(400).json({ error: "Missing required fields" });
         }
 
         const newEvent = new Event({
@@ -33,8 +33,13 @@ const createEvent = async(req, res) =>{
             description,
             startDate,
             endDate,
+            registrationDate,
             time,
+            timezone,
             location,
+            lat,
+            lng,
+            isVirtual,
             eligibility,
             link
         });
