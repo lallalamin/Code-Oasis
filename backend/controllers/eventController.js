@@ -98,7 +98,7 @@ const deleteEvent = async(req, res) => {
             return res.status(404).json({ error: "Event not found" });
         }
 
-        if(event.postedBy.toString() !== userId) {
+        if(event.postedBy.toString() !== userId.toString()) {
             return res.status(401).json({ error: "Unauthorized to delete event" });
         }
 

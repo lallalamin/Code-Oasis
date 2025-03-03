@@ -24,7 +24,7 @@ const UserAddedEvents = ({event, onEventUpdate, onEventDelete}) => {
 
   const handleDeleteEvent = async () => {
     try {
-      const response = await fetch(`/api/events/${event._id}`, {
+      const response = await fetch(`/api/events/delete/${event._id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
