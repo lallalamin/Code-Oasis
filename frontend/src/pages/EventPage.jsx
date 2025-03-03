@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Text, Divider, Input, Button, Flex, Image, Skeleton, SkeletonCircle, Box, SimpleGrid } from '@chakra-ui/react'
 import { InformationCircleOutlineIcon } from 'chakra-ui-ionicons';
 import { HelpCircleOutlineIcon } from 'chakra-ui-ionicons';
@@ -9,33 +9,52 @@ import Event from '../components/Event';
 import UserAddedEvents from '../components/UserAddedEvents';
 import useShowToast from '../hooks/useShowToast';
 import AddEventModal from '../components/AddEventModal';
+import { useRecoilValue } from 'recoil';
+import userAtom from '../atoms/userAtom';
 
 
 const EventPage = () => {
   const [loading, setLoading] = useState(false);
   const [eventListLoading, setEventListLoading] = useState(false);
   const [userAddedEvents, setUserAddedEvents] = useState([]);
+  const [eventList, setEventList] = useState([]);
   const showToast = useShowToast();
+  const user = useRecoilValue(userAtom);
 
-  const getEvents = async () => {
-    setLoading(true);
-    try {
-      const respone = await fetch("api/events",{
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
+  useEffect(() => {
+    const getUserEvents = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`api/events/${user._id}`,{
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setUserAddedEvents(data);
         }
-      });
-      
-    } catch (error) {
-      showToast("error", "An error occurred while fetching events");
+        else {
+          showToast("error", data.error);
+        }
+        console.log("User added events raw:", data);
+        console.log("User added events:", userAddedEvents);
+        
+      } catch (error) {
+        showToast("error", "An error occurred while fetching events");
+      }
+      setLoading(false);
     }
-    setLoading(false);
-  }
+    
+    getUserEvents();
 
+  }, [user]);
+
+  
   const handleEventAdd = (newEvent) => {
     setUserAddedEvents((prevEvents) => [...prevEvents, newEvent]);
+    console.log("updated events:", userAddedEvents);
   }
 
   return (
@@ -55,7 +74,7 @@ const EventPage = () => {
                     Your Added Events
                 </Text>
                 <Divider/>
-                <AddEventModal/>
+                <AddEventModal onEventAdd={handleEventAdd}/>
                 {loading && (
                     [0,1,2].map((_, i) => (
                         <Flex key={i} gap={4} alignItems={"center"} p={"1"} borderRadius={"md"}>
@@ -64,11 +83,19 @@ const EventPage = () => {
                     ))
                 )}
                 {!loading && (
-                    <Flex gap={4} alignItems={"center"} p={"1"} borderRadius={"md"} overflowY={"auto"} h={{base:"450px", md:"500px", lg:"520px"}} flexDirection={"column"}>
-                      <UserAddedEvents></UserAddedEvents>
-                      <UserAddedEvents></UserAddedEvents>
-                    </Flex>
-                )}
+                    userAddedEvents.length === 0 ? (
+                        <Flex gap={4} justifyContent={"center"} alignItems={"center"} p={"1"} borderRadius={"md"}>
+                          <Text fontSize="md" color={useColorModeValue("gray.600", "gray.400")} >No events added</Text>
+                        </Flex>
+                    ) : (
+                        <Flex gap={4} alignItems={"center"} p={"1"} borderRadius={"md"} overflowY={"auto"} h={{base:"450px", md:"500px", lg:"520px"}} flexDirection={"column"}>
+                        {userAddedEvents.map((event) => (
+                            <UserAddedEvents key={event._id} event={event} />
+                        ))}
+                        </Flex>
+                      )
+                    )
+                }
             </Flex>
         </Flex>
         <Flex flexDirection={"column"}>
@@ -88,16 +115,16 @@ const EventPage = () => {
             ))
           )}
           {!eventListLoading && (
-            userAddedEvents.length  === 0 ? (
+            eventList.length  === 0 ? (
               <Flex gap={4} alignItems={"center"} p={"1"} borderRadius={"md"} mb={2}>
-                <Text fontSize="md" color={useColorModeValue("gray.600", "gray.400")} >No events added yet</Text>
+                <Text fontSize="md" color={useColorModeValue("gray.600", "gray.400")} >No events on this day</Text>
               </Flex>
             ) : (
-              userAddedEvents.map((event) => (
+              eventList.map((event) => (
                 <Event key={event._id} event={event} />
               ))
             )
-          )};
+          )}
         </Flex>
       </Box>
       

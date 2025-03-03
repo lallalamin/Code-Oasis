@@ -22,7 +22,7 @@ const createEvent = async(req, res) =>{
     try {
         const { postedBy, title, eventType, description, startDate, endDate, registrationDate, time, timezone, location, lat, lng, isVirtual, eligibility, link } = req.body;
 
-        if(!postedBy || !title || !eventType || !description || !date || !time || !location ) {
+        if(!postedBy || !title || !eventType || !description || !time ) {
             return res.status(400).json({ error: "Missing required fields" });
         }
 
@@ -31,9 +31,9 @@ const createEvent = async(req, res) =>{
             title,
             eventType,
             description,
-            startDate,
-            endDate,
-            registrationDate,
+            startDate: new Date(startDate),
+            endDate: new Date(endDate),
+            registrationDeadline: new Date(registrationDate),
             time,
             timezone,
             location,
@@ -45,9 +45,10 @@ const createEvent = async(req, res) =>{
         });
 
         await newEvent.save();
-
+        console.log("Event created:", newEvent);
         res.status(200).json(newEvent);
     } catch (error) {
+        console.log("Error creating event:", error);
         res.status(500).json({ error: error.message})
     }
 }

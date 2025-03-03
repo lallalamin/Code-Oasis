@@ -11,8 +11,9 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 import 'react-datepicker/dist/react-datepicker.css';
 import debounce from 'lodash.debounce';
 import useShowToast from '../hooks/useShowToast';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import userAtom from '../atoms/userAtom';
+import userEventsAtom from '../atoms/userEventsAtom';
 
 const MAX_CHAR = {
   title: 100,
@@ -23,7 +24,7 @@ const timezones = ['CST', 'EST', 'PST', 'MST'];
 const eventTypes = ['Workshop', 'Conference', 'Hackathon', 'Fellowship', 'Meetup', 'Networking Event', 'Career Fair', 'Panel Discussion', 'Other'];
 const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals Only', 'Graduate Students Only', 'High School Students Only'];
 
-const AddEventModal = () => {
+const AddEventModal = ({ onEventAdd }) => {
   const currentUser = useRecoilValue(userAtom); 
   console.log(currentUser);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -45,6 +46,7 @@ const AddEventModal = () => {
     isVirtual: false,
     link: ''
   });
+  const [userEvents, setUserEvents] = useRecoilState(userEventsAtom);
 
   const showToast = useShowToast();
 
@@ -99,8 +101,45 @@ const AddEventModal = () => {
 
   const handleAddEvent = async () => {
     try {
-      console.log('Adding event:', eventInfo);
-      console.log('Added!');
+      const response = await fetch("/api/events/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(eventInfo),
+      });
+      const data = await response.json();
+      console.log(data);
+
+      if (!data) {
+        showToast("error", data.error);
+        return;
+      }
+      
+      setUserEvents([data, ...userEvents]);
+      onEventAdd(data);
+      // if(currentUser._id === data.postedBy) {
+        
+      // }
+      onClose();
+      setEventInfo({
+        postedBy: currentUser._id,
+        title: '',
+        eventType: '',
+        eligibility: '',
+        description: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        registrationDeadline: new Date(),
+        time: '',
+        timezone: '',
+        location: '',
+        lat: null,
+        lng: null,
+        isVirtual: false,
+        link: ''
+      });
+      showToast("success", "Event added successfully");
     } catch (error) {
       showToast("error", "An error occurred while adding the event");
     }
