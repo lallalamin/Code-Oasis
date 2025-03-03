@@ -57,6 +57,14 @@ const EventPage = () => {
     console.log("updated events:", userAddedEvents);
   }
 
+  const handleEventUpdate = (eventId, updatedEvent) => {
+    setUserAddedEvents((prevEvents) => prevEvents.map((event) => (event._id === eventId ? updatedEvent : event)));
+  }
+
+  const handleEventDelete = (eventId) => {
+    setUserAddedEvents((prevEvents) => prevEvents.filter((event) => event._id !== eventId));
+  }
+
   return (
     <>
       <Text fontSize="2xl" fontWeight="bold" my={1}>
@@ -90,7 +98,7 @@ const EventPage = () => {
                     ) : (
                         <Flex gap={4} alignItems={"center"} p={"1"} borderRadius={"md"} overflowY={"auto"} h={{base:"450px", md:"500px", lg:"520px"}} flexDirection={"column"}>
                         {userAddedEvents.map((event) => (
-                            <UserAddedEvents key={event._id} event={event} />
+                            <UserAddedEvents key={event._id} event={event} onEventUpdate={handleEventUpdate} onEventDelete={handleEventDelete} />
                         ))}
                         </Flex>
                       )

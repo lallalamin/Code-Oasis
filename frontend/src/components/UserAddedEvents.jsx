@@ -6,7 +6,10 @@ import { BsFillPersonCheckFill } from "react-icons/bs";
 import { IoCalendarOutline } from "react-icons/io5";
 import { IoTimeOutline } from "react-icons/io5";
 import { Link as routerLink } from 'react-router-dom'
-const UserAddedEvents = ({event}) => {
+import useShowToast from '../hooks/useShowToast';
+
+const UserAddedEvents = ({event, onEventUpdate, onEventDelete}) => {
+  const showToast = useShowToast();
   const formattedStartDate = new Date(event.startDate).toLocaleDateString("en-US", {
     year: "numeric", // Example: "2025"
     month: "short", // Example: "Mar"
@@ -18,6 +21,29 @@ const UserAddedEvents = ({event}) => {
     month: "short",
     day: "numeric",
   });
+
+  const handleDeleteEvent = async () => {
+    try {
+      const response = await fetch(`/api/events/${event._id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+      if (data.error) {
+        showToast("error", data.error);
+        return;
+      }
+
+      onEventDelete(event._id);
+      showToast("success", "Event deleted successfully");
+    } catch (error) {
+      showToast("error", "An error occurred while deleting the event");
+    }
+  }
+
   return (
     <>
       <Box w={"full"} bg={useColorModeValue("gray.200", "gray.dark")} p={4} borderRadius={"md"}>
@@ -70,7 +96,7 @@ const UserAddedEvents = ({event}) => {
       </Flex>
       <Flex justifyContent={"flex-end"} mt={3} alignItems={"center"} gap={2}>
         <Button size={"sm"} fontSize={"sm"}>Edit</Button>
-        <Button size={"sm"} fontSize={"sm"} colorScheme='red'>Delete</Button>
+        <Button size={"sm"} fontSize={"sm"} colorScheme='red' onClick={handleDeleteEvent}>Delete</Button>
       </Flex>
       </Box>
     </>
