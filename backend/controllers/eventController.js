@@ -21,6 +21,7 @@ const getUserEvents = async(req, res) => {
 const createEvent = async(req, res) =>{
     try {
         const { postedBy, title, eventType, description, startDate, endDate, registrationDate, time, timezone, location, lat, lng, isVirtual, eligibility, link } = req.body;
+        console.log("Request body:", req.body);
 
         if(!postedBy || !title || !eventType || !description || !time ) {
             return res.status(400).json({ error: "Missing required fields" });
@@ -33,7 +34,7 @@ const createEvent = async(req, res) =>{
             description,
             startDate: new Date(startDate),
             endDate: new Date(endDate),
-            registrationDeadline: new Date(registrationDate),
+            registrationDeadline: registrationDate,
             time,
             timezone,
             location,
@@ -57,7 +58,7 @@ const editEvent = async(req, res) =>{
     const eventId = req.params.id;
     const userId = req.user._id;
     try {
-        const { title, eventType, description, startDate, endDate, time, location, eligibility, link } = req.body;
+        const { title, eventType, description, startDate, endDate, registrationDate, time, timezone, location, lat, lng, isVirtual, eligibility, link } = req.body;
 
         const event = await Event.findById(eventId);
 
@@ -65,17 +66,22 @@ const editEvent = async(req, res) =>{
             return res.status(404).json({ error: "Event not found" });
         }
 
-        if(event.postedBy.toString() !== userId) {
+        if(event.postedBy.toString() !== userId.toString()) {
             return res.status(401).json({ error: "Unauthorized to edit event" });
         }
 
         event.title = title;
         event.eventType = eventType;
         event.description = description;
-        event.startDate = startDate;
-        event.endDate = endDate;
+        event.startDate = new Date(startDate);
+        event.endDate = new Date(endDate);
+        event.registrationDeadline = new Date(registrationDate);
         event.time = time;
+        event.timezone = timezone;
         event.location = location;
+        event.lat = lat;
+        event.lng = lng;
+        event.isVirtual = isVirtual;
         event.eligibility = eligibility;
         event.link = link;
 
