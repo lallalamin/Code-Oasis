@@ -24,27 +24,26 @@ const timezones = ['CST', 'EST', 'PST', 'MST'];
 const eventTypes = ['Workshop', 'Conference', 'Hackathon', 'Fellowship', 'Meetup', 'Networking Event', 'Career Fair', 'Panel Discussion', 'Other'];
 const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals Only', 'Graduate Students Only', 'High School Students Only'];
 
-const AddEventModal = ({ onEventAdd }) => {
+const EditEventModal = ({ event, isOpen, onClose, onUpdate }) => {
   const currentUser = useRecoilValue(userAtom); 
   console.log(currentUser);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
   const [eventInfo, setEventInfo] = useState({
-    postedBy: currentUser._id,
-    title: '',
-    eventType: '',
-    eligibility: '',
-    description: '',
-    startDate: new Date(),
-    endDate: new Date(),
-    registrationDeadline: new Date(),
-    time: '',
-    timezone: '',
-    location: '',
-    lat: null,
-    lng: null,
-    isVirtual: false,
-    link: ''
+    postedBy: event?.postedBy || '',
+    title: event?.title || '',
+    eventType: event?.eventType || '',
+    eligibility: event?.eligibility || '',
+    description: event?.description || '',
+    startDate: event?.startDate ? new Date(event.startDate) : new Date(),
+    endDate: event?.endDate ? new Date(event.endDate) : new Date(),
+    registrationDeadline: event?.registrationDeadline ? new Date(event.registrationDeadline) : new Date(),
+    time: event?.time || '',
+    timezone: event?.timezone || '',
+    location: event?.location || '',
+    lat: event?.lat || null,
+    lng: event?.lng || null,
+    isVirtual: event?.isVirtual || false,
+    link: event?.link || ''
   });
   const [userEvents, setUserEvents] = useRecoilState(userEventsAtom);
 
@@ -99,62 +98,36 @@ const AddEventModal = ({ onEventAdd }) => {
     }
   };
 
-  const handleAddEvent = async () => {
-    console.log(eventInfo);
+  const handleUpdateEvent = async () => {
     try {
-      const response = await fetch("/api/events/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(eventInfo),
-      });
-      const data = await response.json();
-      console.log(data);
+        const response = await fetch(`/api/events/update/${event._id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(eventInfo),
+        });
 
-      if (!data) {
-        showToast("error", data.error);
-        return;
-      }
-      
-      setUserEvents([data, ...userEvents]);
-      onEventAdd(data);
-      // if(currentUser._id === data.postedBy) {
-        
-      // }
-      onClose();
-      setEventInfo({
-        postedBy: currentUser._id,
-        title: '',
-        eventType: '',
-        eligibility: '',
-        description: '',
-        startDate: new Date(),
-        endDate: new Date(),
-        registrationDeadline: new Date(),
-        time: '',
-        timezone: '',
-        location: '',
-        lat: null,
-        lng: null,
-        isVirtual: false,
-        link: ''
-      });
-      showToast("success", "Event added successfully");
+        const data = await response.json();
+        if (data.error) {
+            showToast("Error", data.error, "error");
+            return;
+        }
+
+        onUpdate(event._id, eventInfo);
+        showToast("Success", "Event updated successfully", "success");
+        onClose();
     } catch (error) {
-      showToast("error", "An error occurred while adding the event");
+        showToast("Error", error.message, "error");
     }
   };
 
   return (
     <>
-      <Button leftIcon={<FaPlus />} onClick={onOpen}>
-        Add Event
-      </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add New Event</ModalHeader>
+          <ModalHeader>Edit Event</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <VStack spacing={4} align="stretch">
@@ -165,7 +138,7 @@ const AddEventModal = ({ onEventAdd }) => {
                   onChange={handleTextChange("title")}
                   placeholder="Enter event title"
                 />
-                <Text fontSize="sm" color="gray.500" mt={1}>{eventInfo.title.length}/{MAX_CHAR.title}</Text>
+                <Text fontSize="sm" color="gray.500" mt={1}>{!eventInfo.title ? 0 : eventInfo.title.length}/{MAX_CHAR.title}</Text>
               </FormControl>
 
               <Flex>
@@ -276,7 +249,7 @@ const AddEventModal = ({ onEventAdd }) => {
                   placeholder="Enter event description"
                 >
                 </Textarea>
-                <Text fontSize="sm" color="gray.500" mt={1}>{eventInfo.description.length}/{MAX_CHAR.description}</Text>
+                <Text fontSize="sm" color="gray.500" mt={1}>{!eventInfo.description ? 0 : eventInfo.description.length}/{MAX_CHAR.description}</Text>
               </FormControl>
 
               {/* Event Dates */}
@@ -354,8 +327,8 @@ const AddEventModal = ({ onEventAdd }) => {
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" isLoading={isLoading} onClick={handleAddEvent}>
-              Add Event
+            <Button colorScheme="blue" isLoading={isLoading} onClick={handleUpdateEvent}>
+              Save Update
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -364,4 +337,4 @@ const AddEventModal = ({ onEventAdd }) => {
   );
 };
 
-export default AddEventModal;
+export default EditEventModal;
