@@ -321,6 +321,7 @@ const EditEventModal = ({ event, isOpen, onClose, onEventUpdate }) => {
                 <FormControl>
                   <FormLabel>Timezone</FormLabel>
                   <Select
+                    value={eventInfo.timezone}
                     placeholder="Select timezone"
                     onChange={(e) => setEventInfo({ ...eventInfo, timezone: e.target.value })}
                   >

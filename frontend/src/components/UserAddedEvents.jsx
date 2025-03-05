@@ -94,7 +94,7 @@ const UserAddedEvents = ({event, onEventUpdate, onEventDelete}) => {
             </Flex>
             <Flex>
               <IoTimeOutline size={20} />
-              <Text ml={2} fontSize={"sm"}>{event.time} {event.timeZone}</Text>
+              <Text ml={2} fontSize={"sm"}>{event.time} {event.timeZone} {event.timeZone}</Text>
             </Flex>
           </Flex> 
           <Flex bg={useColorModeValue("gray.100", "#313131")} flexDirection={"column"} p={3} borderRadius={"md"}>

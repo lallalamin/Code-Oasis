@@ -6,7 +6,12 @@ import {
   Button, 
   Image, 
   SimpleGrid, 
-  Input
+  Input,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon
 } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -238,7 +243,39 @@ const LandingPage = () => {
           ))}
         </SimpleGrid>
       </Box>
+      <Flex>
+        <Flex flexDirection={"column"} flex={3}>
+          <Text fontSize="2xl" fontWeight="bold">Any Question?</Text> 
+          <Text fontSize="2xl" fontWeight="bold">We got you.</Text>         
+        </Flex>
+        <Flex flex={7}>
+          <Accordion allowToggle w="100%">
+            <AccordionItem>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  Who is CodeOasis for?
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                CodeOasis is for tech enthusiasts, high school students interested in tech, and anyone looking for mentorship, resources, and opportunities in the field.
+              </AccordionPanel>
+            </AccordionItem>
 
+            <AccordionItem>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  How can I join CodeOasis?
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                You can sign up by joining the waitlist and be the first to access the platform when it launches!
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+        </Flex>
+      </Flex>
     </Box>
 )
 }  
