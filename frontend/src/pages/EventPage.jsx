@@ -58,7 +58,7 @@ const EventPage = () => {
   }
 
   const handleEventUpdate = (eventId, updatedEvent) => {
-    setUserAddedEvents((prevEvents) => prevEvents.map((event) => (event._id === eventId ? updatedEvent : event)));
+    setUserAddedEvents((prevEvents) => prevEvents.map((event) => (event._id === eventId ? { ...event, ...updatedEvent } : event)));
   }
 
   const handleEventDelete = (eventId) => {

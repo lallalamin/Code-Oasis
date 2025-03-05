@@ -6,7 +6,6 @@ import {
   Textarea, Checkbox
 } from '@chakra-ui/react';
 import { useJsApiLoader } from '@react-google-maps/api';
-import { FaPlus } from 'react-icons/fa';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import 'react-datepicker/dist/react-datepicker.css';
 import debounce from 'lodash.debounce';
@@ -21,10 +20,10 @@ const MAX_CHAR = {
 };
 let libraries = ['places'];
 const timezones = ['CST', 'EST', 'PST', 'MST'];
-const eventTypes = ['Workshop', 'Conference', 'Hackathon', 'Fellowship', 'Meetup', 'Networking Event', 'Career Fair', 'Panel Discussion', 'Other'];
-const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals Only', 'Graduate Students Only', 'High School Students Only'];
+const eventTypes = ['Workshop', 'Conference', 'Hackathon', 'Fellowship', 'Meetup', 'Networking Event', 'Career Fair', 'Panel Discussion', 'Job Fair', 'Incubator/Accelerator Program', 'Coding Competition', 'Other'];
+const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals Only', 'Recent Graduates Only', 'High School Students Only', 'Masters Students Only', 'PhD Students Only', 'Freshman and Sophomore Students Only', 'Junior and Senior Students Only',  'Other'];
 
-const EditEventModal = ({ event, isOpen, onClose, onUpdate }) => {
+const EditEventModal = ({ event, isOpen, onClose, onEventUpdate }) => {
   const currentUser = useRecoilValue(userAtom); 
   console.log(currentUser);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,9 +33,9 @@ const EditEventModal = ({ event, isOpen, onClose, onUpdate }) => {
     eventType: event?.eventType || '',
     eligibility: event?.eligibility || '',
     description: event?.description || '',
-    startDate: event?.startDate ? new Date(event.startDate) : new Date(),
-    endDate: event?.endDate ? new Date(event.endDate) : new Date(),
-    registrationDeadline: event?.registrationDeadline ? new Date(event.registrationDeadline) : new Date(),
+    startDate: event?.startDate ? new Date(event.startDate) : '',
+    endDate: event?.endDate ? new Date(event.endDate) : '',
+    registrationDeadline: event?.registrationDeadline ? event.registrationDeadline : '',
     time: event?.time || '',
     timezone: event?.timezone || '',
     location: event?.location || '',
@@ -99,6 +98,8 @@ const EditEventModal = ({ event, isOpen, onClose, onUpdate }) => {
   };
 
   const handleUpdateEvent = async () => {
+    setIsLoading(true);
+    console.log("Event Info:", eventInfo);
     try {
         const response = await fetch(`/api/events/update/${event._id}`, {
             method: "PUT",
@@ -109,16 +110,19 @@ const EditEventModal = ({ event, isOpen, onClose, onUpdate }) => {
         });
 
         const data = await response.json();
+        console.log(data);
         if (data.error) {
             showToast("Error", data.error, "error");
             return;
         }
 
-        onUpdate(event._id, eventInfo);
+        onEventUpdate(event._id, eventInfo);
         showToast("Success", "Event updated successfully", "success");
         onClose();
     } catch (error) {
         showToast("Error", error.message, "error");
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -220,6 +224,7 @@ const EditEventModal = ({ event, isOpen, onClose, onUpdate }) => {
               <FormControl>
                 <FormLabel>Event Type</FormLabel>
                 <Select
+                  value={eventInfo.eventType}
                   placeholder="Select event type"
                   onChange={(e) => setEventInfo({ ...eventInfo, eventType: e.target.value })}
                 >
@@ -232,6 +237,7 @@ const EditEventModal = ({ event, isOpen, onClose, onUpdate }) => {
               <FormControl>
                 <FormLabel>Eligibility</FormLabel>
                 <Select
+                  value={eventInfo.eligibility}
                   placeholder="Select eligibility"
                   onChange={(e) => setEventInfo({ ...eventInfo, eligibility: e.target.value })}
                 >
@@ -274,7 +280,7 @@ const EditEventModal = ({ event, isOpen, onClose, onUpdate }) => {
                     onChange={(e) =>
                       setEventInfo({ ...eventInfo, endDate: new Date(e.target.value) })
                     }
-                    min={eventInfo.startDate ? eventInfo.startDate.toISOString().split("T")[0] : ""}
+                    min={eventInfo.startDate}
                   />
                 </FormControl>
               </Flex>
@@ -287,7 +293,7 @@ const EditEventModal = ({ event, isOpen, onClose, onUpdate }) => {
                     onChange={(e) =>
                       setEventInfo({ ...eventInfo, registrationDeadline: new Date(e.target.value) })
                     }
-                    min={eventInfo.registrationDeadline ? eventInfo.registrationDeadline.toISOString().split("T")[0] : ""}
+                    min={new Date().toISOString().split("T")[0]}
                   />
               </FormControl>
 

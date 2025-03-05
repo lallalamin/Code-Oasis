@@ -63,6 +63,7 @@ const editEvent = async(req, res) =>{
         const event = await Event.findById(eventId);
 
         if(!event) {
+            console.log("Event not found");
             return res.status(404).json({ error: "Event not found" });
         }
 
@@ -75,7 +76,7 @@ const editEvent = async(req, res) =>{
         event.description = description;
         event.startDate = new Date(startDate);
         event.endDate = new Date(endDate);
-        event.registrationDeadline = new Date(registrationDate);
+        event.registrationDeadline = registrationDate;
         event.time = time;
         event.timezone = timezone;
         event.location = location;
@@ -86,6 +87,8 @@ const editEvent = async(req, res) =>{
         event.link = link;
 
         await event.save();
+
+        console.log("Event updated:", event);
 
         res.status(200).json(event);
         

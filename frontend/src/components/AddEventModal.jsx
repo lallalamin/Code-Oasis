@@ -21,8 +21,8 @@ const MAX_CHAR = {
 };
 let libraries = ['places'];
 const timezones = ['CST', 'EST', 'PST', 'MST'];
-const eventTypes = ['Workshop', 'Conference', 'Hackathon', 'Fellowship', 'Meetup', 'Networking Event', 'Career Fair', 'Panel Discussion', 'Other'];
-const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals Only', 'Graduate Students Only', 'High School Students Only'];
+const eventTypes = ['Workshop', 'Conference', 'Hackathon', 'Fellowship', 'Meetup', 'Networking Event', 'Career Fair', 'Panel Discussion', 'Job Fair', 'Incubator/Accelerator Program', 'Coding Competition', 'Other'];
+const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals Only', 'Recent Graduates Only', 'High School Students Only', 'Masters Students Only', 'PhD Students Only', 'Freshman and Sophomore Students Only', 'Junior and Senior Students Only',  'Other'];
 
 const AddEventModal = ({ onEventAdd }) => {
   const currentUser = useRecoilValue(userAtom); 

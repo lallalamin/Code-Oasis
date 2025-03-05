@@ -7,9 +7,13 @@ import { IoCalendarOutline } from "react-icons/io5";
 import { IoTimeOutline } from "react-icons/io5";
 import { Link as routerLink } from 'react-router-dom'
 import useShowToast from '../hooks/useShowToast';
+import EditEventModal from './EditEventModal';
+import { useState } from 'react';
 
 const UserAddedEvents = ({event, onEventUpdate, onEventDelete}) => {
   const showToast = useShowToast();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   const formattedStartDate = new Date(event.startDate).toLocaleDateString("en-US", {
     year: "numeric", // Example: "2025"
     month: "short", // Example: "Mar"
@@ -17,6 +21,12 @@ const UserAddedEvents = ({event, onEventUpdate, onEventDelete}) => {
   });
 
   const formattedEndDate = new Date(event.endDate).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
+  const formattedRegistrationDate = new Date(event.registrationDeadline).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -68,7 +78,7 @@ const UserAddedEvents = ({event, onEventUpdate, onEventDelete}) => {
           <Flex flexDirection={"row"} justifyContent={"space-between"}>
             <Flex flexDirection={"column"}>
               <Text fontSize={"sm"} fontWeight={"bold"}>Registration Deadline: </Text>
-              <Text fontSize={"sm"}>{!event.registrationDeadline ? "No Info" : event.registrationDeadline}</Text>
+              <Text fontSize={"sm"}>{!event.registrationDeadline ? "No Info" : formattedRegistrationDate}</Text>
             </Flex>
             <Flex>
               <Tooltip label={event.link} placement='bottom'>
@@ -95,9 +105,15 @@ const UserAddedEvents = ({event, onEventUpdate, onEventDelete}) => {
           </Flex>
       </Flex>
       <Flex justifyContent={"flex-end"} mt={3} alignItems={"center"} gap={2}>
-        <Button size={"sm"} fontSize={"sm"}>Edit</Button>
+        <Button size={"sm"} fontSize={"sm"} onClick={() => setIsEditModalOpen(true)}>Edit</Button>
         <Button size={"sm"} fontSize={"sm"} colorScheme='red' onClick={handleDeleteEvent}>Delete</Button>
       </Flex>
+      <EditEventModal
+        event={event}
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onEventUpdate={onEventUpdate}
+      />
       </Box>
     </>
   )
