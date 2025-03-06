@@ -92,8 +92,9 @@ const EventPage = () => {
                 )}
                 {!loading && (
                     userAddedEvents.length === 0 ? (
-                        <Flex gap={4} justifyContent={"center"} alignItems={"center"} p={"1"} borderRadius={"md"}>
+                        <Flex gap={4} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} p={"1"} borderRadius={"md"}>
                           <Text fontSize="md" color={useColorModeValue("gray.600", "gray.400")} >No events added</Text>
+                          <Image src="/characters/quill_userevent.png" alt="quill" w={"150px"} />
                         </Flex>
                     ) : (
                         <Flex gap={4} alignItems={"center"} p={"1"} borderRadius={"md"} overflowY={"auto"} h={{base:"450px", md:"500px", lg:"520px"}} flexDirection={"column"}>
@@ -124,8 +125,9 @@ const EventPage = () => {
           )}
           {!eventListLoading && (
             eventList.length  === 0 ? (
-              <Flex gap={4} alignItems={"center"} p={"1"} borderRadius={"md"} mb={2}>
-                <Text fontSize="md" color={useColorModeValue("gray.600", "gray.400")} >No events on this day</Text>
+              <Flex flexDirection={"column"} gap={4} justifyContent={"center"} alignItems={"center"} p={"1"} borderRadius={"md"} mb={2}>
+                <Text fontSize="md" color={useColorModeValue("gray.600", "gray.400")} >No events on this day :(</Text>
+                <Image src="/characters/toby_juno_event.png" alt="toby&juno" w={"250px"} />
               </Flex>
             ) : (
               eventList.map((event) => (
