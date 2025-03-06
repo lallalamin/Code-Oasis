@@ -1,17 +1,7 @@
 import { 
-  Flex, 
-  Text, 
-  Box, 
-  Heading, 
-  Button, 
-  Image, 
-  SimpleGrid, 
-  Input,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon
+  Flex, Text, Box, Heading, Button, Image, 
+  SimpleGrid, Input, Accordion, AccordionItem,
+  AccordionButton, AccordionPanel, AccordionIcon, Link
 } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -21,7 +11,14 @@ import { useColorModeValue } from '@chakra-ui/react'
 import { useState } from 'react'
 import "../styles/background.scss";
 import { useLocation } from 'react-router-dom';
-
+import { TbFreeRights } from "react-icons/tb";
+import { BsPersonArmsUp } from "react-icons/bs";
+import { MdConnectWithoutContact } from "react-icons/md";
+import { IoShareSocialOutline } from "react-icons/io5";
+import { FaMobileAlt } from "react-icons/fa";
+import { MdOutlineFeedback } from "react-icons/md";
+import { MdOutlineRocketLaunch } from "react-icons/md";
+import { FaQuestion } from "react-icons/fa";
 
 // Animation variants
 const fadeIn = {
@@ -243,34 +240,105 @@ const LandingPage = () => {
           ))}
         </SimpleGrid>
       </Box>
-      <Flex>
+      <Flex flexDirection={{ base: "column", md: "row" }} >
         <Flex flexDirection={"column"} flex={3}>
           <Text fontSize="2xl" fontWeight="bold">Any Question?</Text> 
-          <Text fontSize="2xl" fontWeight="bold">We got you.</Text>         
+          <Text fontSize="2xl" fontWeight="bold">We got you.</Text>
+          <Image src="/characters/hugo_question.png" alt="hugo" maxW={{ base: "60%", md: "80%"}} as={motion.img} initial="hidden" animate="visible" variants={fadeInDelay} mt={4} />         
         </Flex>
         <Flex flex={7}>
           <Accordion allowToggle w="100%">
             <AccordionItem>
               <AccordionButton>
-                <Box flex="1" textAlign="left">
+                <Flex flex="1" textAlign="left" fontWeight={"bold"} flexDirection={"row"} gap={2}>
+                  <BsPersonArmsUp size={20} />
                   Who is CodeOasis for?
-                </Box>
+                </Flex>
                 <AccordionIcon />
               </AccordionButton>
               <AccordionPanel pb={4}>
-                CodeOasis is for tech enthusiasts, high school students interested in tech, and anyone looking for mentorship, resources, and opportunities in the field.
+                CodeOasis is for tech enthusiasts, high school students interested in tech, and anyone looking for mentorship, resources, and events in the field.
               </AccordionPanel>
             </AccordionItem>
 
             <AccordionItem>
               <AccordionButton>
-                <Box flex="1" textAlign="left">
+                <Flex flex="1" textAlign="left" fontWeight={"bold"} flexDirection={"row"} gap={2}>
+                  <MdConnectWithoutContact size={20} />
                   How can I join CodeOasis?
-                </Box>
+                </Flex>
                 <AccordionIcon />
               </AccordionButton>
               <AccordionPanel pb={4}>
                 You can sign up by joining the waitlist and be the first to access the platform when it launches!
+              </AccordionPanel>
+            </AccordionItem>
+
+            <AccordionItem>
+              <AccordionButton>
+                <Flex flex="1" textAlign="left" fontWeight={"bold"} flexDirection={"row"} gap={2}>
+                  <IoShareSocialOutline size={20} />
+                  How can I stay updated on CodeOasis?
+                </Flex>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                Follow us on 
+                <Link color={"#3b82f6"} href="https://www.linkedin.com/company/codeoasis/" target="_blank"> LinkedIn</Link> or
+                <Link color={"#3b82f6"} href="https://www.instagram.com/codeoasis.official/" target="_blank"> Instagram</Link> to stay updated on CodeOasis! 
+                
+              </AccordionPanel>
+            </AccordionItem>
+
+            <AccordionItem>
+              <AccordionButton>
+                <Flex flex="1" textAlign="left" fontWeight={"bold"} flexDirection={"row"} gap={2}>
+                  <TbFreeRights size={20} />
+                  Is CodeOasis free to use?
+                </Flex>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                Yes! CodeOasis is free for everyone to use.
+              </AccordionPanel>
+            </AccordionItem>
+
+            <AccordionItem>
+              <AccordionButton>
+                <Flex flex="1" textAlign="left" fontWeight={"bold"} flexDirection={"row"} gap={2}>
+                  <FaMobileAlt size={20} />
+                  Is there a mobile app for CodeOasis?
+                </Flex>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                Currently, CodeOasis is web-based, but we plan to explore a mobile version in the future!
+              </AccordionPanel>
+            </AccordionItem>
+
+            <AccordionItem>
+              <AccordionButton>
+                <Flex flex="1" textAlign="left" fontWeight={"bold"} flexDirection={"row"} gap={2}>
+                  <MdOutlineFeedback size={20} />
+                  How do I report an issue or give feedback?
+                </Flex>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                We value your feedback and love to hear from you! Contact us at hello.codeoasis@gmail.com for any feedback or issues.
+              </AccordionPanel>
+            </AccordionItem>
+
+            <AccordionItem>
+              <AccordionButton>
+                <Flex flex="1" textAlign="left" fontWeight={"bold"} flexDirection={"row"} gap={2}>
+                  <MdOutlineRocketLaunch size={20} />
+                  When will CodeOasis launch?
+                </Flex>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                We're aiming to release a beta version by May 2025! 
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
