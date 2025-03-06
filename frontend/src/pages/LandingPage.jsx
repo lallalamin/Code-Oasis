@@ -18,7 +18,14 @@ import { IoShareSocialOutline } from "react-icons/io5";
 import { FaMobileAlt } from "react-icons/fa";
 import { MdOutlineFeedback } from "react-icons/md";
 import { MdOutlineRocketLaunch } from "react-icons/md";
-import { FaQuestion } from "react-icons/fa";
+import { FaCirclePlay, FaS } from "react-icons/fa6";
+import { FaShuffle } from "react-icons/fa6";
+import { GiBottomRight3dArrow } from "react-icons/gi";
+import { IoPlayOutline } from "react-icons/io5";
+import { IoPlayBackOutline } from "react-icons/io5";
+import { IoPlayForwardOutline } from "react-icons/io5";
+import { BsStars } from "react-icons/bs";
+
 
 // Animation variants
 const fadeIn = {
@@ -44,6 +51,7 @@ const LandingPage = () => {
   const [count, setCount] = useState(0);
   const [status, setStatus] = useState("");
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const MotionBox = motion(Box);
 
   useEffect(() => {
       const fetchEmailCount = async () => {
@@ -111,7 +119,7 @@ const LandingPage = () => {
       <Box textAlign="center" py={16} as={motion.div} initial="hidden" animate="visible" variants={fadeIn}>
         <Flex justifyContent="center" alignItems="center" mb={4}>
           <Heading size="2xl">
-            Connect. Learn. Grow Together.
+            Learn. <Heading size="2xl" as="span" color="#99a661"> Connect. </Heading> Grow Together.
           </Heading>
         </Flex>
         <Text fontSize="lg" mb={6}>
@@ -121,12 +129,9 @@ const LandingPage = () => {
           <Flex
           w="100%"
           maxW="500px"
-          bg={useColorModeValue("gray.100", "gray.700")}
           p={4}
-          borderRadius="md"
           flexDirection="column"
           alignItems="center"
-          boxShadow="md"
           >
           <Text fontSize="lg" mb={3} fontWeight="bold">
               {count} people have joined the waitlist!
@@ -164,23 +169,51 @@ const LandingPage = () => {
       </Flex>
       </Box>
 
-      <Box mt={12} mb={12} textAlign="center">
-        <Heading size="lg" mb={4}>
+      {/* Video Section */}
+      <Flex justify="center" align="center" flexDirection="column" mt={12} mb={12} textAlign="center">
+      {/* Heading with Animated Icon */}
+      <Flex align="center" gap={2}>
+        <Heading size="lg" fontWeight="bold">
           Watch Current Stage Demo
         </Heading>
-        <Box
-          as="iframe"
-          src="https://www.youtube.com/embed/Q_tLqnikBVw"
-          width="100%"
-          maxW="800px"
-          height="450px"
-          mx="auto"
-          borderRadius="md"
-          boxShadow="lg"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></Box>
-      </Box>
+        <motion.div 
+          initial={{ rotate: 0 }} 
+          animate={{ rotate: [0, -10, 10, 0] }} 
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <BsStars size={24} color="#99a661" />
+        </motion.div>
+      </Flex>
+
+      <Text fontSize="md" color="gray.500" mt={2} mb={3}>
+        See how CodeOasis works in action!
+      </Text>
+
+      {/* Video Container with Soft Rounded Frame */}
+      <MotionBox
+        as="iframe"
+        src="https://player.vimeo.com/video/1063322542?autoplay=1&loop=1&transparent=1&background=0"
+        width="80%"
+        maxW="800px"
+        height= {{ base: "200px", md: "450px" }}
+        mt={6}
+        borderRadius="12px"
+        bg={"transparent"}
+        boxShadow="0px 8px 24px rgba(0, 0, 0, 0.2)"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6 }}
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowFullScreen
+      ></MotionBox>
+        <Flex mb={16} mt={4} flexDirection={"row"} gap={6} justifyContent={"center"} alignItems={"center"}>
+          <FaShuffle size={24} />
+          <IoPlayBackOutline size={24} />
+          <FaCirclePlay size={35} />
+          <IoPlayOutline size={24} />
+          <IoPlayForwardOutline size={24} />
+        </Flex>
+      </Flex>
 
       {/* About Section */}
       <Flex w="100%" textAlign="center"  my={12} as={motion.div} initial="hidden" animate="visible" variants={fadeInDelay}>
