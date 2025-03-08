@@ -5,7 +5,7 @@ A dynamic platform designed to empower computer science students by fostering co
 * [x] **Social Media Features:** <br/>
 Users can post updates, reply to posts, and update their profiles, creating a dynamic, interactive experience similar to social media platforms. This fosters engagement and builds a stronger community. <br/>
 * [ ] **Event Calendar:** <br/>
-A shared calendar where users can find and share upcoming conferences, workshops, hackathons, and other events. This ensures students never miss opportunities to improve their skills and resume or secure internships. <br/>
+A shared calendar where users can find and share upcoming conferences, workshops, hackathons, and other events. This ensures students never miss opportunities to improve their skills, resume, etc. <br/>
 * [ ] **Mentorship Program:** <br/>
 A structured mentorship program connecting users with peers or industry professionals who are 1-2 steps ahead in their careers. This feature helps students gain hands-on experience and relatable advice without the uncertainty of finding mentors. <br/>
 * [ ] **Tech News Hub:** <br/>
