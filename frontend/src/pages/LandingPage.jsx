@@ -252,6 +252,12 @@ const LandingPage = () => {
             overflow="hidden"
             borderRadius="lg"
             mb={8}
+            as={motion.div}
+            initial="hidden"
+            animate="visible"
+            variants={fadeInDelay}
+            whileHover="whileHover"
+            {...scaleHover}
           >
             {/* Circle with Number */}
             <Box
@@ -297,6 +303,12 @@ const LandingPage = () => {
           overflow="hidden"
           borderRadius="lg"
           mb={8}
+          as={motion.div}
+          initial="hidden"
+          animate="visible"
+          variants={fadeInDelay}
+          whileHover="whileHover"
+          {...scaleHover}
         >
           {/* Circle with Number */}
           <Box
@@ -342,6 +354,12 @@ const LandingPage = () => {
           overflow="hidden"
           borderRadius="lg"
           mb={8}
+          as={motion.div}
+          initial="hidden"
+          animate="visible"
+          variants={fadeInDelay}
+          whileHover="whileHover"
+          {...scaleHover}
         >
           {/* Circle with Number */}
           <Box
@@ -389,6 +407,12 @@ const LandingPage = () => {
             overflow="hidden"
             borderRadius="lg"
             mb={12}
+            as={motion.div}
+            initial="hidden"
+            animate="visible"
+            variants={fadeInDelay}
+            whileHover="whileHover"
+            {...scaleHover}
           >
             {/* Circle with Number */}
             <Box
@@ -429,6 +453,12 @@ const LandingPage = () => {
             overflow="hidden"
             borderRadius="lg"
             mb={12}
+            as={motion.div}
+            initial="hidden"
+            animate="visible"
+            variants={fadeInDelay}
+            whileHover="whileHover"
+            {...scaleHover}
           >
             {/* Circle with Number */}
             <Box
