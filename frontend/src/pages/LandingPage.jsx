@@ -25,6 +25,7 @@ import { IoPlayOutline } from "react-icons/io5";
 import { IoPlayBackOutline } from "react-icons/io5";
 import { IoPlayForwardOutline } from "react-icons/io5";
 import { BsStars } from "react-icons/bs";
+import { SiCodementor } from "react-icons/si";
 
 
 // Animation variants
@@ -376,6 +377,14 @@ const LandingPage = () => {
             </AccordionItem>
           </Accordion>
         </Flex>
+      </Flex>
+      <Flex bg={"#99a661"} flexDirection={"column"} p={6} borderRadius={"25px"} gap={4} w={"300px"} mx={"auto"} mt={8} justifyContent={"center"} alignItems={"center"}>
+          <Flex flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} gap={2} width={"100%"}>
+            <Text fontWeight={"bold"} color={"black"}>01.</Text>
+            <Text fontWeight={"bold"} color={"black"}>Peer-to-Peer Mentorship.</Text>
+          </Flex>
+          <SiCodementor size={65} color='black' />
+          <Text color={"black"}>Everyone has something to learn and share. Whether guiding or seeking advice, CodeOasis makes mentorship easy, casual, and impactful—without the formality.</Text>
       </Flex>
     </Box>
 )
