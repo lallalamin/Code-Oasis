@@ -24,8 +24,10 @@ import { GiBottomRight3dArrow } from "react-icons/gi";
 import { IoPlayOutline } from "react-icons/io5";
 import { IoPlayBackOutline } from "react-icons/io5";
 import { IoPlayForwardOutline } from "react-icons/io5";
+import { IoCalendarOutline } from "react-icons/io5";
 import { BsStars } from "react-icons/bs";
 import { SiCodementor } from "react-icons/si";
+import { ImNewspaper } from "react-icons/im";
 
 
 // Animation variants
@@ -234,18 +236,267 @@ const LandingPage = () => {
       </Flex>
 
       {/* Features Section */}
-      <Box py={16}>
+      <Box py={16} >
         <Heading size="lg" textAlign="center" mb={8} as={motion.div} initial="hidden" animate="visible" variants={fadeIn}>
           Features
         </Heading>
+        
+        <Flex flexDirection={{ base: "column", md: "row" }} justifyContent="space-between" alignItems="center">
+          <Box
+            w="16rem"
+            bg="rgba(255, 255, 255, 0.1)"
+            boxShadow="0px 0px 15px rgba(0,0,0,0.09)"
+            p="9"
+            spaceY="3"
+            position="relative"
+            overflow="hidden"
+            borderRadius="lg"
+            mb={8}
+          >
+            {/* Circle with Number */}
+            <Box
+              w="6rem"
+              h="6rem"
+              bg={"#99a661"}
+              borderRadius="full"
+              position="absolute"
+              top="-1.75rem"
+              right="-1.25rem"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text fontSize="2xl" fontWeight="bold">
+                01
+              </Text>
+            </Box>
+
+            {/* Icon */}
+            <Box color="violet.500" w="3rem">
+              <SiCodementor size={65} />
+            </Box>
+
+            {/* Title */}
+            <Heading as="h1" fontSize="xl" fontWeight="bold" pb={2}>
+              Peer-to-Peer Mentorship.
+            </Heading>
+
+            {/* Description */}
+            <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} lineHeight="1.5">
+              Everyone has something to learn and share. Whether guiding or seeking advice, CodeOasis makes mentorship easy, casual, and impactful—without the formality.
+            </Text>
+          </Box>
+
+          <Box
+          w="16rem"
+          bg="rgba(255, 255, 255, 0.1)"
+          boxShadow="0px 0px 15px rgba(0,0,0,0.09)"
+          p="9"
+          spaceY="3"
+          position="relative"
+          overflow="hidden"
+          borderRadius="lg"
+          mb={8}
+        >
+          {/* Circle with Number */}
+          <Box
+            w="6rem"
+            h="6rem"
+            bg={"#99a661"}
+            borderRadius="full"
+            position="absolute"
+            top="-1.75rem"
+            right="-1.25rem"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Text fontSize="2xl" fontWeight="bold">
+              02
+            </Text>
+          </Box>
+
+          {/* Icon */}
+          <Box color="violet.500" w="3rem">
+            <IoCalendarOutline size={62} />
+          </Box>
+
+          {/* Title */}
+          <Heading as="h1" fontSize="xl" fontWeight="bold" pb={2}>
+            Shared Event Calendar.
+          </Heading>
+
+          {/* Description */}
+          <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} lineHeight="1.5">
+            Explore and contribute to a shared calendar of hackathons, workshops, conferences, and networking events—all in one place to help you stay connected.
+          </Text>
+        </Box>
+
+        <Box
+          w="16rem"
+          bg="rgba(255, 255, 255, 0.1)"
+          boxShadow="0px 0px 15px rgba(0,0,0,0.09)"
+          p="9"
+          spaceY="3"
+          position="relative"
+          overflow="hidden"
+          borderRadius="lg"
+          mb={8}
+        >
+          {/* Circle with Number */}
+          <Box
+            w="6rem"
+            h="6rem"
+            bg={"#99a661"}
+            borderRadius="full"
+            position="absolute"
+            top="-1.75rem"
+            right="-1.25rem"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Text fontSize="2xl" fontWeight="bold">
+              03
+            </Text>
+          </Box>
+
+          {/* Icon */}
+          <Box color="violet.500" w="3rem">
+            <ImNewspaper size={65} />
+          </Box>
+
+          {/* Title */}
+          <Heading as="h1" fontSize="xl" fontWeight="bold" pb={2}>
+            Stay Ahead with Tech News.
+          </Heading>
+
+          {/* Description */}
+          <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} lineHeight="1.5">
+          Keep up with the latest trends, breakthroughs, and updates in the tech world—all in one place. Stay informed and ready for what's next.
+          </Text>
+        </Box>
+        </Flex>
+
+        <Flex flexDirection={{ base: "column", md: "row" }} justifyContent="space-between" alignItems="center">
+          <Box
+            w="30rem"
+            bg="rgba(255, 255, 255, 0.1)"
+            boxShadow="0px 0px 15px rgba(0,0,0,0.09)"
+            p="9"
+            spaceY="3"
+            position="relative"
+            overflow="hidden"
+            borderRadius="lg"
+            mb={12}
+          >
+            {/* Circle with Number */}
+            <Box
+              w="6rem"
+              h="6rem"
+              bg={"#99a661"}
+              borderRadius="full"
+              position="absolute"
+              top="-1.75rem"
+              right="-1.25rem"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text fontSize="2xl" fontWeight="bold">
+                04
+              </Text>
+            </Box>
+            {/* Title */}
+            <Heading as="h1" fontSize="xl" fontWeight="bold" pb={2}>
+              Gamified Productivity
+            </Heading>
+
+            {/* Description */}
+            <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} lineHeight="1.5">
+              Stay motivated with a fun, gamified to-do list where you earn points for completing tasks
+            </Text>
+            <Image src="/dailytask.png" alt="news"mx="auto" mt={4} borderRadius={15} />
+          </Box>
+
+          <Box
+            w="20rem"
+            bg="rgba(255, 255, 255, 0.1)"
+            boxShadow="0px 0px 15px rgba(0,0,0,0.09)"
+            p="9"
+            spaceY="3"
+            position="relative"
+            overflow="hidden"
+            borderRadius="lg"
+            mb={12}
+          >
+            {/* Circle with Number */}
+            <Box
+              w="6rem"
+              h="6rem"
+              bg={"#99a661"}
+              borderRadius="full"
+              position="absolute"
+              top="-1.75rem"
+              right="-1.25rem"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text fontSize="2xl" fontWeight="bold">
+                05
+              </Text>
+            </Box>
+            {/* Title */}
+            <Heading as="h1" fontSize="xl" fontWeight="bold" pb={2}>
+              Leaderboard
+            </Heading>
+
+            {/* Description */}
+            <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} lineHeight="1.5">
+              Track progress on leaderboards, and celebrate achievements with the community
+            </Text>
+            <Flex flexDirection="column" gap={4} align="center" >
+              {/* Podium Display */}
+              <Flex justifyContent="flex-end" alignItems="flex-end" >
+                  <Box textAlign="center" mx={2}>
+
+                      <Flex flexDirection="column" alignItems="center" mt={2}>
+                          <Image src="/leaderboard/silver-cup.png" w="40px" />
+                          <Flex bg="gray.400" w="80px" h="160px" borderRadius="md" alignItems="flex-end" justifyContent="center" >
+                              <Text color={"black"} w={"full"} bg="gray.200" m={3} borderRadius="md" fontSize="sm" fontWeight="bold"></Text>
+                          </Flex>
+                      </Flex>
+                  </Box>
+                  <Box textAlign="center" mx={2}>
+                      <Flex flexDirection="column" alignItems="center" mt={2}>
+                          <Image src="/leaderboard/gold-cup.png" w="40px" />
+                          <Flex bg="gold" w="80px" h="195px" borderRadius="md" alignItems="flex-end" justifyContent="center" >
+                              <Text color={"black"} w={"full"} bg="yellow.100" m={3} borderRadius="md" fontSize="sm" fontWeight="bold"></Text>
+                          </Flex>
+                      </Flex>
+                  </Box>
+                  <Box textAlign="center" mx={2}>
+                      <Flex flexDirection="column" alignItems="center" mt={2}>
+                          <Image src="/leaderboard/bronze-cup.png" w="40px" />
+                          <Flex bg="orange.800" w="80px" h="120px" borderRadius="md" alignItems="flex-end" justifyContent="center" >
+                              <Text color={"black"} w={"full"} bg="orange.200" m={3} borderRadius="md" fontSize="sm" fontWeight="bold"></Text>
+                          </Flex>
+                      </Flex>
+                  </Box>
+              </Flex>
+            </Flex>
+          </Box>
+          
+          </Flex>
+          
+
+        
+
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
           {[
             { title: "Meaningful Connections", text: "Easily connect with like-minded tech enthusiasts, mentors, and peers. Build relationships that inspire, support, and push each other forward in a welcoming, uplifting space.", color: "#f4a258", img: "connect.png" },
-            { title: "Peer-to-Peer Mentorship", text: "Everyone has something to learn and something to share. Whether you're guiding others or seeking advice, CodeOasis makes mentorship accessible, casual, and impactful—without the formality.", color: "#99a661", img: "/peer.png" },
             { title: "Career Resources", text: "Find career development tools that prepare you for industry challenges.", color: "#f7e6cf", img: "/career.png" },
-            { title: "Stay Ahead with Tech News", text: "Keep up with the latest trends, breakthroughs, and updates in the tech world—all in one place. Stay informed and ready for what's next.", color: "#f7e6cf", img: "/news.png" },
-            { title: "Gamified Productivity", text: "Stay motivated with a fun, gamified to-do list where you earn points for completing tasks, track progress on leaderboards, and celebrate achievements with the community.", color: "#f4a258", img: "/todo.png" },
-            { title: "Shared Event Calendar", text: "Stay in the loop with upcoming hackathons, workshops, conferences, and networking events.", color: "#99a661", img: "calendar.png" },
             { title: "Discover Your Coding Personality", text: "Take the CodeOasis quiz to uncover your unique mascot! Learn your coding style and connect with others who share similar strengths.", color: "#99a661", img: "/quiz.png"}
           ].map((feature, index) => (
             <Flex 
@@ -273,6 +524,7 @@ const LandingPage = () => {
             </Flex>
           ))}
         </SimpleGrid>
+        
       </Box>
       <Flex flexDirection={{ base: "column", md: "row" }} >
         <Flex flexDirection={"column"} flex={3}>
@@ -378,14 +630,7 @@ const LandingPage = () => {
           </Accordion>
         </Flex>
       </Flex>
-      <Flex bg={"#99a661"} flexDirection={"column"} p={6} borderRadius={"25px"} gap={4} w={"300px"} mx={"auto"} mt={8} justifyContent={"center"} alignItems={"center"}>
-          <Flex flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} gap={2} width={"100%"}>
-            <Text fontWeight={"bold"} color={"black"}>01.</Text>
-            <Text fontWeight={"bold"} color={"black"}>Peer-to-Peer Mentorship.</Text>
-          </Flex>
-          <SiCodementor size={65} color='black' />
-          <Text color={"black"}>Everyone has something to learn and share. Whether guiding or seeking advice, CodeOasis makes mentorship easy, casual, and impactful—without the formality.</Text>
-      </Flex>
+      
     </Box>
 )
 }  
