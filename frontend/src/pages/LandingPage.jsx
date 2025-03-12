@@ -20,7 +20,7 @@ import { MdOutlineFeedback } from "react-icons/md";
 import { MdOutlineRocketLaunch } from "react-icons/md";
 import { FaCirclePlay, FaS } from "react-icons/fa6";
 import { FaShuffle } from "react-icons/fa6";
-import { GiBottomRight3dArrow } from "react-icons/gi";
+import { GrResources } from "react-icons/gr";
 import { IoPlayOutline } from "react-icons/io5";
 import { IoPlayBackOutline } from "react-icons/io5";
 import { IoPlayForwardOutline } from "react-icons/io5";
@@ -517,12 +517,116 @@ const LandingPage = () => {
               </Flex>
             </Flex>
           </Box>
-          
-          </Flex>
-          
+        </Flex>
 
+        <Flex flexDirection={{ base: "column", md: "row" }} justifyContent="space-between" alignItems="center">
+          <Box
+            w="16rem"
+            bg="rgba(255, 255, 255, 0.1)"
+            boxShadow="0px 0px 15px rgba(0,0,0,0.09)"
+            p="9"
+            spaceY="3"
+            position="relative"
+            overflow="hidden"
+            borderRadius="lg"
+            mb={8}
+            as={motion.div}
+            initial="hidden"
+            animate="visible"
+            variants={fadeInDelay}
+            whileHover="whileHover"
+            {...scaleHover}
+          >
+            {/* Circle with Number */}
+            <Box
+              w="6rem"
+              h="6rem"
+              bg={"#99a661"}
+              borderRadius="full"
+              position="absolute"
+              top="-1.75rem"
+              right="-1.25rem"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text fontSize="2xl" fontWeight="bold">
+                06
+              </Text>
+            </Box>
+
+            {/* Icon */}
+            <Box color="violet.500" w="3rem">
+              <GrResources size={65} />
+            </Box>
+
+            {/* Title */}
+            <Heading as="h1" fontSize="xl" fontWeight="bold" pb={2}>
+              Career + Upskills Resources Bank
+            </Heading>
+
+            {/* Description */}
+            <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} lineHeight="1.5">
+              Explore coding tutorials, interview prep materials, project-building guides, networking tips, and job search strategies—all in one place. 
+            </Text>
+          </Box>
+
+          <Box
+            w={{ base: "16rem", md: "34rem" }}
+            bg="rgba(255, 255, 255, 0.1)"
+            boxShadow="0px 0px 15px rgba(0,0,0,0.09)"
+            p="9"
+            spaceY="3"
+            position="relative"
+            overflow="hidden"
+            borderRadius="lg"
+            mb={8}
+            as={motion.div}
+            initial="hidden"
+            animate="visible"
+            variants={fadeInDelay}
+            whileHover="whileHover"
+            {...scaleHover}
+          >
+            {/* Circle with Number */}
+            <Box
+              w="6rem"
+              h="6rem"
+              bg={"#99a661"}
+              borderRadius="full"
+              position="absolute"
+              top="-1.75rem"
+              right="-1.25rem"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text fontSize="2xl" fontWeight="bold">
+                07
+              </Text>
+            </Box>
+
+            {/* Title */}
+            <Heading as="h1" fontSize="xl" fontWeight="bold" pb={2}>
+              Discover Your Coding Personality
+            </Heading>
+
+            {/* Content*/}
+            <Flex flexDirection={{ base: "column", md: "row" }} justifyContent={"space-between"} alignItems="center" >
+              <Image src="/characters/Momo-NoPost.png" alt="connect" w={"190px"}/>
+              <Flex flexDirection={"column"}>
+                <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} lineHeight="1.5" mb={6}>
+                  Take the CodeOasis quiz to uncover your unique mascot! Learn your coding style and connect with others who share similar strengths.
+                </Text>
+                <Button borderRadius={"full"}>Coming Soon!</Button>
+              </Flex>
+            </Flex>
+          </Box>
+        </Flex>
         
 
+          
+{/* 
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
           {[
             { title: "Meaningful Connections", text: "Easily connect with like-minded tech enthusiasts, mentors, and peers. Build relationships that inspire, support, and push each other forward in a welcoming, uplifting space.", color: "#f4a258", img: "connect.png" },
@@ -553,7 +657,7 @@ const LandingPage = () => {
               <Text fontSize="sm" flexGrow={1}>{feature.text}</Text>
             </Flex>
           ))}
-        </SimpleGrid>
+        </SimpleGrid> */}
         
       </Box>
       <Flex flexDirection={{ base: "column", md: "row" }} >
