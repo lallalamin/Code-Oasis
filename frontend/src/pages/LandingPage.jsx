@@ -46,6 +46,21 @@ const scaleHover = {
   transition: { duration: 0.3 }
 }
 
+const validateEmail = () => {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!inputs.email.match(emailRegex)) {
+    setInputsError((prev) => ({
+      ...prev,
+      email: 'Please enter a valid email address',
+    }));
+  } else {
+    setInputsError((prev) => ({
+      ...prev,
+      email: '',
+    }));
+  } 
+}
+
 const LandingPage = () => {
   const navigate = useNavigate();
   const location = useLocation();

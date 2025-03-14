@@ -1,6 +1,6 @@
 import { VStack, Box, Flex, Avatar, Text, Link, MenuButton, Menu, Portal, MenuList, MenuItem, useToast, Button, Image, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from '@chakra-ui/react'
 import React from 'react'
-import { BsInstagram } from 'react-icons/bs'
+import { BsLinkedin } from "react-icons/bs";
 import { CgMoreO } from 'react-icons/cg'
 import { useRecoilValue } from 'recoil'
 import userAtom from '../atoms/userAtom'
@@ -189,7 +189,7 @@ const openModal = async (type) => {
 
                 <Flex>
                     <Box className='icon-container'>
-                        <BsInstagram size={24} cursor={"pointer"}/>
+                        <BsLinkedin size={24} cursor={"pointer"}/>
                     </Box>
                     <Box className='icon-container'>
                         <Menu>

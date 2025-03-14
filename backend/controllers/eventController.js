@@ -1,4 +1,5 @@
 import Event from "../models/eventModel.js";
+import User from "../models/userModel.js";
 
 const getAllEvents = async(req, res) => {
     try {
@@ -87,6 +88,10 @@ const editEvent = async(req, res) =>{
         event.link = link;
 
         await event.save();
+
+        const user = await User.findById(userId);
+        user.xp += 10;
+        await user.save();
 
         console.log("Event updated:", event);
 
