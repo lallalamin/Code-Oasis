@@ -107,7 +107,7 @@ const LandingPage = () => {
         const data = await response.json();
 
         if (data.error) {
-          setStatus("Something went wrong. Try again.");
+          setStatus(data.error);
           return;
         }
           setStatus("Successfully joined the waitlist! Thank you! ");

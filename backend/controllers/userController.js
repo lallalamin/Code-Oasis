@@ -296,10 +296,15 @@ const storeEmail = async (req, res) => {
         const { email } = req.body;
 
         if (!email) {
-            return res.status(400).json({ error: "Email not found" });
+            return res.status(400).json({ error: "Email is required" });
         }
 
         // Store the new email
+        const existingEmail = await Email.findOne({ email });
+        if (existingEmail) {
+            return res.status(400).json({ error: "Your email is already in the waitlist :)" });
+        }
+
         const newEmail = new Email({ email });
         await newEmail.save();
 
