@@ -18,6 +18,7 @@ const EventPage = () => {
   const [eventListLoading, setEventListLoading] = useState(false);
   const [userAddedEvents, setUserAddedEvents] = useState([]);
   const [eventList, setEventList] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
   const showToast = useShowToast();
   const user = useRecoilValue(userAtom);
 
@@ -46,10 +47,17 @@ const EventPage = () => {
       }
       setLoading(false);
     }
+
+    // const getAllEvents = async () => {
+
+    // }
     
     getUserEvents();
 
   }, [user]);
+
+  // const filterEventsByDate = selectedDate ? 
+    
 
   
   const handleEventAdd = (newEvent) => {

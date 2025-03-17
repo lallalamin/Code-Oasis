@@ -60,7 +60,10 @@ const GlobalCalendar = () => {
               end: "dayGridMonth", // Right side of the toolbar - ,timeGridWeek,timeGridDay
             }}
             width="100%"
-            height={"70vh"} // Adjust calendar height to fit expanded container
+            dateClick={(info) => console.log(info)}
+            dayCellDidMount={(cell) => {
+              cell.el.style.cursor = "pointer";
+            }}
           />
       </Box>
     </>

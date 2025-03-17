@@ -119,9 +119,6 @@ const AddEventModal = ({ onEventAdd }) => {
       
       setUserEvents([data, ...userEvents]);
       onEventAdd(data);
-      // if(currentUser._id === data.postedBy) {
-        
-      // }
       onClose();
       setEventInfo({
         postedBy: currentUser._id,
@@ -140,7 +137,7 @@ const AddEventModal = ({ onEventAdd }) => {
         isVirtual: false,
         link: ''
       });
-      showToast("success", "Event added successfully");
+      showToast("success", "Event added successfully! You earned 10 xp ⭐️", "success");
     } catch (error) {
       showToast("error", "An error occurred while adding the event");
     }
