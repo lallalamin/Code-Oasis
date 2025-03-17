@@ -21,7 +21,7 @@ const getUserEvents = async(req, res) => {
 }
 const createEvent = async(req, res) =>{
     try {
-        const { postedBy, title, eventType, description, startDate, endDate, registrationDate, time, timezone, location, lat, lng, isVirtual, eligibility, link } = req.body;
+        const { postedBy, title, eventType, description, startDate, endDate, registrationDeadline, time, timezone, location, lat, lng, isVirtual, eligibility, link } = req.body;
         console.log("Request body:", req.body);
 
         if(!postedBy || !title || !eventType || !description || !time ) {
@@ -35,7 +35,7 @@ const createEvent = async(req, res) =>{
             description,
             startDate: new Date(startDate),
             endDate: new Date(endDate),
-            registrationDeadline: registrationDate,
+            registrationDeadline: registrationDeadline,
             time,
             timezone,
             location,
@@ -45,6 +45,10 @@ const createEvent = async(req, res) =>{
             eligibility,
             link
         });
+
+        const user = await User.findById(postedBy);
+        user.xp += 10;
+        await user.save();
 
         await newEvent.save();
         console.log("Event created:", newEvent);
@@ -88,10 +92,6 @@ const editEvent = async(req, res) =>{
         event.link = link;
 
         await event.save();
-
-        const user = await User.findById(userId);
-        user.xp += 10;
-        await user.save();
 
         console.log("Event updated:", event);
 

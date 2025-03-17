@@ -35,7 +35,7 @@ const EditEventModal = ({ event, isOpen, onClose, onEventUpdate }) => {
     description: event?.description || '',
     startDate: event?.startDate ? new Date(event.startDate) : '',
     endDate: event?.endDate ? new Date(event.endDate) : '',
-    registrationDeadline: event?.registrationDeadline ? event.registrationDeadline : '',
+    registrationDeadline: event?.registrationDeadline ? new Date(event.registrationDeadline) : '',
     time: event?.time || '',
     timezone: event?.timezone || '',
     location: event?.location || '',

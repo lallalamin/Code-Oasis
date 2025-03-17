@@ -18,18 +18,21 @@ const UserAddedEvents = ({event, onEventUpdate, onEventDelete}) => {
     year: "numeric", // Example: "2025"
     month: "short", // Example: "Mar"
     day: "numeric", // Example: "22"
+    timeZone: "UTC", // "UTC" to avoid timezone conversion
   });
 
   const formattedEndDate = new Date(event.endDate).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
+    timeZone: "UTC",
   });
 
   const formattedRegistrationDate = new Date(event.registrationDeadline).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
+    timeZone: "UTC",
   });
 
   const handleDeleteEvent = async () => {
@@ -48,7 +51,7 @@ const UserAddedEvents = ({event, onEventUpdate, onEventDelete}) => {
       }
 
       onEventDelete(event._id);
-      showToast("success", "Event deleted successfully");
+      showToast("success", "Event deleted successfully", "success");
     } catch (error) {
       showToast("error", "An error occurred while deleting the event");
     }
@@ -67,7 +70,7 @@ const UserAddedEvents = ({event, onEventUpdate, onEventDelete}) => {
           <Flex>
             <IoLocationSharp size={20} color={"blue.400"} />
             <Flex>
-              <Text ml={2} fontSize={"sm"}>{event.location}</Text>
+              <Text ml={2} fontSize={"sm"}>{event.isVirtual && event.location ? event.location + " (+ Virtual)" : event.location ? event.location : "Virtual"}</Text>
             </Flex> 
           </Flex>
           <Flex>
@@ -94,7 +97,7 @@ const UserAddedEvents = ({event, onEventUpdate, onEventDelete}) => {
             </Flex>
             <Flex>
               <IoTimeOutline size={20} />
-              <Text ml={2} fontSize={"sm"}>{event.time} {event.timeZone} {event.timeZone}</Text>
+              <Text ml={2} fontSize={"sm"}>{event.time} {event.timezone}</Text>
             </Flex>
           </Flex> 
           <Flex bg={useColorModeValue("gray.100", "#313131")} flexDirection={"column"} p={3} borderRadius={"md"}>
