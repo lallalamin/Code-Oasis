@@ -70,5 +70,17 @@
     font-size: 14px; /* Adjust font size for better scaling */
   }
   
- 
+  /* .fc-daygrid-event {
+    background-color: #007bff !important;
+    color: white !important;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
+    font-size: 12px;
+  }
+   */
   

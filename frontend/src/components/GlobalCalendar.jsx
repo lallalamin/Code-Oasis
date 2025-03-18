@@ -38,7 +38,15 @@ const GlobalCalendar = () => {
                 return;
             }
 
-            setEvents(data);
+            const formattedEvents = data.map(event => ({
+                title: event.title,
+                start: moment.utc(event.startDate).format("YYYY-MM-DD"),
+                end: moment.utc(event.endDate).format("YYYY-MM-DD"),
+                allDay: true,
+            }))
+
+            setEvents(formattedEvents);
+            console.log("Events Calendar:", events);
             
         } catch (error) {
             
@@ -60,6 +68,8 @@ const GlobalCalendar = () => {
               end: "dayGridMonth", // Right side of the toolbar - ,timeGridWeek,timeGridDay
             }}
             width="100%"
+            events={events}
+            
             dateClick={(info) => console.log(info)}
             dayCellDidMount={(cell) => {
               cell.el.style.cursor = "pointer";

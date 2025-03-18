@@ -49,7 +49,12 @@ const EventPage = () => {
     }
 
     // const getAllEvents = async () => {
-
+    //   try {
+    //     const response = await fetch('')
+        
+    //   } catch (error) {
+        
+    //   }
     // }
     
     getUserEvents();

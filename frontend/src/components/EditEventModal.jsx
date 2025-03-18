@@ -264,9 +264,9 @@ const EditEventModal = ({ event, isOpen, onClose, onEventUpdate }) => {
                   <FormLabel>Event Start Date</FormLabel>
                   <Input
                     type="date"
-                    value={eventInfo.startDate ? eventInfo.startDate.toISOString().split("T")[0] : ""}
+                    value={eventInfo.startDate ? eventInfo.startDate.toISOString().split("T")[0] : null}
                     onChange={(e) =>
-                      setEventInfo({ ...eventInfo, startDate: new Date(e.target.value) })
+                      setEventInfo({ ...eventInfo, startDate: e.target.value ? new Date(e.target.value) : null })
                     }
                     min={new Date().toISOString().split("T")[0]} // Prevent selecting past dates
                   />
@@ -276,11 +276,11 @@ const EditEventModal = ({ event, isOpen, onClose, onEventUpdate }) => {
                   <FormLabel>Event End Date</FormLabel>
                   <Input
                     type="date"
-                    value={eventInfo.endDate ? eventInfo.endDate.toISOString().split("T")[0] : ""}
+                    value={eventInfo.endDate ? eventInfo.endDate.toISOString().split("T")[0] : null}
                     onChange={(e) =>
-                      setEventInfo({ ...eventInfo, endDate: new Date(e.target.value) })
+                      setEventInfo({ ...eventInfo, endDate: e.target.value ? new Date(e.target.value) : null })
                     }
-                    min={eventInfo.startDate}
+                    min={eventInfo.startDate ? eventInfo.startDate.toISOString().split("T")[0] : ""}
                   />
                 </FormControl>
               </Flex>
@@ -289,11 +289,10 @@ const EditEventModal = ({ event, isOpen, onClose, onEventUpdate }) => {
                 <FormLabel>Registration Deadline</FormLabel>
                 <Input
                     type="date"
-                    value={eventInfo.registrationDeadline ? eventInfo.registrationDeadline.toISOString().split("T")[0] : ""}
+                    value={eventInfo.registrationDeadline ? eventInfo.registrationDeadline.toISOString().split("T")[0] : null}
                     onChange={(e) =>
-                      setEventInfo({ ...eventInfo, registrationDeadline: new Date(e.target.value) })
+                      setEventInfo({ ...eventInfo, registrationDeadline: e.target.value ? new Date(e.target.value) : null })
                     }
-                    min={new Date().toISOString().split("T")[0]}
                   />
               </FormControl>
 

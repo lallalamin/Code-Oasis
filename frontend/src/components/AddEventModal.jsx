@@ -282,9 +282,8 @@ const AddEventModal = ({ onEventAdd }) => {
                   <FormLabel>Event Start Date</FormLabel>
                   <Input
                     type="date"
-                    value={eventInfo.startDate ? eventInfo.startDate.toISOString().split("T")[0] : ""}
                     onChange={(e) =>
-                      setEventInfo({ ...eventInfo, startDate: new Date(e.target.value) })
+                      setEventInfo({ ...eventInfo, startDate: e.target.value ? new Date(e.target.value) : null })
                     }
                     min={new Date().toISOString().split("T")[0]} // Prevent selecting past dates
                   />
@@ -294,9 +293,8 @@ const AddEventModal = ({ onEventAdd }) => {
                   <FormLabel>Event End Date</FormLabel>
                   <Input
                     type="date"
-                    value={eventInfo.endDate ? eventInfo.endDate.toISOString().split("T")[0] : ""}
                     onChange={(e) =>
-                      setEventInfo({ ...eventInfo, endDate: new Date(e.target.value) })
+                      setEventInfo({ ...eventInfo, endDate: e.target.value ? new Date(e.target.value) : null })
                     }
                     min={eventInfo.startDate ? eventInfo.startDate.toISOString().split("T")[0] : ""}
                   />
@@ -307,11 +305,9 @@ const AddEventModal = ({ onEventAdd }) => {
                 <FormLabel>Registration Deadline</FormLabel>
                 <Input
                     type="date"
-                    value={eventInfo.registrationDeadline ? eventInfo.registrationDeadline.toISOString().split("T")[0] : ""}
                     onChange={(e) =>
-                      setEventInfo({ ...eventInfo, registrationDeadline: new Date(e.target.value) })
+                      setEventInfo({ ...eventInfo, registrationDeadline: e.target.value ? new Date(e.target.value) : null })
                     }
-                    min={eventInfo.registrationDeadline ? eventInfo.registrationDeadline.toISOString().split("T")[0] : ""}
                   />
               </FormControl>
 
