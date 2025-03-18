@@ -41,7 +41,7 @@ const GlobalCalendar = () => {
             const formattedEvents = data.map(event => ({
                 title: event.title,
                 start: moment.utc(event.startDate).format("YYYY-MM-DD"),
-                end: moment.utc(event.endDate).format("YYYY-MM-DD"),
+                end: moment.utc(event.endDate).add(1, 'days').format("YYYY-MM-DD"),
                 allDay: true,
             }))
 
@@ -59,22 +59,28 @@ const GlobalCalendar = () => {
   return (
     <>
       <Box overflow="hidden" p={2} width="100%"> 
-          <Fullcalendar
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            initialView={"dayGridMonth"}
-            headerToolbar={{
-              start: "today prev,next", // Left side of the toolbar
-              center: "title", // Center of the toolbar
-              end: "dayGridMonth", // Right side of the toolbar - ,timeGridWeek,timeGridDay
-            }}
-            width="100%"
-            events={events}
-            
-            dateClick={(info) => console.log(info)}
-            dayCellDidMount={(cell) => {
-              cell.el.style.cursor = "pointer";
-            }}
-          />
+        <Fullcalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          initialView={"dayGridMonth"}
+          headerToolbar={{
+            start: "today prev,next",
+            center: "title",
+            end: "dayGridMonth",
+          }}
+          width="100%"
+          height={"70vh"}
+          dayMaxEventRows={true} // Changed from 1 to true
+          moreLinkClick="popover" // Optional: shows events in a popover when clicked
+          moreLinkText={count => `+${count} more`}
+          eventDisplay='block'
+          events={events}
+          eventOrder={"start,-duration"}
+          dayMaxEvents={1} // Add this line - ensures at least one event shows
+          dateClick={(info) => console.log(info)}
+          dayCellDidMount={(cell) => {
+            cell.el.style.cursor = "pointer";
+          }}
+        />
       </Box>
     </>
   )

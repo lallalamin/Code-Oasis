@@ -84,3 +84,13 @@
   }
    */
   
+  .fc .fc-daygrid-more-link {
+    font-weight: bold;
+  }
+  .fc-event {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 4px;
+    margin: 1px 0;
+  }
