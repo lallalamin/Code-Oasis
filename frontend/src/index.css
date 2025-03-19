@@ -94,3 +94,65 @@
     border-radius: 4px;
     margin: 1px 0;
   }
+
+  /* Add this CSS to your stylesheet or as a style block in your component */
+  .fc-popover {
+    z-index: 1000 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid var(--chakra-colors-gray-200) !important;
+    max-width: none !important; /* Remove max-width constraints */
+    transform: translateX(-50%) !important; /* Center horizontally */
+    left: 50% !important; /* Center horizontally */
+    top: 30% !important; /* Position from top */
+    width: auto !important; /* Allow natural width */
+    overflow-y: auto !important; /* Allow scrolling for many events */
+  }
+
+/* Dark mode styles */
+[data-theme="dark"] .fc-popover,
+.chakra-ui-dark .fc-popover {
+  background-color: var(--chakra-colors-gray-700) !important;
+  border-color: var(--chakra-colors-gray-600) !important;
+  color: var(--chakra-colors-white) !important;
+}
+
+/* Light mode styles */
+[data-theme="light"] .fc-popover,
+.chakra-ui-light .fc-popover {
+  background-color: var(--chakra-colors-white) !important;
+  border-color: var(--chakra-colors-gray-200) !important;
+  color: var(--chakra-colors-gray-800) !important;
+}
+
+/* Style the header of the popover */
+.fc-popover-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 2 !important;
+}
+
+.chakra-ui-dark .fc-popover-header {
+  background-color: var(--chakra-colors-gray-600) !important;
+  color: var(--chakra-colors-white) !important;
+}
+
+.chakra-ui-light .fc-popover-header {
+  background-color: var(--chakra-colors-gray-100) !important;
+  color: var(--chakra-colors-gray-800) !important;
+}
+
+/* Style the body/content of the popover */
+.fc-popover-body {
+  padding: 8px !important;
+}
+
+/* Style each event in the popover */
+.fc-popover-body .fc-event {
+  margin-bottom: 4px !important;
+  border-radius: 4px !important;
+}
+
+.fc-popover.fc-more-popover {
+  right: auto !important; /* Override any right positioning */
+}
