@@ -69,7 +69,7 @@ const GlobalCalendar = () => {
           }}
           width="100%"
           height={"70vh"}
-          dayMaxEventRows={true} // Changed from 1 to true
+          dayMaxEventRows={2} // Changed from 1 to true
           moreLinkClick="popover" // Optional: shows events in a popover when clicked
           moreLinkText={count => `+${count} more`}
           eventDisplay='block'
