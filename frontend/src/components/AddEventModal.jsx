@@ -26,7 +26,6 @@ const eligibilityOptions = ['Open to All', 'Members','Undergraduates Only', 'Pro
 
 const AddEventModal = ({ onEventAdd }) => {
   const currentUser = useRecoilValue(userAtom); 
-  console.log(currentUser);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
   const [eventInfo, setEventInfo] = useState({

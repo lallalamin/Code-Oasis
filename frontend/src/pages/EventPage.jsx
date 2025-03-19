@@ -11,6 +11,7 @@ import useShowToast from '../hooks/useShowToast';
 import AddEventModal from '../components/AddEventModal';
 import { useRecoilValue } from 'recoil';
 import userAtom from '../atoms/userAtom';
+import moment from 'moment';
 
 
 const EventPage = () => {
@@ -18,9 +19,12 @@ const EventPage = () => {
   const [eventListLoading, setEventListLoading] = useState(false);
   const [userAddedEvents, setUserAddedEvents] = useState([]);
   const [eventList, setEventList] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [allEvent, setAllEvent] = useState([]);
+  const todayDate = moment(new Date()).format("MMM D, YYYY");
+  const [selectedDate, setSelectedDate] = useState(todayDate);
   const showToast = useShowToast();
   const user = useRecoilValue(userAtom);
+  
 
   useEffect(() => {
     const getUserEvents = async () => {
@@ -48,20 +52,41 @@ const EventPage = () => {
       setLoading(false);
     }
 
-    // const getAllEvents = async () => {
-    //   try {
-    //     const response = await fetch('')
-        
-    //   } catch (error) {
-        
-    //   }
-    // }
+    const getAllEvents = async () => {
+      try {
+        const response = await fetch('/api/events/',
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await response.json();
+
+        if (data.error) {
+            showToast("Error", data.error, "error");
+            return;
+        }
+
+        setAllEvent(data);
+
+        const todayEvents = data.filter(event => {
+          moment.utc(event.startDate).format("MMM D, YYYY") === todayDate;
+        });
+
+        setEventList(todayEvents);
+      }
+      catch (error) {
+        showToast("error", "An error occurred while fetching events");
+      }
+    }
     
     getUserEvents();
+    getAllEvents();
 
   }, [user]);
 
-  // const filterEventsByDate = selectedDate ? 
+  const filteredEvents = selectedDate ? allEvent.filter(event => moment.utc(event.startDate).format("MMM D, YYYY") === selectedDate) : allEvent;
     
 
   
@@ -88,7 +113,7 @@ const EventPage = () => {
       <Box>
         <Flex gap={2} flexDirection={{base:"column", md:"row"}} maxW={{sm:"400px", md:"full"}} mx={"auto"} >
             <Flex flex={70} >
-                <GlobalCalendar/>
+                <GlobalCalendar onDateSelect={setSelectedDate}/>
             </Flex>
             <Flex flex={30} gap={2} flexDirection={"column"} maxW={{sm:"250px", md:"full"}} mx={"auto"}>
                 <Text fontWeight={700} color={useColorModeValue("gray.600", "gray.400")}>
@@ -123,7 +148,7 @@ const EventPage = () => {
         <Flex flexDirection={"column"}>
           <Box mt={5}>
             <Text fontSize="xl" fontWeight="bold" >
-              📆Events & Activities |  May 25, 2025 
+              📆Events & Activities |  {selectedDate}
             </Text>
             <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")}>Select other date to see events and activities</Text>
           </Box>
@@ -143,7 +168,7 @@ const EventPage = () => {
                 <Image src="/characters/toby_juno_event.png" alt="toby&juno" w={"250px"} />
               </Flex>
             ) : (
-              eventList.map((event) => (
+              filteredEvents.map((event) => (
                 <Event key={event._id} event={event} />
               ))
             )

@@ -13,7 +13,7 @@ import { useRecoilValue } from 'recoil';
 
 const localizer = momentLocalizer(moment);
 
-const GlobalCalendar = () => {
+const GlobalCalendar = ({onDateSelect}) => {
   const [show, setShow] = useState(false);
   const user = useRecoilValue(userAtom);
   const [events, setEvents] = useState([]);
@@ -76,7 +76,10 @@ const GlobalCalendar = () => {
           events={events}
           eventOrder={"start,-duration"}
           dayMaxEvents={1} // Add this line - ensures at least one event shows
-          dateClick={(info) => console.log(info)}
+          dateClick={(info) => {
+            console.log("Date clicked:", info.dateStr);
+            onDateSelect(moment.utc(info.dateStr).format("MMM D, YYYY"));
+          }}
           dayCellDidMount={(cell) => {
             cell.el.style.cursor = "pointer";
           }}

@@ -25,7 +25,6 @@ const eligibilityOptions = ['Open to All', 'Undergraduates Only', 'Professionals
 
 const EditEventModal = ({ event, isOpen, onClose, onEventUpdate }) => {
   const currentUser = useRecoilValue(userAtom); 
-  console.log(currentUser);
   const [isLoading, setIsLoading] = useState(false);
   const [eventInfo, setEventInfo] = useState({
     postedBy: event?.postedBy || '',
@@ -110,7 +109,6 @@ const EditEventModal = ({ event, isOpen, onClose, onEventUpdate }) => {
         });
 
         const data = await response.json();
-        console.log(data);
         if (data.error) {
             showToast("Error", data.error, "error");
             return;

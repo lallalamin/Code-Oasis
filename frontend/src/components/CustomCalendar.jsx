@@ -18,6 +18,7 @@ const CustomCalendar = () => {
   const [eventList, setEventList] = useState([]);
   const [eventListLoading, setEventListLoading] = useState(false);
   const handleShow = () => setShow(!show);
+  const todayDate = moment(new Date()).format("MMM D, YYYY");
 
   useEffect(() => {
       const fetchEvents = async () => {
@@ -42,11 +43,14 @@ const CustomCalendar = () => {
                   end: moment.utc(event.endDate).add(1, 'days').format("YYYY-MM-DD"),
                   allDay: true,
               }))
-              console.log("data", data);
-              setEventList(data);
-              console.log("Event List:", eventList);
+              
               setEvents(formattedEvents);
-              console.log("Events Calendar:", events);
+
+              const todayEvents = data.filter(event => {
+                moment.utc(event.startDate).format("MMM D, YYYY") === todayDate;
+              });
+
+              setEventList(todayEvents);
               
           } catch (error) {
               
@@ -55,7 +59,6 @@ const CustomCalendar = () => {
   
       fetchEvents();
     }, []);
-  
 
   return (
     <>
@@ -83,7 +86,6 @@ const CustomCalendar = () => {
             events={events}
             eventOrder={"start,-duration"}
             dayMaxEvents={1} // Add this line - ensures at least one event shows
-            dateClick={(info) => console.log(info)}
             dayCellDidMount={(cell) => {
               cell.el.style.cursor = "pointer";
             }}
@@ -92,9 +94,8 @@ const CustomCalendar = () => {
           <Flex flexDirection={"column"}>
             <Box mt={5}>
               <Text fontSize="xl" fontWeight="bold" >
-                📆Events & Activities |  May 25, 2025 
+                📆Today Events & Activities | {todayDate}
               </Text>
-              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")}>Select other date to see events and activities</Text>
             </Box>
             <Divider my={4} />
             {eventListLoading && (
@@ -108,7 +109,7 @@ const CustomCalendar = () => {
             {!eventListLoading && (
               eventList.length  === 0 ? (
                 <Flex flexDirection={"column"} gap={4} justifyContent={"center"} alignItems={"center"} p={"1"} borderRadius={"md"} mb={2}>
-                  <Text fontSize="md" color={useColorModeValue("gray.600", "gray.400")} >No events on this day :(</Text>
+                  <Text fontSize="md" color={useColorModeValue("gray.600", "gray.400")} >No event today :(</Text>
                   <Image src="/characters/toby_juno_event.png" alt="toby&juno" w={"250px"} />
                 </Flex>
               ) : (
