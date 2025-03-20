@@ -22,6 +22,7 @@ const EventPage = () => {
   const [allEvent, setAllEvent] = useState([]);
   const todayDate = moment(new Date()).format("MMM D, YYYY");
   const [selectedDate, setSelectedDate] = useState(todayDate);
+  const [selectedType, setSelectedType] = useState("all");
   const showToast = useShowToast();
   const user = useRecoilValue(userAtom);
   
@@ -85,9 +86,10 @@ const EventPage = () => {
     getAllEvents();
 
   }, [user]);
+  
+  useEffect(() => {
 
-  const filteredEvents = selectedDate ? allEvent.filter(event => moment.utc(event.startDate).format("MMM D, YYYY") === selectedDate) : allEvent;
-    
+  }, [selectedDate, selectedType]);
 
   
   const handleEventAdd = (newEvent) => {
@@ -168,7 +170,7 @@ const EventPage = () => {
                 <Image src="/characters/toby_juno_event.png" alt="toby&juno" w={"250px"} />
               </Flex>
             ) : (
-              filteredEvents.map((event) => (
+              eventList.map((event) => (
                 <Event key={event._id} event={event} />
               ))
             )
