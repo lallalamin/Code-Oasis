@@ -148,12 +148,31 @@ const EventPage = () => {
             </Flex>
         </Flex>
         <Flex flexDirection={"column"}>
-          <Box mt={5}>
-            <Text fontSize="xl" fontWeight="bold" >
-              📆Events & Activities |  {selectedDate}
-            </Text>
-            <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")}>Select other date to see events and activities</Text>
-          </Box>
+          <Flex flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} w={"full"} mt={5}>
+            <Box>
+              <Text fontSize="xl" fontWeight="bold" >
+                📆Events & Activities |  {selectedDate}
+              </Text>
+              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")}>Select other date to see events and activities</Text>
+            </Box>
+            <Box mt={4}>
+              <Flex gap={2} alignItems="center" wrap="wrap">
+                <Text fontWeight="semibold">Filter by Type:</Text>
+                <select
+                  value={selectedType}
+                  onChange={(e) => setSelectedType(e.target.value)}
+
+                >
+                  <option value="all">All</option>
+                  <option value="workshop">Workshop</option>
+                  <option value="webinar">Webinar</option>
+                  <option value="hackathon">Hackathon</option>
+                  <option value="meetup">Meetup</option>
+                  {/* Add more types as needed */}
+                </select>
+              </Flex>
+            </Box>
+          </Flex>
           <Divider my={4} />
           {eventListLoading && (
             [0,1,2].map((_, i) => (
