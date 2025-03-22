@@ -71,9 +71,9 @@ const EventPage = () => {
 
         setAllEvent(data);
 
-        const todayEvents = data.filter(event => {
-          moment.utc(event.startDate).format("MMM D, YYYY") === todayDate;
-        });
+        const todayEvents = data.filter(event => 
+          moment.utc(event.startDate).format("MMM D, YYYY") === todayDate
+        );
 
         setEventList(todayEvents);
       }
@@ -88,8 +88,19 @@ const EventPage = () => {
   }, [user]);
   
   useEffect(() => {
+    const filtered = allEvent.filter((event) => {
+      const eventDate = moment.utc(event.startDate).format("MMM D, YYYY");
+      const matchesDate = eventDate === selectedDate;
+  
+      const matchesType =
+        selectedType === "all" || event.eventType?.toLowerCase() === selectedType.toLowerCase();
+  
+      return matchesDate && matchesType;
+    });
+  
+    setEventList(filtered);
 
-  }, [selectedDate, selectedType]);
+  }, [selectedDate, selectedType, allEvent]);
 
   
   const handleEventAdd = (newEvent) => {
@@ -168,7 +179,16 @@ const EventPage = () => {
                   <option value="webinar">Webinar</option>
                   <option value="hackathon">Hackathon</option>
                   <option value="meetup">Meetup</option>
-                  {/* Add more types as needed */}
+                  <option value="conference">Conference</option>
+                  <option value="seminar">Seminar</option>
+                  <option value="fellowship">Fellowship</option>
+                  <option value="networking event">Networking Event</option>
+                  <option value="career fair">Career Fair</option>
+                  <option value="panel discussion">Panel Discussion</option>
+                  <option value="job fair">Job Fair</option>
+                  <option value="incubator/accelerator program">Incubator/Accelerator Program</option>
+                  <option value="coding competition">Coding Competition</option>
+                  <option value="other">Other</option>
                 </select>
               </Flex>
             </Box>
@@ -189,9 +209,11 @@ const EventPage = () => {
                 <Image src="/characters/toby_juno_event.png" alt="toby&juno" w={"250px"} />
               </Flex>
             ) : (
-              eventList.map((event) => (
+              <SimpleGrid columns={{base:1, md:2}} gap={4}>
+                {eventList.map((event) => (
                 <Event key={event._id} event={event} />
-              ))
+                ))}
+              </SimpleGrid>
             )
           )}
         </Flex>
