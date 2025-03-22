@@ -65,6 +65,11 @@ const userSchema =  mongoose.Schema({
         type: Number,
         required: true,
     },
+    hobbies: {
+        type: [String],
+        default: [],
+        required: false,
+    },
 }, {
     timestamps: true,
 });
