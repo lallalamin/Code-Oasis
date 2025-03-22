@@ -23,7 +23,6 @@ const UserPost = ({postImg, postTitle, likes, comments}) => {
                 <Flex justifyContent={"space-between"} w={"full"}>
                     <Flex w={"full"} alignItems={"center"}>
                         <Text fontSize={"sm"} fontWeight={"bold"}>markzuckerberg</Text>
-                        <Image src='/verified.png' w={4} h={4} ml={1}/>
                     </Flex>
                     <Flex gap={4} alignItems={"center"}>
                         <Text fontStyle={"sm"} color={"gray.light"}>1d</Text>

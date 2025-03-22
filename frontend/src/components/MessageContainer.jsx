@@ -117,7 +117,6 @@ const MessageContainer = () => {
             <Avatar size={"sm"} src={selectedConversation.userProfilePic}></Avatar>
             <Text fontSize={"sm"} fontWeight={"bold"}>
               {selectedConversation.userName}
-              <Image src='/verified.png' w={4} h={4} ml={1}/>
             </Text>
         </Flex>
         <Divider/>
