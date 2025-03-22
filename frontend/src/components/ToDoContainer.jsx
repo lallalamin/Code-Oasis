@@ -75,7 +75,7 @@ const ToDoContainer = ({user}) => {
   return (
     <>
         {currentUser?._id === user._id && (
-            <Flex bg={useColorModeValue("gray.200", "gray.dark")} borderRadius={"md"} p={2} flexDirection={"column"} my={6} h={"350px"}>
+            <Flex bg={useColorModeValue("gray.200", "gray.dark")} borderRadius={"md"} p={2} flexDirection={"column"} my={6} h={"350px"} w={"full"}>
         
                 <Flex
                     justifyContent="space-between"

@@ -3,7 +3,7 @@ import UserHeader from '../components/UserHeader'
 import UserPost from '../components/UserPost'
 import { useParams } from 'react-router-dom';
 import useShowToast from '../hooks/useShowToast';
-import { Flex, Spinner, Image, Text } from '@chakra-ui/react';
+import { Flex, Spinner, Image, Text, Box } from '@chakra-ui/react';
 import Post from '../components/Post';
 import Reply from '../components/Reply';
 import ToDoContainer from '../components/ToDoContainer';
@@ -84,7 +84,12 @@ const UserPage = () => {
   return (
     <>
         <UserHeader user={user}></UserHeader>
-        <ToDoContainer user={user}></ToDoContainer>
+        <Flex direction="column" alignItems={"flex-end"}>
+          <ToDoContainer user={user} />
+          <Box>
+            <CreatePost user={user} />
+          </Box>
+        </Flex>
         <Tabs isFitted variant="enclosed" mt={4} colorScheme="blue" >
           <TabList mb="1em">
             <Tab color={tabColor}>Posts</Tab>

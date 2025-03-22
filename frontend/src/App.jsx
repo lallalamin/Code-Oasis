@@ -51,7 +51,7 @@ function App() {
             <Route path="/home" element={user ? <HomePage /> : <Navigate to="/auth" />} />
             <Route path="/auth" element={!user ? <AuthPage /> : <Navigate to="/home" />} />
             <Route path="/update" element={user ? <UpdateProfilePage /> : <Navigate to="/auth" />} />
-            <Route path="/:username" element={user ? <><UserPage /><CreatePost /></> : <UserPage />} />
+            <Route path="/:username" element={user ? <><UserPage /></> : <UserPage />} />
             <Route path="/:username/post/:pid" element={<PostPage />} />
             <Route path="/chat" element={user ? <ChatPage /> : <Navigate to="/auth" />} />
             <Route path="/settings" element={user ? <SettingsPage /> : <Navigate to="/auth" />} />
