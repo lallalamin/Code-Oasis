@@ -139,7 +139,7 @@ const openModal = async (type) => {
                     
                 </Flex>
                 <Flex justifyContent={"center"} alignItems={"end"} as={routerLink} to={"/leaderboard"}>
-                    <Button size={"sm"} w={"100px"} bg={"yellow.400"} color={"black"}> 
+                    <Button size={"sm"} w={"100px"} colorScheme='yellow' color={"black"}> 
                         {currentUser?.xp || user.xp} xp
                     </Button>
                 </Flex>
@@ -205,13 +205,34 @@ const openModal = async (type) => {
                     </Box>
                 </Flex>
 
-            </Flex>
+            </Flex>          
 
             {user.bio && (
                     <Flex w={"full"} bg={colorMode === "dark" ? "gray.dark" : "gray.200"} p={4} borderRadius={"md"}>
                         <Text fontSize={"sm"}>{user.bio}</Text>
                     </Flex>
             )}
+
+            <Flex w={"full"} flexDirection={"column"}>
+                <Flex flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} mb={2}>
+                    <Text fontSize={"md"} fontWeight={"bold"} mb={2}>Hobbies & Interests</Text>
+                    <Button size={"sm"} borderRadius={"full"} colorScheme='yellow'>Enter the Chat Terminal &#8250;_</Button>
+                </Flex> 
+                <Flex gap={2} justifyContent={"space-between"} w={"full"}>
+                    <Flex flexDirection={{base: "column", md: "row"}}borderRadius={"lg"} justifyContent={"space-between"} bg={useColorModeValue("gray.200", "gray.dark")} alignItems={"center"} px={3} py={2} w={"full"}>
+                        <Text fontSize={"sm"} fontWeight={"bold"}>Crochet</Text>
+                        <Image src="/interest-icon/crochet.png" w={"50px"} borderRadius={"md"}/>
+                    </Flex>
+                    <Flex flexDirection={{base: "column", md: "row"}}borderRadius={"lg"} justifyContent={"space-between"} bg={useColorModeValue("gray.200", "gray.dark")} alignItems={"center"} px={3} py={2} w={"full"}>
+                        <Text fontSize={"sm"} fontWeight={"bold"}>Anime</Text>
+                        <Image src="/interest-icon/anime.png" w={"50px"} borderRadius={"md"}/>
+                    </Flex>
+                    <Flex flexDirection={{base: "column", md: "row"}}borderRadius={"lg"} justifyContent={"space-between"} bg={useColorModeValue("gray.200", "gray.dark")} alignItems={"center"} px={3} py={2} w={"full"}>
+                        <Text fontSize={"sm"} fontWeight={"bold"}>Drawing</Text>
+                        <Image src="/interest-icon/father.png" w={"50px"} borderRadius={"md"}/>
+                    </Flex>
+                </Flex>
+            </Flex>
             
             {/* <Flex w={"full"}>
                 <Flex flex={1} borderBottom={"1.5px solid white"} justifyContent={"center"} pb="3" cursor={"pointer"}>
