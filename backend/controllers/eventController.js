@@ -35,7 +35,7 @@ const createEvent = async(req, res) =>{
             description,
             startDate: new Date(startDate),
             endDate: new Date(endDate),
-            registrationDeadline: registrationDeadline,
+            registrationDeadline: registrationDeadline ? new Date(registrationDeadline) : null,
             time,
             timezone,
             location,
@@ -63,7 +63,7 @@ const editEvent = async(req, res) =>{
     const eventId = req.params.id;
     const userId = req.user._id;
     try {
-        const { title, eventType, description, startDate, endDate, registrationDate, time, timezone, location, lat, lng, isVirtual, eligibility, link } = req.body;
+        const { title, eventType, description, startDate, endDate, registrationDeadline, time, timezone, location, lat, lng, isVirtual, eligibility, link } = req.body;
 
         const event = await Event.findById(eventId);
 
@@ -81,7 +81,7 @@ const editEvent = async(req, res) =>{
         event.description = description;
         event.startDate = new Date(startDate);
         event.endDate = new Date(endDate);
-        event.registrationDeadline = registrationDate;
+        event.registrationDeadline = registrationDeadline ? new Date(registrationDeadline) : null;
         event.time = time;
         event.timezone = timezone;
         event.location = location;
