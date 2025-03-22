@@ -30,8 +30,8 @@ const Event = ({event}) => {
   });
   return (
     <>
-        <Box bg={useColorModeValue("gray.200", "gray.dark")} p={4} borderRadius={"md"} mb={2}>
-            <Flex gap={2} flexDirection={"column"}>
+        <Box bg={useColorModeValue("gray.200", "gray.dark")} p={4} borderRadius={"md"} mb={2} h={"100%"} display={"flex"} flexDirection={"column"}>
+            <Flex gap={2} flexDirection={"column"} flexGrow={1}>
                 <Flex justifyContent={"space-between"} mb={2}>
                   <Text fontSize={"xl"} fontWeight={"bold"}>{event.title}</Text>
                   <Flex bg={"blue.300"} p={1} borderRadius={"full"} h={"30px"} alignItems={"center"}>
@@ -68,7 +68,7 @@ const Event = ({event}) => {
                     <Text ml={2} fontSize={"sm"}>{event.time} {event.timezone}</Text>
                   </Flex>
                 </Flex> 
-                <Flex bg={useColorModeValue("gray.100", "#313131")} flexDirection={"column"} p={2} borderRadius={"md"}>
+                <Flex bg={useColorModeValue("gray.100", "#313131")} flexDirection={"column"} p={2} borderRadius={"md"} flexGrow={1}>
                   <Text fontSize={"sm"} fontWeight={"bold"}>Description</Text>
                   <Text fontSize={"sm"} mt={2}>
                     {event.description}
