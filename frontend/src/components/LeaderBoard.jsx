@@ -30,8 +30,6 @@ const LeaderBoard = () => {
                     showToast("Error", data.error, "error");
                     return;
                 }
-
-                console.log(data);
                 setLeaderboard(data.topUsers);
                 setUserRankData(data.userRankData || []);
                 setCurrentUserRank(data.currentUserRank);

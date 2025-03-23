@@ -46,8 +46,6 @@ const GlobalCalendar = ({onDateSelect}) => {
             }))
 
             setEvents(formattedEvents);
-            console.log("Events Calendar:", events);
-            
         } catch (error) {
             
         }

@@ -37,8 +37,6 @@ const ToDoContainer = ({user}) => {
                     return;
                 }
                 setTasks(data);
-                console.log(data);
-
             } catch (error) {
                 showToast("Error", error, "error");
             }

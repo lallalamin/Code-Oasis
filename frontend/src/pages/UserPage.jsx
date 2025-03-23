@@ -73,8 +73,9 @@ const UserPage = () => {
 
   if(!user && !loading){
     return (
-      <Flex justifyContent={"center"}>
-        <h1>User not found</h1>
+      <Flex flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+        <Text fontWeight={"bold"}>User not found</Text>
+        <Image src="/characters/bruno_nouser.png" alt='post image' w={"120px"} />
       </Flex>
     )
   }

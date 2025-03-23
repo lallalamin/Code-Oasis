@@ -9,7 +9,6 @@ const FollowUserCard = ({user, onClose}) => {
     const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user);
     const currentUser = useRecoilValue(userAtom);
 
-    console.log("follow card user", user);
   return (
     <Flex key={user._id} gap={2} justifyContent={"space-between"} alignItems={"center"}>
         <Flex gap={2} as={routerLink} to={`/${user.username}`} onClick={onClose}>

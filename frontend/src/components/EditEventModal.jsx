@@ -98,7 +98,6 @@ const EditEventModal = ({ event, isOpen, onClose, onEventUpdate }) => {
 
   const handleUpdateEvent = async () => {
     setIsLoading(true);
-    console.log("Event Info:", eventInfo);
     try {
         const response = await fetch(`/api/events/update/${event._id}`, {
             method: "PUT",

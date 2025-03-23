@@ -99,7 +99,6 @@ const AddEventModal = ({ onEventAdd }) => {
   };
 
   const handleAddEvent = async () => {
-    console.log(eventInfo);
     try {
       const response = await fetch("/api/events/create", {
         method: "POST",
@@ -109,7 +108,6 @@ const AddEventModal = ({ onEventAdd }) => {
         body: JSON.stringify(eventInfo),
       });
       const data = await response.json();
-      console.log(data);
 
       if (!data) {
         showToast("error", data.error);
