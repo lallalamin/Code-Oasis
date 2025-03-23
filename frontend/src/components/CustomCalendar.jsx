@@ -46,14 +46,18 @@ const CustomCalendar = () => {
               
               setEvents(formattedEvents);
 
-              const todayEvents = data.filter(event => {
-                moment.utc(event.startDate).format("MMM D, YYYY") === todayDate;
+              const todayEvents = data.filter((event) =>{
+                  const start = moment.utc(event.startDate);
+                  const end = moment.utc(event.endDate);
+                  const selected = moment.utc(todayDate, "MMM D, YYYY");
+                  const isInRange = selected.isBetween(start, end, undefined, '[]');
+                  return isInRange;
               });
 
               setEventList(todayEvents);
               
           } catch (error) {
-              
+              showToast("Error", "An error occurred while fetching events", "error");
           }
       }
   

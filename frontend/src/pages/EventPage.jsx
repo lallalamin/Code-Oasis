@@ -89,15 +89,18 @@ const EventPage = () => {
   
   useEffect(() => {
     const filtered = allEvent.filter((event) => {
-      const eventDate = moment.utc(event.startDate).format("MMM D, YYYY");
-      const matchesDate = eventDate === selectedDate;
-  
+      const start = moment.utc(event.startDate);
+      const end = moment.utc(event.endDate);
+      const selected = moment.utc(selectedDate, "MMM D, YYYY");
+    
+      const isInRange = selected.isBetween(start, end, undefined, '[]');
+    
       const matchesType =
         selectedType === "all" || event.eventType?.toLowerCase() === selectedType.toLowerCase();
-  
-      return matchesDate && matchesType;
+    
+      return isInRange && matchesType;
     });
-  
+    
     setEventList(filtered);
 
   }, [selectedDate, selectedType, allEvent]);
