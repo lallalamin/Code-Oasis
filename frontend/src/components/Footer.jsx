@@ -52,32 +52,32 @@ const Footer = () => {
                 onClick={toggleColorMode}
             />
 
-
-            <Flex gap={4} alignItems={"center"}> 
-                <Text fontSize={"sm"}>
-                    Privacy Policy
-                </Text>
-                <Text fontSize={"sm"}>
-                    Term of Service
-                </Text>
-                <Box cursor={"pointer"} onClick={copyEmail}>
+            <Flex flexDirection={{base: "column", md: "row"}} w={{base: "full", md: "auto"}} gap={4} alignItems={"center"}>
+                <Flex gap={4} alignItems={"center"}> 
                     <Text fontSize={"sm"}>
-                        Contact Us
+                        Privacy Policy
                     </Text>
-                </Box>
-                
+                    <Text fontSize={"sm"}>
+                        Term of Service
+                    </Text>
+                    <Box cursor={"pointer"} onClick={copyEmail}>
+                        <Text fontSize={"sm"}>
+                            Contact Us
+                        </Text>
+                    </Box>
+                    
+                </Flex>
+                <Flex gap={4} alignItems={"center"} >
+                    <FaDiscord size={25}/>
+                    <Link as={RouterLink} to={'https://www.instagram.com/codeoasis.official'} target='_blank' >
+                        <LogoInstagramIcon h={22} w={22}></LogoInstagramIcon>
+                    </Link>
+                    <Link as={RouterLink} to={'https://www.linkedin.com/company/codeoasis/'} target='_blank' >
+                        <LogoLinkedinIcon h={22} w={22}></LogoLinkedinIcon>
+                    </Link>
+                </Flex>
             </Flex>
             
-
-            <Flex gap={4} alignItems={"center"} >
-                <FaDiscord size={25}/>
-                <Link as={RouterLink} to={'https://www.instagram.com/codeoasis.official'} target='_blank' >
-                    <LogoInstagramIcon h={22} w={22}></LogoInstagramIcon>
-                </Link>
-                <Link as={RouterLink} to={'https://www.linkedin.com/company/codeoasis/'} target='_blank' >
-                    <LogoLinkedinIcon h={22} w={22}></LogoLinkedinIcon>
-                </Link>
-            </Flex>
         </Flex>
     </>
   )

@@ -162,7 +162,7 @@ const EventPage = () => {
             </Flex>
         </Flex>
         <Flex flexDirection={"column"}>
-          <Flex flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} w={"full"} mt={5}>
+          <Flex flexDirection={{base:"column", md:"row"}} justifyContent={"space-between"} alignItems={"center"} w={"full"} mt={5}>
             <Box>
               <Text fontSize="xl" fontWeight="bold" >
                 📆Events & Activities |  {selectedDate}
