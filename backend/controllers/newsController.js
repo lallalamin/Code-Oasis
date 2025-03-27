@@ -1,6 +1,12 @@
 import axios from 'axios';
-import * as cheerio from 'cheerio';
 
-const scrapTechNews = async (req, res) => {}
+const scrapTechNews = async (req, res) => {
+    try {
+        console.log("Scraping TechNews...");
+        
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
 
-export default {scrapTechNews};
+export {scrapTechNews};
