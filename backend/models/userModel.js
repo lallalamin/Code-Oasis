@@ -70,6 +70,11 @@ const userSchema =  mongoose.Schema({
         default: [],
         required: false,
     },
+    linkedinUrl: {
+        type: String,
+        default: "",
+        required: false,
+    },
 }, {
     timestamps: true,
 });

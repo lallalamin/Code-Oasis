@@ -198,7 +198,7 @@ const openModal = async (type) => {
                             </MenuButton>
                             <Portal>
                                 <MenuList bg={"gray.dark"}>
-                                    <MenuItem bg={"gray.dark"} onClick={copyURL}>Copy Link</MenuItem>
+                                    <MenuItem bg={"gray.dark"} onClick={copyURL}>Copy Profile Url</MenuItem>
                                 </MenuList>
                             </Portal>
                         </Menu>
