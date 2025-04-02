@@ -1,8 +1,8 @@
 import express from 'express';
-import { scrapTechNews } from '../controllers/newsController.js';
+import { scrapeTechNews } from '../controllers/newsController.js';
 
 const router = express.Router();
 
-router.get("/", scrapTechNews);
+router.get("/", scrapeTechNews);
 
 export default router;
