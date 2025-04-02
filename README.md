@@ -11,7 +11,7 @@ A structured mentorship program connecting users with peers or industry professi
 * [ ] **Tech News Hub:** <br/>
 A centralized news page that keeps students up-to-date with the latest developments in the tech industry. <br/>
 * [ ] **Resources Hub:** <br/>
-A curated section to help students discover resources that prepare them for real-world engineering challenges.<br/>
+A curated section to help students discover resources and information that prepare them for real-world engineering challenges.<br/>
 * [x] **Gamified To-Do List:** <br/>
 An interactive to-do list system where users earn points for completing tasks and can track their progress on a leaderboard. This feature encourages productivity and provides motivation through friendly competition.
 * [ ] **Discover Your Coding Personality** <br/>
