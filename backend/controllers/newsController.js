@@ -1,32 +1,50 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
+import puppeteer from 'puppeteer';
+
 const scrapeTechNews = async (req, res) => {
   try {
-    const response = await axios.get('https://techcrunch.com/');
-    const $ = cheerio.load(response.data);
-    const articles = [];
+    const browser = await puppeteer.launch({ headless: 'new' });
+    const page = await browser.newPage();
 
-    $('.post-block').each((i, el) => {
-      const title = $(el).find('.post-block__title__link').text().trim();
-      const url = $(el).find('.post-block__title__link').attr('href');
-      const author = $(el).find('.river-byline__authors a').text().trim();
-      const date = $(el).find('time').attr('datetime');
-      const image = $(el).find('img').attr('src');
-      const description = $(el).find('.post-block__content').text().trim();
-
-      if (title && url) {
-        articles.push({ title, url, author, date, image, description });
-      }
+    await page.goto('https://techcrunch.com/', {
+      waitUntil: 'networkidle2',
+      timeout: 0
     });
 
-    console.log('Scraped articles:', articles);
+    const articles = await page.evaluate(() => {
+      const items = [];
 
+      const cards = document.querySelectorAll('.loop-card');
+      cards.forEach(card => {
+        const titleEl = card.querySelector('.loop-card__title-link');
+        const authorEl = card.querySelector('.loop-card__author');
+        const dateEl = card.querySelector('time');
+        const imageEl = card.querySelector('img');
+
+        const title = titleEl?.innerText?.trim();
+        const url = titleEl?.href;
+        const author = authorEl?.innerText?.trim() || 'Unknown';
+        const date = dateEl?.getAttribute('datetime');
+        const image = imageEl?.getAttribute('src');
+        
+        if (title && url) {
+          items.push({ title, url, author, date, image });
+        }
+      });
+
+      return items;
+    });
+
+    await browser.close();
+    console.log('✅ Scraped articles:', articles.length);
     res.json(articles);
   } catch (err) {
-    console.error('Scraping failed:', err);
-    res.status(500).json({ error: 'Failed to fetch tech news' });
+    console.error('❌ Scraping failed:', err);
+    res.status(500).json({ error: 'Failed to scrape tech news' });
   }
 };
+
 
 export { scrapeTechNews };
