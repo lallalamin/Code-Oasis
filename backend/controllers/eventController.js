@@ -6,6 +6,7 @@ const getAllEvents = async(req, res) => {
         const events = await Event.find({}).populate('postedBy', 'username profilePic');
         res.status(200).json(events);
     } catch (error) {
+        console.log("Error fetching events:", error);
         res.status(500).json({ error: error.message});
     }
 }

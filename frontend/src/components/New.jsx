@@ -11,7 +11,6 @@ const New = () => {
         <Text fontSize={"sm"} color={useColorModeValue("gray.light", "gray.500")}>May 25, 2025</Text>
       </Flex>
       <Text fontSize={"xl"} fontWeight={"bold"}>Title of the news</Text>
-      <Text>Description of the news. It will probably have to be longer ...</Text>
     </Flex>
   )
 }

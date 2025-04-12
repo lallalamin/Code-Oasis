@@ -7,6 +7,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Event from './Event';
+import useShowToast from '../hooks/useShowToast';
 import { useColorModeValue } from '@chakra-ui/react';
 import { Button, Collapse, Box, Flex, Image, Text, Divider, Skeleton } from '@chakra-ui/react';
 
@@ -18,6 +19,7 @@ const CustomCalendar = () => {
   const [eventList, setEventList] = useState([]);
   const [eventListLoading, setEventListLoading] = useState(false);
   const handleShow = () => setShow(!show);
+  const showToast = useShowToast();
   const todayDate = moment(new Date()).format("MMM D, YYYY");
 
   useEffect(() => {

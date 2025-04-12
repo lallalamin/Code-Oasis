@@ -11,6 +11,7 @@ import SuggestedUsers from "../components/SuggestedUsers";
 import CustomCalendar from "../components/CustomCalendar";
 import MiniLeaderboard from "../components/MiniLeaderboard";
 import { Link as RouterLink } from 'react-router-dom'
+import useLogout from "../hooks/useLogout";
 
 const HomePage = () => {
     const [posts, setPosts] = useRecoilState(postsAtom);
@@ -23,15 +24,22 @@ const HomePage = () => {
             setLoading(true);
             setPosts([]);
             try {
-                const res = await fetch("/api/posts/feed");
+                const res = await fetch("/api/posts/feed",
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
                 const data = await res.json();
-                if (data?.message === "Unauthorized") {
-                    navigate("/login"); // Redirect on unauthorized
+
+                if (!res.ok || data?.message === "Unauthorized" || data?.error === "User not found") {
+                    logout(); // logs out and redirects to /auth
                     return;
                 }
+
                 if(data.error) {
-                    //showToast("Error", data.error, "error");
-                    navigate("/login");
+                    showToast("Error", data.error, "error");
                     return;
                 }
                 setPosts(Array.isArray(data) ? data : []);
