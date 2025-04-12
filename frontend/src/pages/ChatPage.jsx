@@ -119,7 +119,7 @@ const ChatPage = () => {
     <Box position={"relative"} left={"50%"} w={{lg:"750px", md:"80%", base:"100%"}} transform={"translateX(-50%)"}  p={4} flex={1} overflow={"auto"}>
         <Flex gap={4} flexDirection={{base:"column", md:"row"}} maxW={{sm:"400px", md:"full"}} mx={"auto"}>
             <Flex flex={30} gap={2} flexDirection={"column"} maxW={{sm:"250px", md:"full"}} mx={"auto"}>
-                <Text fontWeight={700} color={useColorModeValue("gray.600", "gray.400")}>
+                <Text fontWeight={700}>
                     Your Conversations
                 </Text>
                 <form onSubmit={handleConversationSearch}>
