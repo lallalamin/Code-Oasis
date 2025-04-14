@@ -12,6 +12,7 @@ import LandingPage from "./pages/LandingPage"
 import LeaderboardPage from "./pages/LeaderboardPage"
 import MentorshipPage from "./pages/MentorshipPage"
 import ResourcePage from "./pages/ResourcePage"
+import AboutPage from "./pages/AboutPage"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import { useRecoilValue } from "recoil"
@@ -62,6 +63,7 @@ function App() {
             <Route path="/leaderboard" element={user ? <LeaderboardPage /> : <Navigate to="/auth" />} />
             <Route path="/mentorship" element={user ? <MentorshipPage /> : <Navigate to="/auth" />} />
             <Route path="/resources" element={user ? <ResourcePage /> : <Navigate to="/auth" />} />
+            <Route path="/about" element={<AboutPage />} />
           </Routes>
         </Container>
 
