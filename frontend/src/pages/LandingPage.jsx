@@ -132,7 +132,7 @@ const LandingPage = () => {
           <div className="g5"></div>
         </div>
       </Box>
-    )}
+      )}
       {/* Hero Section */}
       <Box textAlign="center" py={16} as={motion.div} initial="hidden" animate="visible" variants={fadeIn}>
         <Flex justifyContent="center" alignItems="center" mb={4}>
