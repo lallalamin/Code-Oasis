@@ -1,18 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Flex, Text, Image, SimpleGrid, Box } from '@chakra-ui/react'
 import New from '../components/New'
 import { useColorModeValue } from '@chakra-ui/react';
 
 const NewsPage = () => {
+  const [allNews, setAllNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const getNews = async() => {
+      const res = await fetch("/api/technews/news", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+
+      if(data.error) {
+        console.error(data.error);
+        return;
+      };
+
+      console.log(data);
+      setAllNews(data);
+    }
+
+    getNews();
+  })
+
   return (
     <>
       <Flex direction="column" alignItems={"center"} justifyContent="center">
-          <Text fontSize={"2xl"} fontWeight={"bold"} mb={8}>Recent News</Text>
+          <Text fontSize={"2xl"} fontWeight={"bold"} mb={8}>News Feed</Text>
           <SimpleGrid columns={{base: 1, md: 2}} spacing={5}>
-            <New/>
-            <New/>
-            <New/>
-            <New/>
+            {allNews.map((news) => (
+              <New key={news._id} news={news} />
+            ))}
           </SimpleGrid>
           <Box w="full"
             bg="rgba(255, 255, 255, 0.1)"
