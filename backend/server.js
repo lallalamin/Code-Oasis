@@ -14,12 +14,14 @@ import { app, server } from './socket/socket.js';
 import path from 'path';
 import job from './cron/cron.js';
 import resetTaskJob from './cron/resetTask.js';
+import scrapeNewsJob from './cron/scrapeNews.js';
 
 dotenv.config(); // to be able to read the content in the .env file
 
 connectDB(); 
 job.start();
 resetTaskJob.start();
+scrapeNewsJob.start();
 
 const PORT = process.env.PORT || 5000;
 const _dirname = path.resolve();

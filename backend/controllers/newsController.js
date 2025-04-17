@@ -24,7 +24,7 @@ const scrapeTechNews = async (req, res) => {
 
         const title = titleEl?.innerText?.trim();
         const url = titleEl?.href;
-        const author = authorEl?.innerText?.trim() || 'Unknown';
+        const author = authorEl?.innerText?.trim();
         const date = dateEl?.getAttribute('datetime');
         const image = imageEl?.getAttribute('src');
         
@@ -46,6 +46,14 @@ const scrapeTechNews = async (req, res) => {
     const ventureBeatArticles = await page.evaluate(() => {
       const items = [];
       const cards = document.querySelectorAll('article.ArticleListing');
+
+      const isWithinDateRange = (date) => {
+        const today = new Date();
+        const articleDate = new Date(date);
+        const diff = today - articleDate;
+        const oneday = 24 * 60 * 60 * 1000; 
+        return diff <= oneday *2;
+      };
     
       cards.forEach(card => {
         const titleEl = card.querySelector('a.ArticleListing__title-link');
@@ -61,7 +69,7 @@ const scrapeTechNews = async (req, res) => {
         const dateEl = card.querySelector('time.ArticleListing__time');
         const date = dateEl?.getAttribute('datetime') || '';
     
-        if (title && url　&& image && author && date) {
+        if (title && url && image && author && isWithinDateRange(date)) {
           items.push({ title, url, author, date, image, source: 'VentureBeat' });
         }
       });
@@ -72,8 +80,9 @@ const scrapeTechNews = async (req, res) => {
     allArticles.push(...ventureBeatArticles);
 
     await browser.close();
-    console.log('✅ Scraped articles:', allArticles.length);
-    res.json(allArticles);
+    await News.deleteMany({});
+    await News.insertMany(allArticles);
+    res.status(200).json({ message: 'Scraping successful' });
   } catch (err) {
     console.error('❌ Scraping failed:', err);
     res.status(500).json({ error: 'Failed to scrape tech news' });
