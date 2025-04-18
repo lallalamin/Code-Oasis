@@ -1,8 +1,9 @@
 import News from '../models/newsModel.js';
 import puppeteer from 'puppeteer';
 
-const scrapeTechNews = async (req, res) => {
+const scrapeTechNews = async () => {
   try {
+    console.log('📰 Start Scraping tech news...');
     const browser = await puppeteer.launch({ headless: 'new' });
     const page = await browser.newPage();
     const allArticles = [];
@@ -16,6 +17,13 @@ const scrapeTechNews = async (req, res) => {
       const items = [];
 
       const cards = document.querySelectorAll('.loop-card');
+      const isWithinDateRange = (date) => {
+        const today = new Date();
+        const articleDate = new Date(date);
+        const diff = today - articleDate;
+        const oneday = 24 * 60 * 60 * 1000; 
+        return diff <= oneday *2;
+      };
       cards.forEach(card => {
         const titleEl = card.querySelector('.loop-card__title-link');
         const authorEl = card.querySelector('.loop-card__author');
@@ -28,7 +36,7 @@ const scrapeTechNews = async (req, res) => {
         const date = dateEl?.getAttribute('datetime');
         const image = imageEl?.getAttribute('src');
         
-        if (title && url && author && date && image) {
+        if (title && url && author && isWithinDateRange(date) && image) {
           items.push({ title, url, author, date, image, source: 'TechCrunch' });
         }
       });
@@ -82,10 +90,9 @@ const scrapeTechNews = async (req, res) => {
     await browser.close();
     await News.deleteMany({});
     await News.insertMany(allArticles);
-    res.status(200).json({ message: 'Scraping successful' });
+    console.log('✅ Scraping completed:', allArticles.length, 'articles found.');
   } catch (err) {
     console.error('❌ Scraping failed:', err);
-    res.status(500).json({ error: 'Failed to scrape tech news' });
   }
 };
 

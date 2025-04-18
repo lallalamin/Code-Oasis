@@ -33,18 +33,12 @@ const NewsPage = () => {
     <>
       <Flex direction="column" alignItems={"center"} justifyContent="center">
           <Text fontSize={"2xl"} fontWeight={"bold"} mb={8}>News Feed</Text>
-          <SimpleGrid columns={{base: 1, md: 2}} spacing={5}>
-            {allNews.map((news) => (
-              <New key={news._id} news={news} />
-            ))}
-          </SimpleGrid>
           <Box w="full"
             bg="rgba(255, 255, 255, 0.1)"
             boxShadow="0px 0px 15px rgba(0,0,0,0.09)"
             p="6"
             borderRadius="lg"
             mb={8}
-            mt={8}
             >
             <Text fontSize={"md"} fontWeight={"bold"} mb={2}>
               📰 Hugo&apos;s been busy! He collected tech news from website for you!
@@ -54,6 +48,11 @@ const NewsPage = () => {
               Click through to read the full stories on their original sites!
             </Text>
           </Box>
+          <SimpleGrid columns={{base: 1, md: 1}} spacing={5}>
+            {allNews.map((news) => (
+              <New key={news._id} news={news} />
+            ))}
+          </SimpleGrid>
       </Flex>
     </>
   )
