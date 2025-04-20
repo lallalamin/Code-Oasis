@@ -3,6 +3,11 @@ import { Flex, Text, Image } from '@chakra-ui/react'
 import { useColorModeValue } from '@chakra-ui/react';
 
 const New = ({news}) => {
+  const formattedDate = new Date(news.date).toLocaleString('en-US', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
+
   return (
     <Flex flexDirection={"row"} justifyContent="center" >
       <Image src={news.image}
@@ -16,7 +21,7 @@ const New = ({news}) => {
       <Flex flexDirection={"column"} maxW="500px">
         <Flex gap={2} flexDirection={"row"} justifyContent={"space-between"} w={"full"}> 
           <Text fontSize={"sm"} color={useColorModeValue("gray.light", "gray.500")}>{news.author}</Text>
-          <Text fontSize={"sm"} color={useColorModeValue("gray.light", "gray.500")}>{news.date}</Text>
+          <Text fontSize={"sm"} color={useColorModeValue("gray.light", "gray.500")}>{formattedDate}</Text>
         </Flex>
         <Text fontSize={"lg"} fontWeight={"bold"}>{news.title}</Text>
       </Flex>

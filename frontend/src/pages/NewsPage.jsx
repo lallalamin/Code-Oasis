@@ -41,7 +41,7 @@ const NewsPage = () => {
             mb={8}
             >
             <Text fontSize={"md"} fontWeight={"bold"} mb={2}>
-              📰 Hugo&apos;s been busy! He collected tech news from website for you!
+              📰🦉 Hugo&apos;s been busy! He collected tech news from website for you!
             </Text>
             <Text fontSize={"sm"} color={useColorModeValue("gray.600", "gray.400")}>
               Articles come from amazing sites like TechCrunch and VentureBeat — we don&apos;t own them, we&apos;re just sharing what&apos;s cool.
