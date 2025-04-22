@@ -776,7 +776,7 @@ const LandingPage = () => {
                 <AccordionIcon />
               </AccordionButton>
               <AccordionPanel pb={4}>
-                We're aiming to release a beta version by May 2025! 
+                We're aiming to release a beta version by Fall 2025! 
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
