@@ -244,6 +244,9 @@ const LandingPage = () => {
             it's a space where meaningful connections turn into opportunities, and ideas become impact. 
             Whether you're mentoring, learning, or building together, we create a future where everyone thrives.
           </Text>
+          <Button as={RouterLink} to="/about" mt={6} size="md" borderRadius="full" bg="#f4a258"color="black" _hover={{ bg: "#ffbf86" }} >
+            Story behind CodeOasis🌱
+          </Button>
         </Flex>
         <Flex flex={4} alignItems="center" justifyContent="center">
           <Image src="/people.png" alt="people" maxW="100%" as={motion.img} initial="hidden" animate="visible" variants={fadeInDelay} />
@@ -627,10 +630,10 @@ const LandingPage = () => {
             </Heading>
 
             {/* Content*/}
-            <Flex flexDirection={{ base: "column", md: "row" }} justifyContent={"space-between"} alignItems="center" >
-              <Image src="/characters/Momo-NoPost.png" alt="connect" w={"190px"}/>
+            <Flex flexDirection={{ base: "column", md: "row" }} justifyContent={"space-between"} alignItems="center" gap={2} >
+              <Image src="/characters/everyone.png" alt="connect" w={"250px"} my={7}/>
               <Flex flexDirection={"column"}>
-                <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} lineHeight="1.5" mb={6}>
+                <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} lineHeight="1.5" mb={6} textAlign={"center"}>
                   Take the CodeOasis quiz to uncover your unique mascot! Learn your coding style and connect with others who share similar strengths.
                 </Text>
                 <Button borderRadius={"full"}>Coming Soon!</Button>

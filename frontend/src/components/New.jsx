@@ -1,6 +1,7 @@
 import React from 'react'
 import { Flex, Text, Image } from '@chakra-ui/react'
 import { useColorModeValue } from '@chakra-ui/react';
+import { Link as routerLink } from 'react-router-dom'
 
 const New = ({news}) => {
   const formattedDate = new Date(news.date).toLocaleString('en-US', {
@@ -9,7 +10,7 @@ const New = ({news}) => {
   });
 
   return (
-    <Flex flexDirection={"row"} justifyContent="center" >
+    <Flex flexDirection={"row"} justifyContent="center" as={routerLink} to={news.url} target="_blank" >
       <Image src={news.image}
         h="200px"
         w="300px"
