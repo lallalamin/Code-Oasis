@@ -31,6 +31,8 @@ export default function UpdateProfilePage() {
     email: user.email,
     bio: user.bio,
     password: "",
+    // linkedinUrl: "",
+    // hobbies: "",
   });
   
   const fileRef = useRef(null);
@@ -177,6 +179,26 @@ export default function UpdateProfilePage() {
                 type="password"
             />
             </FormControl>
+            {/* <FormControl>
+            <FormLabel>LinkedIn URL</FormLabel>
+            <Input
+                placeholder="https://linkedin.com/janedoe"
+                value={inputs.linkedin}
+                onChange={(e) => setInputs({...inputs, linkedin: e.target.value})}
+                _placeholder={{ color: 'gray.500' }}
+                type="text"
+            />
+            </FormControl>
+            <FormControl>
+            <FormLabel>Hobbies</FormLabel>
+            <Input
+                placeholder="Hobbies"
+                value={inputs.hobbies}
+                onChange={(e) => setInputs({...inputs, hobbies: e.target.value})}
+                _placeholder={{ color: 'gray.500' }}
+                type="text"
+            />
+            </FormControl> */}
             <Stack spacing={6} direction={['column', 'row']}>
             <Button
                 bg={'red.400'}

@@ -170,16 +170,23 @@ const followUnfollowUser = async(req, res) => {
 };
 
 const updateUser = async(req, res) =>{
-    const { name, email, username, password, bio} = req.body;
+    const { name, email, username, password, bio, linkedinUrl, hobbies} = req.body;
     let { profilePic, bannerPic } = req.body;
     const userId = req.user._id;
     
     try {
         let user = await User.findById(userId);
+        // let usernameExists = await User.findOne({ username });
+
         if(!user) return res.status(400).json({message: "User not found"});
 
         if(req.params.id !== userId.toString()) return res.status(400).json({message: "You cannot update other user's profile"}) // we need to convert to string because the userId is an object
 
+        // check if the user is trying to update their username and if it already exists in the database
+        // if(usernameExists && usernameExists._id.toString() !== userId.toString()){
+        //     return res.status(400).json({message: "Username already exists"});
+        // }
+        
         if(password){
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
@@ -209,6 +216,8 @@ const updateUser = async(req, res) =>{
         user.profilePic = profilePic || user.profilePic;
         user.bio = bio || user.bio;
         user.bannerPic = bannerPic || user.bannerPic;
+        // user.linkedinUrl = linkedinUrl || user.linkedinUrl;
+        // user.hobbies = hobbies || user.hobbies;
 
         user = await user.save();
 
