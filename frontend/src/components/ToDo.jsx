@@ -44,7 +44,7 @@ const ToDo = ({ task, onTaskUpdate, onTaskDelete }) => {
             ...prevUser,
             xp: data.xp,
           }));
-          showToast("Success", "Task marked as completed", "success");
+          showToast("Success", "Task marked as completed. +10 XP 🌟", "success");
         } catch (error) {
           showToast("Error", error.message, "error");
         }

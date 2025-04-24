@@ -210,7 +210,8 @@ const LandingPage = () => {
       {/* Video Container with Soft Rounded Frame */}
       <MotionBox
         as="iframe"
-        src="https://player.vimeo.com/video/1063322542?autoplay=1&loop=1&transparent=1&background=0"
+        src="https://player.vimeo.com/video/1077807021?h=c5d9bc9eb3&autoplay=1&loop=1&transparent=1&background=0"
+        
         width="80%"
         maxW="800px"
         height= {{ base: "200px", md: "450px" }}

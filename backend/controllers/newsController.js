@@ -7,6 +7,7 @@ const scrapeTechNews = async () => {
     const browser = await puppeteer.launch({ headless: 'new' });
     const page = await browser.newPage();
     const allArticles = [];
+    const seenUrls = new Set(); // To keep track of already seen URLs
 
     await page.goto('https://techcrunch.com/', {
       waitUntil: 'networkidle2',
@@ -36,8 +37,9 @@ const scrapeTechNews = async () => {
         const date = dateEl?.getAttribute('datetime');
         const image = imageEl?.getAttribute('src');
         
-        if (title && url && author && isWithinDateRange(date) && image) {
+        if (title && url && author && isWithinDateRange(date) && image && !seenUrls.has(url)) {
           items.push({ title, url, author, date, image, source: 'TechCrunch' });
+          seenUrls.add(url);
         }
       });
 
@@ -77,8 +79,9 @@ const scrapeTechNews = async () => {
         const dateEl = card.querySelector('time.ArticleListing__time');
         const date = dateEl?.getAttribute('datetime') || '';
     
-        if (title && url && image && author && isWithinDateRange(date)) {
+        if (title && url && image && author && isWithinDateRange(date) && !seenUrls.has(url)) {
           items.push({ title, url, author, date, image, source: 'VentureBeat' });
+          seenUrls.add(url);
         }
       });
     
