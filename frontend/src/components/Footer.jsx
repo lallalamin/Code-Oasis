@@ -6,7 +6,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import authScreenAtom from '../atoms/authAtom'
 import { useSetRecoilState } from 'recoil'
 import { LogoLinkedinIcon } from 'chakra-ui-ionicons';
-import { LogoInstagramIcon } from 'chakra-ui-ionicons'
+import { LogoInstagramIcon } from 'chakra-ui-ionicons';
 import { FaDiscord } from "react-icons/fa";
 
 const Footer = () => {
