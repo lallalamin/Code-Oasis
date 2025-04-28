@@ -37,16 +37,20 @@ const scrapeTechNews = async () => {
         const date = dateEl?.getAttribute('datetime');
         const image = imageEl?.getAttribute('src');
         
-        if (title && url && author && isWithinDateRange(date) && image && !seenUrls.has(url)) {
+        if (title && url && author && isWithinDateRange(date) && image) {
           items.push({ title, url, author, date, image, source: 'TechCrunch' });
-          seenUrls.add(url);
         }
       });
 
       return items;
     });
 
-    allArticles.push(...techcruncharticles);
+    techcruncharticles.forEach(article => {
+      if (!seenUrls.has(article.url)) {
+        seenUrls.add(article.url);
+        allArticles.push(article);
+      }
+    });
 
     await page.goto('https://venturebeat.com/', {
       waitUntil: 'networkidle2',
@@ -79,16 +83,20 @@ const scrapeTechNews = async () => {
         const dateEl = card.querySelector('time.ArticleListing__time');
         const date = dateEl?.getAttribute('datetime') || '';
     
-        if (title && url && image && author && isWithinDateRange(date) && !seenUrls.has(url)) {
+        if (title && url && image && author && isWithinDateRange(date)) {
           items.push({ title, url, author, date, image, source: 'VentureBeat' });
-          seenUrls.add(url);
         }
       });
     
       return items;
     });
 
-    allArticles.push(...ventureBeatArticles);
+    ventureBeatArticles.forEach(article => {
+      if (!seenUrls.has(article.url)) {
+        seenUrls.add(article.url);
+        allArticles.push(article);
+      }
+    });
 
     await browser.close();
     await News.deleteMany({});
