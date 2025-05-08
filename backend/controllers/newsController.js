@@ -1,7 +1,7 @@
 import News from '../models/newsModel.js';
 import puppeteer from 'puppeteer';
 
-const scrapeTechNews = async () => {
+const scrapeTechNews = async (req, res) => {
   try {
     console.log('📰 Start Scraping tech news...');
     const browser = await puppeteer.launch({ headless: 'new' });
@@ -102,6 +102,7 @@ const scrapeTechNews = async () => {
     await News.deleteMany({});
     await News.insertMany(allArticles);
     console.log('✅ Scraping completed:', allArticles.length, 'articles found.');
+    res.status(200).json(allArticles);
   } catch (err) {
     console.error('❌ Scraping failed:', err);
   }

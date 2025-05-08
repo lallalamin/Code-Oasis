@@ -57,13 +57,13 @@ const FindMentorTab = () => {
             <Box>
                <Flex flexDirection="column" alignItems="center" justifyContent="center">
                     <Box w="20px" h="20px" bg="#f4a258" boxShadow="0px 0px 15px rgba(0,0,0,0.09)" justifyContent="center" />
-                    <Box w="100%" maxW="280px" h="430px" bg="rgba(255,255,255,0.1)" boxShadow="0px 0px 15px rgba(0,0,0,0.09)" p="4" borderRadius="lg" >
+                    <Box w="250px" h="430px" bg="rgba(255,255,255,0.1)" boxShadow="0px 0px 15px rgba(0,0,0,0.09)" p="4" borderRadius="lg" >
                         <Flex justifyContent="center" alignItems="center" flexDirection="column">
                             <Flex bg={colorMode === "dark" ? "gray.dark" : "gray.200"} boxShadow={colorMode === "dark" ? "0px 0px 15px rgba(0,0,0,0.09)" : "0px 0px 15px rgba(255,255,255,0.7)"} p="2" borderRadius="full" mb={4} w="50px" />
                         </Flex>
                         <Flex flexDirection="column" gap={2}>
                             <Text fontSize="xs" color="gray.400">Let us help you find a mentor</Text>
-                            <Text fontSize="md" fontWeight="bold" color={useColorModeValue("gray.800", "whiteAlpha.900")}>Take the quiz to find your perfect match!</Text>
+                            <Text fontSize="md" fontWeight="bold" color={useColorModeValue("gray.800", "whiteAlpha.900")} mb={4}>Take the quiz to find your match!</Text>
                             <Button size="xs" borderRadius="full" colorScheme="yellow">Take the Quiz!</Button>
                         </Flex>
                     </Box>
