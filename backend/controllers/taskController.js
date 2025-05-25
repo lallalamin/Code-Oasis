@@ -55,7 +55,7 @@ export const createTask = async (req, res) => {
     const { title } = req.body;
     try {
         if (!req.user || !mongoose.Types.ObjectId.isValid(req.user._id)) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return res.status(401).json({ success: false, message: "Unauthorized to create task" });
         }
 
         const taskCount = await Task.countDocuments({ userId: req.user._id });
@@ -83,7 +83,7 @@ export const deleteTask = async (req, res) => {
     const taskId = req.params.id;
     try {
         if (!req.user || !mongoose.Types.ObjectId.isValid(req.user._id)) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return res.status(401).json({ success: false, message: "Unauthorized to delete task" });
         }
 
         const task = await Task.findById(taskId);
